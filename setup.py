@@ -16,6 +16,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[],
+    install_requires=["perceval", "grimoire-elk", "grimoire-kidash"],
     extras_require={"dev": ["black"]},
 )
