@@ -13,8 +13,10 @@ else
     pip install -e .[dev]
 fi
 
-APP_PATH=$(realpath "sauron/backend")
+FLASK_APP_PATH=$(realpath "sauron/backend/server")
+MIGRATIONS_DIR="$FLASK_APP_PATH/models"
 
-if [[ ! -d $APP_PATH/migrations ]]; then
-    cd $APP_PATH && flask db init && flask db migrate
+if [[ ! -d "$MIGRATIONS_DIR/migrations" ]]; then
+    cd $MIGRATIONS_DIR && FLASK_APP=$FLASK_APP_PATH flask db init 
+    cd $MIGRATIONS_DIR && FLASK_APP=$FLASK_APP_PATH flask db migrate
 fi

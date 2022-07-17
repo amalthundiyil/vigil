@@ -6,6 +6,9 @@ from sauron.backend.settings import DevelopmentSettings
 from flask_cors import CORS
 from flask_migrate import Migrate, stamp, migrate, upgrade
 
+MIGRATION_DIR = os.path.join(
+    os.path.abspath(os.path.dirname(os.path.realpath(__file__))), "models", "migrations"
+)
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 cors = CORS()
@@ -17,7 +20,7 @@ def create_app(config_class=DevelopmentSettings):
     app.config.from_object(config_class)
     db.init_app(app)
     bcrypt.init_app(app)
-    mgr.init_app(app, db)
+    mgr.init_app(app, db, directory=MIGRATION_DIR)
     if os.environ.get("FLASK_ENV") == "development":
         cors.init_app(app, resources=r"/*", origins="*", supports_credentials=True)
 
