@@ -26,10 +26,14 @@ def create_app(config_class=DevelopmentSettings):
 
     from sauron.backend.server.api.auth.routes import auth
     from sauron.backend.server.api.users.routes import user
+    from sauron.backend.server.api.health.routes import health
+    from sauron.backend.server.api.vulns.routes import vulns
     from sauron.backend.server.api.errors import errors
 
     app.register_blueprint(auth)
     app.register_blueprint(user)
+    app.register_blueprint(health)
+    app.register_blueprint(vulns)
     app.register_blueprint(errors)
 
     @app.before_first_request

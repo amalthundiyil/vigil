@@ -7,6 +7,8 @@ from sauron.backend.server.api.errors import UnauthorizedError
 
 
 class User(db.Model):
+    __table_args__ = {'extend_existing': True} 
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
