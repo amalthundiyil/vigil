@@ -24,14 +24,16 @@ def create_app(config_class=DevelopmentSettings):
     if os.environ.get("FLASK_ENV") == "development":
         cors.init_app(app, resources=r"/*", origins="*", supports_credentials=True)
 
-    from sauron.backend.server.api.auth.routes import auth
-    from sauron.backend.server.api.users.routes import user
-    from sauron.backend.server.api.health.routes import health
-    from sauron.backend.server.api.vulns.routes import vulns
+    from sauron.backend.server.api.auth import auth
+    from sauron.backend.server.api.users import users
+    from sauron.backend.server.api.dashboard import dashboard
+    from sauron.backend.server.api.health import health
+    from sauron.backend.server.api.vulns import vulns
     from sauron.backend.server.api.errors import errors
 
     app.register_blueprint(auth)
-    app.register_blueprint(user)
+    app.register_blueprint(users)
+    app.register_blueprint(dashboard)
     app.register_blueprint(health)
     app.register_blueprint(vulns)
     app.register_blueprint(errors)

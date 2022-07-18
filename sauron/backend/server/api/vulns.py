@@ -12,13 +12,15 @@ from http import HTTPStatus
 import jwt
 
 
-health = Blueprint("health", __name__, url_prefix="/api/v1/health")
+vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")
 
 
-@health.route("/health", methods=["GET"])
+@vulns.route("/vulns", methods=["GET"])
 def go():
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Your account has been created",
-        data={"health": "ok"},
+        data={"vulns": "ok"},
     )
+
+

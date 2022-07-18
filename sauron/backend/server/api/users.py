@@ -4,10 +4,10 @@ from pandas import DataFrame
 from sauron.backend.server.commands.auth import tokens_required
 from sauron.backend.server.api.errors import BadRequestError
 
-user = Blueprint("user", __name__, url_prefix="/api/v1/user")
+users = Blueprint("user", __name__, url_prefix="/api/user")
 
 
-@user.route("/classifier", methods=["POST"])
+@users.route("/classifier", methods=["POST"])
 @tokens_required
 def classify(user_id):
     req = request.json

@@ -188,3 +188,5 @@ postgres-data/
 
 # Generated files from github
 .history/
+
+data/
