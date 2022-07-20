@@ -10,7 +10,7 @@ target=$1
 if [[ $target == *"prod"* ]]; then
     pip install .
 else
-    pip install -e .[dev]
+    pip install -e .'[dev]'
 fi
 
 FLASK_APP_PATH=$(realpath "sauron/backend/server")

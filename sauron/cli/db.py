@@ -53,24 +53,7 @@ def add_repo(ctx, repo_url, token, elastic_url):
         ]
     )
     # Produce github and github_raw indexes from GitHub issues and prs
-    # subprocess.run(
-    #     [
-    #         "python",
-    #         P20_SCRIPT_PATH,
-    #         "--enrich",
-    #         "--index",
-    #         "github_raw",
-    #         "--index-enrich",
-    #         "github",
-    #         "-e",
-    #         elastic_url,
-    #         "--no_inc",
-    #         "--debug",
-    #         "github",
-    #         "grimoirelab",
-    #         "perceval",
-    #         "-t",
-    #         token,
-    #         "--sleep-for-rate",
-    #     ]
-    # )
+    subprocess.run(['python',P20_SCRIPT_PATH,  '--enrich', '--index', 'github_raw',
+      '--index-enrich', 'github', '-e', elastic_url,
+      '--no_inc', '--debug', 'github', 'grimoirelab', "perceval",
+      '-t', token, '--sleep-for-rate'])
