@@ -1,0 +1,9 @@
+perceval
+grimoire-elk
+grimoire-kidash
+Flask
+Flask-Bcrypt
+Flask-Cors
+Flask-Migrate
+Flask-SQLAlchemy
+click

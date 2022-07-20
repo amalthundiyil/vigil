@@ -1,6 +1,7 @@
 from concurrent.futures import process
 import os
 import tempfile
+import secrets
 from pathlib import Path
 import subprocess
 from urllib.parse import urlparse
@@ -22,12 +23,18 @@ class VulnsProcessor:
                 return dir
 
     def process(self):
+        import pdb
 
+        pdb.set_trace()
         repo_name = urlparse(self.url).path.split("/")[2]
         repo_dir = os.path.join(f"{self.repo_dir}", repo_name)
         if not os.path.isdir(repo_dir):
             _ = GitRepository.clone(self.url, repo_dir)
 
+        self.reports_dir = Path.home() / os.path.join(
+            ".sauron", "reports", f"{repo_name}_{secrets.token_hex(16)}"
+        )
+        self.reports_dir.mkdir(parents=True, exist_ok=True)
         cmd = [
             "docker",
             "run",
@@ -35,26 +42,26 @@ class VulnsProcessor:
             "-e",
             f"WORKSPACE={repo_dir}",
             "-v",
-            f"{repo_dir}:/app",
-            "shiftleft/scan",
+            f"{repo_dir}:/app:cached",
+            "quay.io/appthreat/sast-scan",
             "scan",
-            "--build",
+            "--src",
+            "/app",
         ]
         r = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        reports = self.process_reports(repo_dir)
+        reports = self.process_reports()
         return reports
 
-    def process_reports(self, repo_dir):
+    def process_reports(self):
         l = []
-        reports_dir = os.path.join(repo_dir, "reports")
-        for filename in os.listdir(reports_dir):
+        for filename in os.listdir(self.reports_dir):
             if filename.startswith("."):
                 continue
-            with open(os.path.join(reports_dir, filename), "r") as f:
+            with open(os.path.join(self.reports_dir, filename), "r") as f:
                 if filename.endswith(".json"):
                     l.append(filename)
 

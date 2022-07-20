@@ -2,7 +2,7 @@
 #  Installation
 #
 .PHONY: install install-dev
-.PHONY: clean rebuild chmod
+.PHONY: clean rebuild chmod pip-compile
 install:
 	$(MAKE) $(chmod)
 	@ ./scripts/install/install.sh prod
@@ -21,6 +21,10 @@ rebuild-dev:
 
 chmod:
 	@ chmod +x scripts/*/*
+
+pip-compile:
+	pip-compile requirements-dev.in
+	pip-compile requirements.in
 
 #
 #  Development
