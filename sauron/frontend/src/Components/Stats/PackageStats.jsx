@@ -7,8 +7,10 @@ import './packagestats.css'
 function PackageStats() {
   return (
     <div>
-        <Chart data={userData} title='Popularity' grid dataKey='Downloads'/>
-        <Barchart></Barchart>
+        <div className='chart-container'>
+            <Chart data={userData} title='Popularity' grid dataKey='Downloads'/>
+            <Barchart></Barchart>
+        </div>
     </div>
   )
 }

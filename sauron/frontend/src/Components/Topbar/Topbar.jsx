@@ -9,7 +9,9 @@ function Topbar() {
             <div className='topbarWrapper'>
                 <div className="topLeft">
                     <img src='https://raw.githubusercontent.com/amal-thundiyil/sauron/main/docs/images/logo.png?token=GHSAT0AAAAAABU7CTQNIRCFBE3VOQSCOHR6YWZND7A' className='topAvatar'></img>
+                    
                 </div>
+                <h1>Sauron</h1>
                 <div className='topRight'>
                 <div class="search-box">
                     <input type="text" class="search-input" placeholder="Search.."/>
