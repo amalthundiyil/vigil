@@ -1,6 +1,7 @@
 #
 #  Installation
 #
+
 .PHONY: install install-dev
 .PHONY: clean rebuild chmod pip-compile
 install:

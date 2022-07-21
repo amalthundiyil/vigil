@@ -1,6 +1,6 @@
--e git+https://github.com/chaoss/grimoirelab-perceval.git@master
--e git+https://github.com/chaoss/grimoire-elk.git@master
--e git+https://github.com/chaoss/grimoire-kidash.git@master
+perceval
+grimoire-elk
+grimoire-kidash
 Flask
 Flask-Bcrypt
 Flask-Cors
@@ -9,10 +9,4 @@ Flask-SQLAlchemy
 click
 tabulate 
 pandas
-
-sarif-om
-jschema_to_python
-defusedxml
-tabulate
-gitpython
-appthreat-scan-reports
+PyGitHub

@@ -2,7 +2,7 @@
 set -eo pipefail
 
 echo "Installing backend dependencies..."
-echo "**********************************"
+echo "=================================="
 echo
 
 target=$1

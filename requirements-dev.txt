@@ -4,37 +4,419 @@
 #
 #    pip-compile requirements-dev.in
 #
+alembic==1.8.1
+    # via
+    #   -r requirements.txt
+    #   flask-migrate
+astroid==2.11.7
+    # via
+    #   -r requirements.txt
+    #   pylint
+bandit==1.7.4
+    # via
+    #   -r requirements.txt
+    #   graal
+bcrypt==3.2.2
+    # via
+    #   -r requirements.txt
+    #   flask-bcrypt
+beautifulsoup4==4.11.1
+    # via
+    #   -r requirements.txt
+    #   perceval
 black==22.6.0
     # via -r requirements-dev.in
 build==0.8.0
     # via pip-tools
+cereslib==0.3.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+certifi==2022.6.15
+    # via
+    #   -r requirements.txt
+    #   dulwich
+    #   requests
+cffi==1.15.1
+    # via
+    #   -r requirements.txt
+    #   bcrypt
+    #   cryptography
+charset-normalizer==2.0.12
+    # via
+    #   -r requirements.txt
+    #   requests
 click==8.1.3
     # via
+    #   -r requirements.txt
     #   black
+    #   flask
     #   pip-tools
+cloc==0.2.5
+    # via
+    #   -r requirements.txt
+    #   graal
+colored==1.4.3
+    # via
+    #   -r requirements.txt
+    #   cloc
+cryptography==3.4.8
+    # via
+    #   -r requirements.txt
+    #   perceval
+dill==0.3.5.1
+    # via
+    #   -r requirements.txt
+    #   pylint
+dulwich==0.20.45
+    # via
+    #   -r requirements.txt
+    #   perceval
+elasticsearch==6.3.1
+    # via
+    #   -r requirements.txt
+    #   elasticsearch-dsl
+    #   grimoire-elk
+elasticsearch-dsl==6.3.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+execnet==1.9.0
+    # via
+    #   -r requirements.txt
+    #   graal
+feedparser==6.0.10
+    # via
+    #   -r requirements.txt
+    #   perceval
+flake8==4.0.1
+    # via
+    #   -r requirements.txt
+    #   graal
+flask==2.1.3
+    # via
+    #   -r requirements.txt
+    #   flask-bcrypt
+    #   flask-cors
+    #   flask-migrate
+    #   flask-sqlalchemy
+flask-bcrypt==1.0.1
+    # via -r requirements.txt
+flask-cors==3.0.10
+    # via -r requirements.txt
+flask-migrate==3.1.0
+    # via -r requirements.txt
+flask-sqlalchemy==2.5.1
+    # via
+    #   -r requirements.txt
+    #   flask-migrate
+geographiclib==1.52
+    # via
+    #   -r requirements.txt
+    #   geopy
+geopy==2.2.0
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+gitdb==4.0.9
+    # via
+    #   -r requirements.txt
+    #   gitpython
+gitpython==3.1.27
+    # via
+    #   -r requirements.txt
+    #   bandit
+graal==0.3.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+grimoire-elk==0.102.0
+    # via
+    #   -r requirements.txt
+    #   grimoire-kidash
+grimoire-kidash==0.30.9
+    # via -r requirements.txt
+grimoirelab-panels==0.1.0
+    # via
+    #   -r requirements.txt
+    #   grimoire-kidash
+grimoirelab-toolkit==0.3.0
+    # via
+    #   -r requirements.txt
+    #   cereslib
+    #   graal
+    #   grimoire-elk
+    #   perceval
+    #   perceval-mozilla
+    #   perceval-opnfv
+    #   perceval-puppet
+    #   perceval-weblate
+idna==3.3
+    # via
+    #   -r requirements.txt
+    #   requests
+importlib-metadata==4.12.0
+    # via
+    #   -r requirements.txt
+    #   alembic
+    #   flask
+importlib-resources==5.8.0
+    # via
+    #   -r requirements.txt
+    #   alembic
+isort==5.10.1
+    # via
+    #   -r requirements.txt
+    #   pylint
+itsdangerous==2.1.2
+    # via
+    #   -r requirements.txt
+    #   flask
+jinja2==3.0.3
+    # via
+    #   -r requirements.txt
+    #   flask
+    #   sortinghat
+lazy-object-proxy==1.7.1
+    # via
+    #   -r requirements.txt
+    #   astroid
+lizard==1.16.6
+    # via
+    #   -r requirements.txt
+    #   graal
+mako==1.2.1
+    # via
+    #   -r requirements.txt
+    #   alembic
+markupsafe==2.1.1
+    # via
+    #   -r requirements.txt
+    #   jinja2
+    #   mako
+mccabe==0.6.1
+    # via
+    #   -r requirements.txt
+    #   flake8
+    #   pylint
 mypy-extensions==0.4.3
     # via black
+networkx==2.8.5
+    # via
+    #   -r requirements.txt
+    #   graal
+numpy==1.18.3
+    # via
+    #   -r requirements.txt
+    #   cereslib
+    #   pandas
+    #   patsy
+    #   scipy
+    #   sortinghat
+    #   statsmodels
 packaging==21.3
-    # via build
+    # via
+    #   -r requirements.txt
+    #   build
+    #   statsmodels
+pandas==0.25.3
+    # via
+    #   -r requirements.txt
+    #   cereslib
+    #   grimoire-elk
+    #   sortinghat
+    #   statsmodels
 pathspec==0.9.0
     # via black
+patsy==0.5.2
+    # via
+    #   -r requirements.txt
+    #   statsmodels
+pbr==5.9.0
+    # via
+    #   -r requirements.txt
+    #   stevedore
 pep517==0.12.0
     # via build
+perceval==0.19.1
+    # via
+    #   -r requirements.txt
+    #   graal
+    #   grimoire-elk
+    #   perceval-mozilla
+    #   perceval-opnfv
+    #   perceval-puppet
+    #   perceval-weblate
+perceval-mozilla==0.3.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+perceval-opnfv==0.2.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+perceval-puppet==0.2.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+perceval-weblate==0.2.1
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
 pip-tools==6.8.0
     # via -r requirements-dev.in
 platformdirs==2.5.2
-    # via black
+    # via
+    #   -r requirements.txt
+    #   black
+    #   pylint
+pycodestyle==2.8.0
+    # via
+    #   -r requirements.txt
+    #   flake8
+pycparser==2.21
+    # via
+    #   -r requirements.txt
+    #   cffi
+pydot==1.4.2
+    # via
+    #   -r requirements.txt
+    #   graal
+pyflakes==2.4.0
+    # via
+    #   -r requirements.txt
+    #   flake8
+pyjwt==2.4.0
+    # via
+    #   -r requirements.txt
+    #   perceval
+pylint==2.14.5
+    # via
+    #   -r requirements.txt
+    #   graal
+pymysql==0.9.3
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+    #   sortinghat
 pyparsing==3.0.9
-    # via packaging
+    # via
+    #   -r requirements.txt
+    #   packaging
+    #   pydot
+python-dateutil==2.8.2
+    # via
+    #   -r requirements.txt
+    #   elasticsearch-dsl
+    #   grimoire-kidash
+    #   grimoirelab-toolkit
+    #   pandas
+    #   perceval
+    #   sortinghat
+pytz==2022.1
+    # via
+    #   -r requirements.txt
+    #   pandas
+pyyaml==6.0
+    # via
+    #   -r requirements.txt
+    #   bandit
+    #   sortinghat
+requests==2.26.0
+    # via
+    #   -r requirements.txt
+    #   cloc
+    #   grimoire-elk
+    #   perceval
+    #   perceval-mozilla
+    #   perceval-opnfv
+    #   perceval-puppet
+    #   perceval-weblate
+    #   sortinghat
+scipy==1.8.1
+    # via
+    #   -r requirements.txt
+    #   cereslib
+    #   statsmodels
+sgmllib3k==1.0.0
+    # via
+    #   -r requirements.txt
+    #   feedparser
+six==1.16.0
+    # via
+    #   -r requirements.txt
+    #   cereslib
+    #   elasticsearch-dsl
+    #   flask-cors
+    #   patsy
+    #   python-dateutil
+smmap==5.0.0
+    # via
+    #   -r requirements.txt
+    #   gitdb
+sortinghat==0.7.20
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+soupsieve==2.3.2.post1
+    # via
+    #   -r requirements.txt
+    #   beautifulsoup4
+sqlalchemy==1.3.24
+    # via
+    #   -r requirements.txt
+    #   alembic
+    #   flask-sqlalchemy
+    #   sortinghat
+statsmodels==0.13.2
+    # via
+    #   -r requirements.txt
+    #   grimoire-elk
+stevedore==4.0.0
+    # via
+    #   -r requirements.txt
+    #   bandit
+tabulate==0.8.10
+    # via -r requirements.txt
 tomli==2.0.1
     # via
-    #   black
+    #   -r requirements.txt
     #   build
-    #   pep517
+    #   pylint
+tomlkit==0.11.1
+    # via
+    #   -r requirements.txt
+    #   pylint
 typing-extensions==4.3.0
-    # via black
+    # via
+    #   -r requirements.txt
+    #   astroid
+    #   black
+    #   pylint
+urllib3==1.26.5
+    # via
+    #   -r requirements.txt
+    #   dulwich
+    #   elasticsearch
+    #   grimoire-elk
+    #   perceval
+    #   requests
+    #   sortinghat
+werkzeug==2.1.2
+    # via
+    #   -r requirements.txt
+    #   flask
 wheel==0.37.1
     # via pip-tools
+wrapt==1.14.1
+    # via
+    #   -r requirements.txt
+    #   astroid
+zipp==3.8.1
+    # via
+    #   -r requirements.txt
+    #   importlib-metadata
+    #   importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

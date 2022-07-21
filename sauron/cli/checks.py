@@ -38,21 +38,6 @@ def community(ctx, url, token):
     df = pd.DataFrame(data, columns=["has_readme", "has_contributing", "has_code_of_conduct", "contributors"], index=[0])
     click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), fg="magenta")
 
-@check.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("-u", "--url", type=str, help="URL of the repository to analyze")
-@click.option("-t", "--token", type=str, help="API token to increase rate limit.")
-@click.pass_context
-def maintainence(ctx, url, token):
-    m = MaintainenceProcessor(url, token)
-    click.secho(f'️🛠️ Analyzing Maintainence', fg="blue", bold=True)
-    try:
-        data = m.process()
-    except Exception:
-        click.secho(f'❗ Failed analyzing maintainence for {url}', fg="red", bold=True)
-        sys.exit(0)
-    click.secho(f'✅️ Completed analysis for {m.repo_url}', fg="green", bold=True)
-    df = pd.DataFrame(data, columns=["open_issues", "open_pr", "latest_commit", "latest_release"], index=[0])
-    click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), fg="magenta")
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
 @click.option("-u", "--url", type=str, help="URL of the repository to analyze")
