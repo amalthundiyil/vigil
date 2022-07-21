@@ -1,8 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app, make_response
-from server import bcrypt, db
-from server.models.user import User
-from server.commands.auth import clear_tokens, refresh_tokens
-from server.api.errors import (
+from sauron.backend.server.commands.auth import clear_tokens, refresh_tokens
+from sauron.backend.server.api.errors import (
     BadRequestError,
     NoContentError,
     ForbiddenError,
@@ -16,7 +14,7 @@ vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")
 
 
 @vulns.route("/vulns", methods=["GET"])
-def go():
+def get():
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Your account has been created",
