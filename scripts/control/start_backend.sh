@@ -8,6 +8,5 @@ if [[ $target == *"prod"* ]]; then
     FLASK_ENV="production" python sauron/backend/app.py
 else
     FLASK_ENV="development" python sauron/backend/app.py
-    cd "sauron/frontend" && npm start && cd "../../"
 fi
 
