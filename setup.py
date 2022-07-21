@@ -5,6 +5,12 @@ version = {}
 with open(os.path.join("sauron", "_version.py")) as version_file:
     exec(version_file.read(), version)
 
+with open("requirements.txt") as fp:
+    required = fp.read().splitlines()
+
+with open("requirements-dev.txt") as fp:
+    dev_required = fp.read().splitlines()
+
 setup(
     name="sauron",
     version=version["__version__"],
@@ -16,6 +22,14 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[],
-    extras_require={"dev": ["black"]},
+    install_requires=required,
+    extras_require={
+        "dev": ["check-manifest"],
+        "test": ["coverage"],
+    },
+    entry_points={
+        "console_scripts": [
+            "sauron = sauron.cli.cli:cli",
+        ],
+    },
 )

@@ -1,0 +1,8 @@
+-r requirements.txt
+
+pip-tools
+black
+bandit
+flake8
+pytest
+pytest-cov
