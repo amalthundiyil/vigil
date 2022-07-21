@@ -8,7 +8,7 @@ function Topbar() {
         <div className='topbar'>
             <div className='topbarWrapper'>
                 <div className="topLeft">
-                    <img src='https://raw.githubusercontent.com/amal-thundiyil/sauron/main/docs/images/logo.png?token=GHSAT0AAAAAABU7CTQNIRCFBE3VOQSCOHR6YWZND7A' className='topAvatar'></img>
+                    <img src='https://raw.githubusercontent.com/amal-thundiyil/sauron/frontend/docs/images/logo.png?token=GHSAT0AAAAAABU7CTQM3E5YFDC4X7INUZYWYWZS37A' className='topAvatar'></img>
                     
                 </div>
                 <h1>Sauron</h1>

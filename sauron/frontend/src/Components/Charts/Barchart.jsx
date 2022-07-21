@@ -50,7 +50,7 @@ const data = [
 function Barchart() {
     return (
       <div className='chart'>
-        <h3 className="chartTitle">Maintainance</h3>
+        <h3 className="chartTitle">Maintenance</h3>
           <ResponsiveContainer width='100%' aspect={4/1}>
               <BarChart width={300} height={150} data={data}>
                   <XAxis dataKey="name" stroke="#8884d8" />
