@@ -18,7 +18,7 @@ rebuild:
 	@ scripts/control/rebuild.sh prod
 
 rebuild-dev:
-	@ scripts/control/rebuild-backend.sh dev
+	@ scripts/control/rebuild.sh dev
 
 chmod:
 	@ chmod +x scripts/*/*
