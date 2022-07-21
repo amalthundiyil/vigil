@@ -15,7 +15,7 @@ import jwt
 health = Blueprint("health", __name__, url_prefix="/api/health")
 
 
-@health.route("/health", methods=["GET"])
+@health.route("/popularity", methods=["POST"])
 def go():
     return jsonify(
         status_code=HTTPStatus.CREATED,

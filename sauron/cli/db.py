@@ -26,7 +26,7 @@ def db():
 
 @db.command(context_settings=dict(ignore_unknown_options=True))
 @click.option("--repo-url", type=str, help="URL of repository to add to GitHub.")
-@click.option("--token", type=str, help="API token to increase rate limit.")
+@click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.option(
     "--elastic-url",
     type=str,

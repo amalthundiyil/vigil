@@ -7,3 +7,12 @@ Flask-Cors
 Flask-Migrate
 Flask-SQLAlchemy
 click
+tabulate 
+pandas
+
+sarif-om
+jschema_to_python
+defusedxml
+tabulate
+gitpython
+appthreat-scan-reports
