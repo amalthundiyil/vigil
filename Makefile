@@ -1,10 +1,10 @@
 #
 #  Installation
 #
+
 .PHONY: install install-dev
 .PHONY: clean rebuild chmod pip-compile
 install:
-	$(MAKE) $(chmod)
 	@ ./scripts/install/install.sh prod
 
 install-dev:
@@ -17,7 +17,7 @@ rebuild:
 	@ scripts/control/rebuild.sh prod
 
 rebuild-dev:
-	@ scripts/control/rebuild-backend.sh dev
+	@ scripts/control/rebuild.sh dev
 
 chmod:
 	@ chmod +x scripts/*/*
@@ -32,7 +32,9 @@ pip-compile:
 .PHONY: dev-start dev-stop dev monitor-frontend monitor-backend monitor frontend backend-stop backend-start backend-restart backend clean rebuild
 
 dev-start:
-	@ scripts/control/start_sauron.sh
+	@ scripts/control/start_backend.sh
+
+frontend-start:
 	@ scripts/control/start_frontend.sh
 
 dev-stop:

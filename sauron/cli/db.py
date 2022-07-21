@@ -4,7 +4,6 @@ import subprocess
 
 import click
 
-from sauron.backend.server.commands import vulns
 from datetime import datetime
 import sys
 

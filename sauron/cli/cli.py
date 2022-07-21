@@ -2,7 +2,6 @@ import logging
 
 import click
 
-from sauron.backend.server.commands import vulns
 from sauron.cli.cli_util import print_version, call_and_exit_flag
 from sauron.cli.checks import check
 from sauron.cli.db import db
