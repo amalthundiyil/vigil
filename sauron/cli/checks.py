@@ -87,7 +87,7 @@ def popularity(ctx, url, token):
     else:
         click.secho(f'❗ Failed analyzing popularity for {url}', fg="red", bold=True)
         sys.exit(0)
-    data = p.summarize()
+    data = p.process()
     try:
         data["downloads"] = data["downloads"][0]["count"]
     except KeyError:

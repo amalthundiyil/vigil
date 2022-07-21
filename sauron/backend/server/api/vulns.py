@@ -14,7 +14,7 @@ vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")
 
 
 @vulns.route("/vulns", methods=["GET"])
-def go():
+def get():
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Your account has been created",

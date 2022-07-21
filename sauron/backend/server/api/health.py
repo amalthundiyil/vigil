@@ -21,16 +21,15 @@ def check_popularity():
     req = request.json
     if not req:
         raise BadRequestError("Fields cannot be empty.")
-    if not req.url:
+    if not req["url"]:
         raise BadRequestError("Please enter the URL.")
-    p = GithubPopularity(req.url, req.token)
+    p = GithubPopularity(req["url"], req.get("token"))
     data = p.process()
     if not data:
         raise NoContentError("Failed to process request.")
-
     return jsonify(
         status_code=HTTPStatus.CREATED,
-        message="Sent request successfully",
+        message="Request processed successfully",
         data=data,
     )
 
@@ -39,13 +38,12 @@ def check_community():
     req = request.json
     if not req:
         raise BadRequestError("Fields cannot be empty.")
-    if not req.url:
+    if not req["url"]:
         raise BadRequestError("Please enter the URL.")
-    p = CommunityProcessor(req.url, req.token)
+    p = CommunityProcessor(req["url"], req.get("token"))
     data = p.process()
     if not data:
         raise NoContentError("Failed to process request.")
-
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Sent request successfully",

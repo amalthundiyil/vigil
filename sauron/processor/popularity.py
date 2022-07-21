@@ -33,7 +33,7 @@ class GithubPopularity():
     def dependents(self):
         return self.repo.network_count
     
-    def summarize(self):
+    def process(self):
         return {
             "stars" : self.stargazers(),
             "downloads" : self.releases(),
