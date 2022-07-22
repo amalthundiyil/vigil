@@ -14,7 +14,7 @@ from sauron.cli.cli_util import transform
 
 LOG = logging.getLogger("sauron.cli.checks")
 
-@click.group(help="Groups commands for running checks.")
+@click.group(help="Command to run any or all of the checks and scans.")
 @click.pass_context
 def check(ctx):
     pass

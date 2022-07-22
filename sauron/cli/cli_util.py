@@ -1,8 +1,6 @@
 import click
 import string
 
-from colors import *
-
 from sauron._version import __version__
 
 
