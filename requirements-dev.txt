@@ -42,6 +42,7 @@ cffi==1.15.1
     #   -r requirements.txt
     #   bcrypt
     #   cryptography
+    #   pynacl
 charset-normalizer==2.0.12
     # via
     #   -r requirements.txt
@@ -64,6 +65,10 @@ cryptography==3.4.8
     # via
     #   -r requirements.txt
     #   perceval
+deprecated==1.2.13
+    # via
+    #   -r requirements.txt
+    #   pygithub
 dill==0.3.5.1
     # via
     #   -r requirements.txt
@@ -286,10 +291,13 @@ pyflakes==2.4.0
     # via
     #   -r requirements.txt
     #   flake8
+pygithub==1.55
+    # via -r requirements.txt
 pyjwt==2.4.0
     # via
     #   -r requirements.txt
     #   perceval
+    #   pygithub
 pylint==2.14.5
     # via
     #   -r requirements.txt
@@ -299,6 +307,10 @@ pymysql==0.9.3
     #   -r requirements.txt
     #   grimoire-elk
     #   sortinghat
+pynacl==1.5.0
+    # via
+    #   -r requirements.txt
+    #   pygithub
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -332,6 +344,7 @@ requests==2.26.0
     #   perceval-opnfv
     #   perceval-puppet
     #   perceval-weblate
+    #   pygithub
     #   sortinghat
 scipy==1.8.1
     # via
@@ -412,6 +425,7 @@ wrapt==1.14.1
     # via
     #   -r requirements.txt
     #   astroid
+    #   deprecated
 zipp==3.8.1
     # via
     #   -r requirements.txt

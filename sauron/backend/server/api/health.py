@@ -1,16 +1,15 @@
+from http import HTTPStatus
+
 from flask import Blueprint, jsonify, request, current_app, make_response
-from sauron.backend.server.commands.auth import clear_tokens, refresh_tokens
+
+from sauron.processor.popularity import GithubPopularity
+from sauron.processor.community import CommunityProcessor
 from sauron.backend.server.api.errors import (
     BadRequestError,
     NoContentError,
     ForbiddenError,
     UnauthorizedError,
 )
-from http import HTTPStatus
-import jwt
-from http import HTTPStatus
-from sauron.processor.popularity import GithubPopularity
-from sauron.processor.community import CommunityProcessor
 
 
 health = Blueprint("health", __name__, url_prefix="/api/health")

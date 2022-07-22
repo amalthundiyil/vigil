@@ -18,7 +18,7 @@ DEFAULT_ES_URL = "http://localhost:9200"
 LOG = logging.getLogger("sauron.cli.checks")
 
 
-@click.group()
+@click.group(help="Command to manage the database")
 def db():
     pass
 

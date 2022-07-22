@@ -1,24 +1,21 @@
 import logging
 import click
 import sys
-from urllib.parse import urlparse
 
 import pandas as pd
 from tabulate import tabulate
-from sauron.processor.community import CommunityProcessor
+from rich.console import Console
 
+from sauron.processor.community import CommunityProcessor
 from sauron.processor.maintainence import MaintainenceProcessor
-from sauron.processor.popularity import GithubPopularity
+from sauron.processor.popularity import PopularityProcessor, PopularityTypes
 from sauron.processor.vulns import VulnsProcessor
+from sauron.cli.cli_util import transform
+from sauron.config import get_from_config
 
 LOG = logging.getLogger("sauron.cli.checks")
 
-NPM_URL = "npmjs.com"
-GITHUB_URL = "github.com"
-PYPI_URL = "pypi.org"
-
-
-@click.group(help="Groups commands for running checks.")
+@click.group(help="Command to run any or all of the checks and scans.")
 @click.pass_context
 def check(ctx):
     pass
@@ -98,33 +95,36 @@ def vulnerabilites(ctx, url):
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("-u", "--url", type=str, help="URL of the repository to analyze")
+@click.option("-u", "--url", type=str, help="URL of the package to analyze")
+@click.option("-n", "--name", type=str, help="Name of package to analyze. For GitHub enter <organization>/<repository>")
+@click.option("--type", type=click.Choice([x.value for x in PopularityTypes]), help="Type of package to analyze")
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
-def popularity(ctx, url, token):
-    netloc = urlparse(url).netloc
-    click.secho(f"📈  Analyzing Popularity ", fg="blue", bold=True)
-    if netloc == NPM_URL:
-        pass
-    elif netloc == GITHUB_URL:
-        p = GithubPopularity(url, token)
-    elif netloc == PYPI_URL:
-        pass
+def popularity(ctx, url, name, type, token):
+    token = token if token else get_from_config("github_token")
+    click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
+    if name and type:
+        obj = name
+        p = PopularityProcessor.from_name(name, type, token)
+    elif url:
+        obj = url
+        p = PopularityProcessor.from_url(url, token)
     else:
-        click.secho(f"❗  Failed analyzing popularity for {url}", fg="red", bold=True)
+        click.secho(f'❗ Missing fields', fg="red", bold=True)
         sys.exit(0)
-    data = p.process()
     try:
-        data["downloads"] = data["downloads"][0]["count"]
-    except KeyError:
-        data["downloads"] = 0
-    click.secho(f"✅️  Completed analysis for {p.repo_url}", fg="green", bold=True)
-    df = pd.DataFrame(
-        data,
-        columns=["stars", "downloads", "forks", "contributors", "dependents"],
-        index=[0],
-    )
-    click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False))
+        data = p.process()
+        data = p.get_download_count(data)
+        data = transform(data)
+    except Exception as e:
+        LOG.error(e)
+        click.secho(f'❗ Failed analyzing popularity for {obj}', fg="red", bold=True)
+        sys.exit(0)
+    click.secho(f'✅️ Completed analysis for {p.name}', fg="green", bold=True)
+    df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
+    console = Console()
+    console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
+
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))

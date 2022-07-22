@@ -2,10 +2,11 @@
 
 target=$1
 
-FLASK_APP_PATH=$(realpath "sauron/backend/server")
+FRONTEND_PATH=$(realpath "sauron/frontend")
 
 if [[ $target == *"prod"* ]]; then
-    echo "production"
+    cd $FRONTEND_PATH && npm start && cd "../../"
 else
-    cd sauron/frontend && npm start
+    cd $FRONTEND_PATH && npm start && cd "../../"
 fi
+
