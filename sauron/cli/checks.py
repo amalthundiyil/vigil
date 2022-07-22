@@ -8,7 +8,7 @@ from rich.console import Console
 
 from sauron.processor.community import CommunityProcessor
 from sauron.processor.maintainence import MaintainenceProcessor
-from sauron.processor.popularity import GithubPopularity, PopularityProcessor
+from sauron.processor.popularity import GithubPopularity, PopularityProcessor, PopularityTypes
 from sauron.processor.vulns import VulnsProcessor
 from sauron.cli.cli_util import transform
 
@@ -95,55 +95,34 @@ def vulnerabilites(ctx, url):
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
 @click.option("-u", "--url", type=str, help="URL of the package to analyze")
-@click.option("-n", "--name", type=str, help="Name of package to analyze")
-@click.option("--type", type=str, help="Type of package to analyze")
+@click.option("-n", "--name", type=str, help="Name of package to analyze. For GitHub enter <organization>/<repository>")
+@click.option("--type", type=click.Choice([x.value for x in PopularityTypes]), help="Type of package to analyze")
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
-<<<<<<< HEAD
-def popularity(ctx, url, token):
-    netloc = urlparse(url).netloc
-    click.secho(f"📈  Analyzing Popularity ", fg="blue", bold=True)
-    if netloc == NPM_URL:
-        pass
-    elif netloc == GITHUB_URL:
-        p = GithubPopularity(url, token)
-    elif netloc == PYPI_URL:
-        pass
-    else:
-        click.secho(f"❗  Failed analyzing popularity for {url}", fg="red", bold=True)
-        sys.exit(0)
-    data = p.process()
-    try:
-        data["downloads"] = data["downloads"][0]["count"]
-    except KeyError:
-        data["downloads"] = 0
-    click.secho(f"✅️  Completed analysis for {p.repo_url}", fg="green", bold=True)
-    df = pd.DataFrame(
-        data,
-        columns=["stars", "downloads", "forks", "contributors", "dependents"],
-        index=[0],
-    )
-    click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False))
-=======
 def popularity(ctx, url, name, type, token):
     click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
-    if name:
+    import pdb; pdb.set_trace()
+    if name and type:
+        obj = name
         p = PopularityProcessor.from_name(name, type, token)
     elif url:
+        obj = url
         p = PopularityProcessor.from_url(url, token)
+    else:
+        click.secho(f'❗ Missing fields', fg="red", bold=True)
+        sys.exit(0)
     try:
         data = p.process()
         data = p.get_download_count(data)
         data = transform(data)
     except Exception:
-        click.secho(f'❗ Failed analyzing popularity for {url}', fg="red", bold=True)
+        click.secho(f'❗ Failed analyzing popularity for {obj}', fg="red", bold=True)
         sys.exit(0)
-    click.secho(f'✅️ Completed analysis for {p.repo_url}', fg="green", bold=True)
+    click.secho(f'✅️ Completed analysis for {p.name}', fg="green", bold=True)
     df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
     console = Console()
     console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
 
->>>>>>> 62be9af (Add popularity check for npm)
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))

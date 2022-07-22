@@ -1,8 +1,14 @@
-import requests
-from github import Github
 from urllib.parse import urlparse
 from datetime import datetime
+from enum import Enum
 
+from github import Github
+import requests
+
+class PopularityTypes(str, Enum):
+    github = "github"
+    npm = "npm"
+    pypi = "pypi"
 
 class GithubPopularity():
 
@@ -53,19 +59,28 @@ class GithubPopularity():
         return {
             "stars" : self.stargazers(),
             "downloads" : self.releases(),
-            "forks" : self.stargazers(),
+            "forks" : self.forks(),
             "contributors" : self.contributors(),
             "dependents" : self.dependents(),
         }
 
 class NpmPopularity():
 
-    def __init__(self, url, token=None) -> None:
-        self.name = urlparse(url).path.split("/")[3]
+    def __init__(self, name, token=None) -> None:
+        self.name = name
         self.token = token
         self.repo = self.get_repo(self.name)
-        self.g = None
-        self.result = {}
+
+    @classmethod
+    def from_url(cls, url, token):
+        repo_url = urlparse(url).path[1:]
+        owner, repo = repo_url.split("/")
+        return cls(owner, repo, token)
+    
+    @classmethod
+    def from_name(cls, name, token):
+        owner, repo = name.split("/")
+        return cls(owner, repo, token)
     
     def get_repo(self):
         url = f"https://registry.npmjs.org/{self.name}" 
@@ -143,11 +158,11 @@ class PopularityProcessor():
     @classmethod
     def from_name(cls, name, type, token) -> None:
         p = None
-        if type == "npm":
+        if type == PopularityTypes.npm:
             p = NpmPopularity.from_name(name, token)
-        elif type == "github":
+        elif type == PopularityTypes.github:
             p = GithubPopularity.from_name(name, token)
-        elif type == "pypi":
+        elif type == PopularityTypes.pypi:
             p = PypiPopularity.from_name(name, token)
         return p
 

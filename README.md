@@ -19,9 +19,9 @@ Sauron - OSS Security Inspector
 
 ## Introduction
 
-This is a Swiss Army knife for DevSecOps engineers, and also normal people :)
+This is a Swiss Army knife for DevSecOps engineers, and also normal people 🙃.
 
-## Installtion
+## Installation
 
 ### From Source Code
 
