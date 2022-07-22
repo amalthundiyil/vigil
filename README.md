@@ -27,6 +27,22 @@ TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal pe
 
 You must have Python and Docker installed to run this project.
 
+### Important packages to ahve beforehand
+1. python3-pip
+```sh
+sudo apt install python3-pip
+```
+
+2. NodeJS
+```sh
+sudo apt install nodejs
+```
+
+3. npm package manager
+```sh
+sudo apt install npm
+```
+
 From the project root folder run the following commands:
 
 1. Setup the virtual environment:
