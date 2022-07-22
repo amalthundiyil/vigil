@@ -47,6 +47,11 @@ sudo apt install nodejs
 sudo apt install npm
 ```
 
+4. Python virtual environment
+```sh
+sudo apt-get install python3.8-dev python3.8-venv
+```
+
 From the project root folder run the following commands:
 
 1. Setup the virtual environment:
