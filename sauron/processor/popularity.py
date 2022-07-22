@@ -21,6 +21,8 @@ class GithubPopularity():
     def from_url(cls, url, token):
         repo_url = urlparse(url).path[1:]
         owner, repo = repo_url.split("/")
+        if repo.endswith(".git"):
+            repo = repo[:-4]
         return cls(owner, repo, token)
     
     @classmethod
@@ -69,7 +71,9 @@ class NpmPopularity():
     def __init__(self, name, token=None) -> None:
         self.name = name
         self.token = token
-        self.repo = self.get_repo(self.name)
+        self.repo = self.get_repo()
+        self.get_repository()
+        self.result = {}
 
     @classmethod
     def from_url(cls, url, token):
@@ -79,8 +83,7 @@ class NpmPopularity():
     
     @classmethod
     def from_name(cls, name, token):
-        owner, repo = name.split("/")
-        return cls(owner, repo, token)
+        return cls(name, token)
     
     def get_repo(self):
         url = f"https://registry.npmjs.org/{self.name}" 
@@ -91,8 +94,9 @@ class NpmPopularity():
         return obj 
     
     def get_repository(self):
-        url = urlparse(url)
-        if "github" in url.netloc:
+        url = self.repo["repository"]["url"]
+        parsed_url = urlparse(url)
+        if "github" in parsed_url.netloc:
             self.g = GithubPopularity.from_url(url, self.token)
 
     def stargazers(self):
@@ -105,11 +109,12 @@ class NpmPopularity():
             obj = r.json()
             self.result.update({"downloads": obj["downloads"]})
     
-    def get_download_count(self):
+    def get_download_count(self, data):
         total = 0
-        for download in self.result["downloads"]:
+        for download in data["downloads"]:
             total += download["downloads"]
-        return total
+        data["downloads"] = total
+        return data
 
 
     def forks(self):
