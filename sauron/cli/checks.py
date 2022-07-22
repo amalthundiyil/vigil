@@ -8,7 +8,7 @@ from rich.console import Console
 
 from sauron.processor.community import CommunityProcessor
 from sauron.processor.maintainence import MaintainenceProcessor
-from sauron.processor.popularity import GithubPopularity, PopularityProcessor, PopularityTypes
+from sauron.processor.popularity import PopularityProcessor, PopularityTypes
 from sauron.processor.vulns import VulnsProcessor
 from sauron.cli.cli_util import transform
 
@@ -101,7 +101,6 @@ def vulnerabilites(ctx, url):
 @click.pass_context
 def popularity(ctx, url, name, type, token):
     click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
-    import pdb; pdb.set_trace()
     if name and type:
         obj = name
         p = PopularityProcessor.from_name(name, type, token)
