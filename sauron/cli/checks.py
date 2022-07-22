@@ -101,7 +101,6 @@ def vulnerabilites(ctx, url):
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
 def popularity(ctx, url, name, type, token):
-    import pdb; pdb.set_trace()
     token = token if token else get_from_config("github_token")
     click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
     if name and type:
@@ -117,7 +116,8 @@ def popularity(ctx, url, name, type, token):
         data = p.process()
         data = p.get_download_count(data)
         data = transform(data)
-    except Exception:
+    except Exception as e:
+        LOG.error(e)
         click.secho(f'❗ Failed analyzing popularity for {obj}', fg="red", bold=True)
         sys.exit(0)
     click.secho(f'✅️ Completed analysis for {p.name}', fg="green", bold=True)

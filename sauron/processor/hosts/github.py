@@ -38,7 +38,7 @@ class Github():
     
     def get_download_count(self, data):
         # counting downloads as releases for github
-        data["downloads"] = data["downloads"][0]["count"]
+        data["downloads"] = data["downloads"][0]["day"]
         return data
 
     def forks(self):
