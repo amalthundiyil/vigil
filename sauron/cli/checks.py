@@ -80,18 +80,19 @@ def maintainence(ctx, url, token):
 def vulnerabilites(ctx, url):
     v = VulnsProcessor(url)
     click.secho(f"🛡️  Analyzing Vulnerabilites ", fg="blue", bold=True)
-    r = v.process()
-    if not r:
+    data = v.process()
+    if not data:
         click.secho(
-            f"❗  Failed analyzing vulnerabilties for {url}", fg="red", bold=True
+            f"❗ Failed analyzing vulnerabilties for {url}", fg="red", bold=True
         )
         sys.exit(0)
     click.secho(f"✅ Completed analysis for {v.repo_url}", fg="green", bold=True)
-    df = pd.DataFrame(
-        r,
-        columns=["name", "low", "medium", "high", "critical", "status"],
-    )
-    click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False))
+    df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
+    console = Console()
+    console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
+
+
+
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
