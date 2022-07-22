@@ -15,7 +15,7 @@ Sauron - OSS Security Inspector
 <img src="https://visitor-badge.laobi.icu/badge?page_id=amal-thundiyil.sauron">
 </p>
 
-**One tool to rule them all, one tool to find them, One tool to bring them all, and in the darkness bind them.**
+"_One tool to rule them all, one tool to find them, One tool to bring them all, and in the darkness bind them._"
 
 ## Introduction
 
