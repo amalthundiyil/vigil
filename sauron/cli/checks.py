@@ -11,6 +11,7 @@ from sauron.processor.maintainence import MaintainenceProcessor
 from sauron.processor.popularity import PopularityProcessor, PopularityTypes
 from sauron.processor.vulns import VulnsProcessor
 from sauron.cli.cli_util import transform
+from sauron.config import get_from_config
 
 LOG = logging.getLogger("sauron.cli.checks")
 
@@ -100,6 +101,8 @@ def vulnerabilites(ctx, url):
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
 def popularity(ctx, url, name, type, token):
+    import pdb; pdb.set_trace()
+    token = token if token else get_from_config("github_token")
     click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
     if name and type:
         obj = name

@@ -1,8 +1,12 @@
 from urllib.parse import urlparse
+from datetime import datetime
 
 import requests
+from tomlkit import date
 
 from sauron.processor.hosts.github import Github
+from sauron.config import setenv_from_config
+
 
 class Pypi():
 
@@ -24,49 +28,53 @@ class Pypi():
         return cls(name, token)
     
     def get_repo(self):
-        url = f"https://registry.npmjs.org/{self.name}" 
-        r = requests.get(url)
-        obj = {}
-        if r.status_code < 400 and r.status_code >= 200:
-            obj = r.json()
-        return obj 
+        setenv_from_config("libraries_api_key")
+        from pybraries.search import Search
+        self.search = Search()
+        info = self.search.project('pypi', self.name)
+        return info
     
     def get_repository(self):
-        url = self.repo["repository"]["url"]
+        url = self.repo["repository_url"]
         parsed_url = urlparse(url)
         if "github" in parsed_url.netloc:
             self.g = Github.from_url(url, self.token)
 
     def stargazers(self):
-        if type(self.g) == Github:
-            self.result.update({"stargazers" :self.g.stargazers()})
+        self.result.update({"stars": self.repo["stars"]})
 
     def downloads(self):
-        r = requests.get(f"https://api.npmjs.org/downloads/range/last-week/{self.name}")
-        if r.status_code < 400 and r.status_code >= 200:
-            obj = r.json()
-            self.result.update({"downloads": obj["downloads"]})
-    
+        r = requests.get(f"https://api.pepy.tech/api/projects/{self.name}")
+        if not r.ok:
+            return
+        obj = r.json()
+        now = datetime.now()
+        downloads = []
+        for k, v in obj["downloads"].items():
+            dt = datetime.strptime(k, '%Y-%m-%d')
+            delta = now - dt
+            if delta.days <= 7:
+                downloads.append({"downloads": v, "day": k})
+        self.result.update({"downloads": downloads})
+
     def get_download_count(self, data):
         total = 0
         for download in data["downloads"]:
-            total += download["downloads"]
+            for k, v in download:
+                total += v
         data["downloads"] = total
         return data
 
-
     def forks(self):
-        if type(self.g) == Github:
-            self.result.update({"forks":self.g.forks()})
+        self.result.update({"forks": self.repo["forks"]})
 
     def contributors(self):
-        if type(self.g) == Github:
-            self.result.update({"contributors":self.g.contributors()})
-        else:
-            self.result.update({"contributors": len(self.repo["users"])})
+        d = self.search.project_contributors("pypi", self.name)
+        self.result.update({"contributors": len(d)})
 
     def dependents(self):
-        return len(self.repo["users"])
+        d = self.search.project_dependents("pypi", self.name)
+        self.result.update({"dependents": len(d)})
     
     def process(self):
         self.stargazers(),

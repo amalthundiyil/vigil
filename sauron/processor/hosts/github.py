@@ -29,10 +29,10 @@ class Github():
     def releases(self):
         downloads = []
         for release in self.repo.get_releases():
-            data = {"count":0, "created_at": release.created_at}
-            data["created_at"] = datetime.strftime(data["created_at"], '%Y-%m-%d-%H-%M')
+            data = {"downloads":0, "day": release.created_at}
+            data["day"] = datetime.strftime(data["day"], '%Y-%m-%d-%H-%M')
             for asset in release.get_assets():
-                data["count"] += asset.download_count
+                data["downloads"] += asset.download_count
             downloads.append(data)
         return downloads
     
