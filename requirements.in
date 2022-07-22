@@ -10,3 +10,4 @@ click
 tabulate 
 pandas
 PyGitHub
+gitpython

@@ -9,16 +9,25 @@ from sauron.backend.server.api.errors import (
 from http import HTTPStatus
 import jwt
 
+from sauron.processor.vulns import VulnsProcessor
+
 
 vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")
 
 
-@vulns.route("/vulns", methods=["GET"])
-def get():
+@vulns.route("/community", methods=["POST"])
+def check_community():
+    req = request.json
+    if not req:
+        raise BadRequestError("Fields cannot be empty.")
+    if not req["url"]:
+        raise BadRequestError("Please enter the URL.")
+    v = VulnsProcessor(req["url"], req.get("token"))
+    data = v.process()
+    if not data:
+        raise NoContentError("Failed to process request.")
     return jsonify(
         status_code=HTTPStatus.CREATED,
-        message="Your account has been created",
-        data={"vulns": "ok"},
+        message="Sent request successfully",
+        data=data,
     )
-
-
