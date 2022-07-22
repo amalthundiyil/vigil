@@ -1,4 +1,7 @@
 import click
+import string
+
+from colors import *
 
 from sauron._version import __version__
 
@@ -28,3 +31,10 @@ def call_and_exit_flag(*args, callback, is_eager=True, **kwargs):
         is_eager=is_eager,
         **kwargs,
     )
+
+def transform(d):
+    new_d = {}
+    for old_key, v in d.items():
+        new_key = string.capwords(old_key, "_")
+        new_d[new_key] = v 
+    return new_d

@@ -1,22 +1,18 @@
 import logging
 import click
 import sys
-from urllib.parse import urlparse
 
 import pandas as pd
 from tabulate import tabulate
-from sauron.processor.community import CommunityProcessor
+from rich.console import Console
 
+from sauron.processor.community import CommunityProcessor
 from sauron.processor.maintainence import MaintainenceProcessor
-from sauron.processor.popularity import GithubPopularity
+from sauron.processor.popularity import GithubPopularity, PopularityProcessor
 from sauron.processor.vulns import VulnsProcessor
+from sauron.cli.cli_util import transform
 
 LOG = logging.getLogger("sauron.cli.checks")
-
-NPM_URL = "npmjs.com"
-GITHUB_URL = "github.com"
-PYPI_URL = "pypi.org"
-
 
 @click.group(help="Groups commands for running checks.")
 @click.pass_context
@@ -98,9 +94,12 @@ def vulnerabilites(ctx, url):
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("-u", "--url", type=str, help="URL of the repository to analyze")
+@click.option("-u", "--url", type=str, help="URL of the package to analyze")
+@click.option("-n", "--name", type=str, help="Name of package to analyze")
+@click.option("--type", type=str, help="Type of package to analyze")
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
+<<<<<<< HEAD
 def popularity(ctx, url, token):
     netloc = urlparse(url).netloc
     click.secho(f"📈  Analyzing Popularity ", fg="blue", bold=True)
@@ -125,6 +124,26 @@ def popularity(ctx, url, token):
         index=[0],
     )
     click.secho(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False))
+=======
+def popularity(ctx, url, name, type, token):
+    click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
+    if name:
+        p = PopularityProcessor.from_name(name, type, token)
+    elif url:
+        p = PopularityProcessor.from_url(url, token)
+    try:
+        data = p.process()
+        data = p.get_download_count(data)
+        data = transform(data)
+    except Exception:
+        click.secho(f'❗ Failed analyzing popularity for {url}', fg="red", bold=True)
+        sys.exit(0)
+    click.secho(f'✅️ Completed analysis for {p.repo_url}', fg="green", bold=True)
+    df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
+    console = Console()
+    console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
+
+>>>>>>> 62be9af (Add popularity check for npm)
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))

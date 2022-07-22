@@ -11,3 +11,6 @@ tabulate
 pandas
 PyGitHub
 gitpython
+requests
+ansicolors
+rich
