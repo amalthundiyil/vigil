@@ -40,9 +40,6 @@ frontend-start:
 dev-start:
 	@ scripts/control/start_backend.sh
 
-frontend-start:
-	@ scripts/control/start_frontend.sh
-
 dev-stop:
 	@ sauron backend stop
 	@ scripts/control/kill_frontend.sh
