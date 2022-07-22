@@ -29,7 +29,7 @@ pip-compile:
 #
 #  Development
 #
-.PHONY: dev-start dev-stop dev monitor-frontend monitor-backend monitor frontend backend-stop backend-start backend-restart backend clean rebuild
+.PHONY: dev-start dev-stop dev monitor-frontend monitor-backend monitor frontend-start backend-stop backend-start backend-restart backend clean rebuild
 
 backend-start:
 	@ scripts/control/start_backend.sh
