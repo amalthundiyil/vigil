@@ -8,5 +8,5 @@ echo
 target=$1
 
 cd "sauron/frontend"
-npm install 
+npm install
 cd "../.."

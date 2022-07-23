@@ -1,5 +1,5 @@
 <p align='center'>
-<img width="50%" src='./docs/images/logo.png'>
+<img width="40%" src='./docs/images/logo.png'>
 </p>
 
 <h1>
@@ -11,7 +11,6 @@ Sauron - OSS Security Inspector
 <p align='center'>
 <img src="https://github.com/amal-thundiyil/sauron/actions/workflows/actions.yml/badge.svg">
 <a href="https://github.com/amal-thundiyil/sauron/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg">
-<a href="https://github.com/amal-thundiyil/sauron/pulls"><img src="https://img.shields.io/badge/PR-Welcome-brightgreen.svg"></a>
 <img src="https://visitor-badge.laobi.icu/badge?page_id=amal-thundiyil.sauron">
 </p>
 
@@ -21,63 +20,34 @@ Sauron - OSS Security Inspector
 
 TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal people 🙃.
 
-## Prequisites
-
-If you're installing from source code you'll need Git to clone the repository and ...
-
 ## Installation
 
 ### From Source Code
 
-You must have Python and Docker installed to run this project.
-
-### Important packages to ahve beforehand
-1. python3-pip
-```sh
-sudo apt install python3-pip
-```
-
-2. NodeJS
-```sh
-sudo apt install nodejs
-```
-
-3. npm package manager
-```sh
-sudo apt install npm
-```
-
-4. Python virtual environment
-```sh
-sudo apt-get install python3.8-dev python3.8-venv
-```
+> You will need python3-pip, nodejs, npm and Docker to run the project successfully. You can install it simply by running:
+>
+> ```sh
+> sudo apt install python3-pip python3.8-dev python3.8-venv nodejs npm
+> ```
 
 From the project root folder run the following commands:
 
-1. Setup the virtual environment:
-
 ```sh
+# setup the virtual environment
 python3.8 -m venv venv
 source venv/bin/activate
-```
 
-2. Install the developer dependencies:
-
-```sh
+# install the developer dependencies:
 make install-dev
-```
 
-3. Start the backend:
-
-```sh
+# start the backend:
 make backend-start
-```
 
-4. Start the frontend:
-
-```sh
+# start the frontend:
 make frontend-start
 ```
+
+Setup the `sauron.config.json` configuration file with the desired configuration values.
 
 ## Usage
 
@@ -88,11 +58,10 @@ $ sauron --help
 Usage: sauron [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --version      Show version information and exit.
-  -v, --verbose  Repeat for more verbosity
-  --help         Show this message and exit.
+  --version  Show version information and exit.
+  --help     Show this message and exit.
 
 Commands:
-  check  Command to run any or all of the checks and scans.
+  check  Run different all (default) or specified checks
   db     Command to manage the database
 ```

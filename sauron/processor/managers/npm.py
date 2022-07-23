@@ -4,8 +4,8 @@ import requests
 
 from sauron.processor.hosts.github import Github
 
-class Npm():
 
+class Npm:
     def __init__(self, name, token=None) -> None:
         self.name = name
         self.token = token
@@ -15,22 +15,24 @@ class Npm():
 
     @classmethod
     def from_url(cls, url, token):
+        if url.endswith("/"):
+            url = url[:-1]
         repo_url = urlparse(url).path[1:]
         owner, repo = repo_url.split("/")
         return cls(owner, repo, token)
-    
+
     @classmethod
     def from_name(cls, name, token):
         return cls(name, token)
-    
+
     def get_repo(self):
-        url = f"https://registry.npmjs.org/{self.name}" 
+        url = f"https://registry.npmjs.org/{self.name}"
         r = requests.get(url)
         obj = {}
         if r.status_code < 400 and r.status_code >= 200:
             obj = r.json()
-        return obj 
-    
+        return obj
+
     def get_repository(self):
         url = self.repo["repository"]["url"]
         parsed_url = urlparse(url)
@@ -39,35 +41,34 @@ class Npm():
 
     def stargazers(self):
         if type(self.g) == Github:
-            self.result.update({"stargazers" :self.g.stargazers()})
+            self.result.update({"stargazers": self.g.stargazers()})
 
     def downloads(self):
         r = requests.get(f"https://api.npmjs.org/downloads/range/last-week/{self.name}")
         if r.status_code < 400 and r.status_code >= 200:
             obj = r.json()
             self.result.update({"downloads": obj["downloads"]})
-    
-    def get_download_count(self, data):
+
+    def summarize(self, data):
         total = 0
         for download in data["downloads"]:
             total += download["downloads"]
         data["downloads"] = total
         return data
 
-
     def forks(self):
         if type(self.g) == Github:
-            self.result.update({"forks":self.g.forks()})
+            self.result.update({"forks": self.g.forks()})
 
     def contributors(self):
         if type(self.g) == Github:
-            self.result.update({"contributors":self.g.contributors()})
+            self.result.update({"contributors": self.g.contributors()})
         else:
             self.result.update({"contributors": len(self.repo["users"])})
 
     def dependents(self):
         return len(self.repo["users"])
-    
+
     def process(self):
         self.stargazers(),
         self.downloads(),
@@ -75,4 +76,3 @@ class Npm():
         self.forks()
         self.dependents(),
         return self.result
-

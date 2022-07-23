@@ -2,3 +2,5 @@
 
 pip-tools
 black
+pytest
+check-manifest

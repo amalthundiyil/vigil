@@ -23,13 +23,13 @@ chmod:
 	@ chmod +x scripts/*/*
 
 pip-compile:
-	pip-compile requirements-dev.in
-	pip-compile requirements.in
+	@ pip-compile -v requirements-dev.in
+	@ pip-compile -v requirements.in
 
 #
 #  Development
 #
-.PHONY: dev-start dev-stop dev monitor-frontend monitor-backend monitor frontend-start backend-stop backend-start backend-restart backend clean rebuild
+.PHONY: dev-start dev-stop dev monitor-frontend monitor-backend monitor frontend-start backend-stop backend-start backend-restart backend clean rebuild test
 
 backend-start:
 	@ scripts/control/start_backend.sh
@@ -49,3 +49,6 @@ dev: dev-stop dev-start
 db:
 	@ - docker stop sauron_database
 	@ - docker rm sauron_database
+
+test:
+	@ python -m pytest

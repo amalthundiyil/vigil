@@ -8,8 +8,7 @@ from sauron.processor.hosts.github import Github
 from sauron.config import setenv_from_config
 
 
-class Pypi():
-
+class Pypi:
     def __init__(self, name, token=None) -> None:
         self.name = name
         self.token = token
@@ -19,21 +18,24 @@ class Pypi():
 
     @classmethod
     def from_url(cls, url, token):
+        if url.endswith("/"):
+            url = url[:-1]
         repo_url = urlparse(url).path[1:]
         owner, repo = repo_url.split("/")
         return cls(owner, repo, token)
-    
+
     @classmethod
     def from_name(cls, name, token):
         return cls(name, token)
-    
+
     def get_repo(self):
         setenv_from_config("libraries_api_key")
         from pybraries.search import Search
+
         self.search = Search()
-        info = self.search.project('pypi', self.name)
+        info = self.search.project("pypi", self.name)
         return info
-    
+
     def get_repository(self):
         url = self.repo["repository_url"]
         parsed_url = urlparse(url)
@@ -51,17 +53,16 @@ class Pypi():
         now = datetime.now()
         downloads = []
         for k, v in obj["downloads"].items():
-            dt = datetime.strptime(k, '%Y-%m-%d')
+            dt = datetime.strptime(k, "%Y-%m-%d")
             delta = now - dt
             if delta.days <= 7:
-                downloads.append({"downloads": v, "day": k})
+                downloads.append({"downloads": int(v), "day": k})
         self.result.update({"downloads": downloads})
 
-    def get_download_count(self, data):
+    def summarize(self, data):
         total = 0
         for download in data["downloads"]:
-            for k, v in download:
-                total += v
+            total += download["downloads"]
         data["downloads"] = total
         return data
 
@@ -73,9 +74,9 @@ class Pypi():
         self.result.update({"contributors": len(d)})
 
     def dependents(self):
-        d = self.search.project_dependents("pypi", self.name)
+        d = self.search.project_dependent_repositories("pypi", self.name)
         self.result.update({"dependents": len(d)})
-    
+
     def process(self):
         self.stargazers(),
         self.downloads(),
@@ -83,4 +84,3 @@ class Pypi():
         self.forks()
         self.dependents(),
         return self.result
-

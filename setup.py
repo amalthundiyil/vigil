@@ -24,8 +24,7 @@ setup(
     zip_safe=False,
     install_requires=required,
     extras_require={
-        "dev": ["check-manifest"],
-        "test": ["coverage"],
+        "dev": dev_required,
     },
     entry_points={
         "console_scripts": [
