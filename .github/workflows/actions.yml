@@ -45,4 +45,5 @@ jobs:
       - name: Run tests
         run: |
           source venv/bin/activate
+          pip list | grep pytest
           make test
