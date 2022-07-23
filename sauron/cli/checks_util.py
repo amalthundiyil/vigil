@@ -20,7 +20,7 @@ def get_from_config(key, value, silent):
         sys.exit(0)
 
 
-def get_validated_class(domain, url, name, type, token):
+def get_validated_class(domain, url=None, name=None, type=None, token=None):
     try:
         return BaseProcessor.get_processor_class(domain, url, name, type, token)
     except ValidationError as e:
@@ -34,23 +34,40 @@ def get_validated_class(domain, url, name, type, token):
 def process(p, silent):
     if not silent:
         data = p.process()
-        data = p.get_download_count(data)
+        data = p.summarize(data)
         data = transform(data)
         return data
     try:
         data = p.process()
-        data = p.get_download_count(data)
+        data = p.summarize(data)
         data = transform(data)
         return data
     except Exception as e:
         LOG.error(e)
-        click.secho(f"❗ Failed analyzing popularity", fg="red", bold=True)
+        click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(0)
 
 
-def transform(d):
+def transform(o):
+    if type(o) == list:
+        return transform_list(o)
+    elif type(o) == dict:
+        return transform_dict(o)
+
+
+def transform_list(l):
+    new_l = []
+    for d in l:
+        new_l.append(transform_dict(d))
+    return new_l
+
+
+def transform_dict(d):
     new_d = {}
     for old_key, v in d.items():
         new_key = string.capwords(old_key, "_")
+        new_key = " ".join(new_key.split("_"))
         new_d[new_key] = v
     return new_d
+
+

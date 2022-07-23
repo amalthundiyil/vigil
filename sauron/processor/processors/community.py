@@ -4,10 +4,18 @@ import github
 
 
 class CommunityProcessor:
-    def __init__(self, url, token=None) -> None:
-        self.repo_url = urlparse(url).path[1:]
+    def __init__(self, owner, repo, token=None) -> None:
+        self.name = f"{owner}/{repo}"
         self.g = github.Github(token)
-        self.repo = self.g.get_repo(self.repo_url)
+        self.repo = self.g.get_repo(self.name)
+
+    @classmethod
+    def from_url(cls, url, token):
+        if url.endswith("/"):
+            url = url[:-1]
+        repo_url = urlparse(url).path[1:]
+        owner, repo = repo_url.split("/")
+        return cls(owner, repo, token)
 
     def contributors(self):
         return self.repo.get_contributors().totalCount
@@ -18,6 +26,9 @@ class CommunityProcessor:
         except github.UnknownObjectException:
             return "false"
         return "true"
+
+    def summarize(self, data):
+        return data
 
     def process(self):
         return {

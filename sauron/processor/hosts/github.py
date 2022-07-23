@@ -38,9 +38,9 @@ class Github:
             downloads.append(data)
         return downloads
 
-    def get_download_count(self, data):
+    def summarize(self, data):
         # counting downloads as releases for github
-        data["downloads"] = data["downloads"][0]["day"]
+        data["downloads"] = data["downloads"][0]["downloads"]
         return data
 
     def forks(self):

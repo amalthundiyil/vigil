@@ -59,7 +59,7 @@ class Pypi:
                 downloads.append({"downloads": int(v), "day": k})
         self.result.update({"downloads": downloads})
 
-    def get_download_count(self, data):
+    def summarize(self, data):
         total = 0
         for download in data["downloads"]:
             total += download["downloads"]

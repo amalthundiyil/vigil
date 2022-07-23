@@ -1,5 +1,5 @@
 <p align='center'>
-<img width="50%" src='./docs/images/logo.png'>
+<img width="40%" src='./docs/images/logo.png'>
 </p>
 
 <h1>
@@ -30,7 +30,6 @@ TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal pe
 > sudo apt install python3-pip nodejs npm
 > ```
 
-````
 
 4. Python virtual environment
 ```sh
@@ -39,30 +38,23 @@ sudo apt-get install python3.8-dev python3.8-venv
 
 From the project root folder run the following commands:
 
-1. Setup the virtual environment:
 
 ```sh
+# setup the virtual environment
 python3.8 -m venv venv
 source venv/bin/activate
-````
 
-2. Install the developer dependencies:
-
-```sh
+# install the developer dependencies:
 make install-dev
-```
 
-3. Start the backend:
-
-```sh
+# start the backend:
 make backend-start
-```
 
-4. Start the frontend:
-
-```sh
+# start the frontend:
 make frontend-start
 ```
+
+Setup the `sauron.config.json` configuration file with the .
 
 ## Usage
 

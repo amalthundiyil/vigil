@@ -39,5 +39,5 @@ class PopularityProcessor:
     def process(self):
         raise NotImplementedError("No popularity processor for given identifiers.")
 
-    def get_download_count(self, data):
+    def summarize(self, data):
         raise NotImplementedError("No popularity processor for given identifiers.")

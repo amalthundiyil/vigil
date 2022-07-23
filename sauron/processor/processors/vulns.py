@@ -1,31 +1,33 @@
-from concurrent.futures import process
 import os
-import tempfile
 import secrets
+import tempfile
 import json
 from pathlib import Path
 import subprocess
+import shutil
 from urllib.parse import urlparse
-from isort import file
+
 from git import Repo
 
 
-from perceval.backends.core.git import GitRepository
-
-from sauron import ROOT_SAURON_DIRECTORY
-
-
 class VulnsProcessor:
-    def __init__(self, url) -> None:
-        self.url = url
-        self.temp_dir = tempfile.gettempdir()  # why does it work only to with /tmp?
-        self.repo_url = urlparse(url).path[1:]
-        self.repo_name = "_".join(self.repo_url.split("/"))
-        self.repo_path = os.path.join(f"{self.temp_dir}", self.repo_name)
+    def __init__(self, owner, repo) -> None:
+        self.url = f"https://github.com/{owner}/{repo}"
+        self.name = f"{owner}/{repo}"
+        temp_dir = tempfile.gettempdir()  # why does it work only to with /tmp?
+        self.repo_path = os.path.join(f"{temp_dir}", f"{owner}_{repo}_{secrets.token_hex(8)}")
         self.reports_dir = Path(self.repo_path) / "reports"
 
+    @classmethod
+    def from_url(cls, url, token=None):
+        if url.endswith("/"):
+            url = url[:-1]
+        repo_url = urlparse(url).path[1:]
+        owner, repo = repo_url.split("/")
+        return cls(owner, repo)
+
     def process(self):
-        tools = []
+        self.tools = []
         _ = self.run_sast_scan()
         for file in os.listdir(self.reports_dir):
             if not file.startswith("all"):
@@ -53,13 +55,16 @@ class VulnsProcessor:
                         }
                     except:
                         continue
-                    tools.append(tool)
+                    self.tools.append(tool)
+        return self.tools
 
-        return tools
+    def summarize(self, data):
+        return data
 
     def run_sast_scan(self):
         if not os.path.isdir(self.repo_path):
             g = Repo.clone_from(self.url, self.repo_path)
+
         cmd = [
             "docker",
             "run",

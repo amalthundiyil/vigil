@@ -3,8 +3,33 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  unit-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Run Python commands
+        run: |
+          pip install --upgrade pip
+          python3.8 -m venv env
+          source env/bin/activate
+          echo "VIRTUAL ENV:" $VIRTUAL_ENV
+
+      - name: "Install dependencies"
+        run: make install-dev
+
+      - name: "Start server"
+        run: make backend-start
+
+      - name: "Start frontend"
+        run: make frontend-start
+
+      - name: "Run tests"
+        run: |
+          make test
