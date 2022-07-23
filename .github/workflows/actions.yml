@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 jobs:
   build:
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -15,10 +19,10 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Setup Node.js and npm ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: ${{ matrix.node-version }}
 
       - name: Setup virtual environment
         run: |
