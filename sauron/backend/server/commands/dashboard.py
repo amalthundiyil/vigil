@@ -4,7 +4,6 @@ import jwt
 from flask import Blueprint, jsonify, request, current_app, make_response
 
 from sauron.processor.processors.popularity import PopularityProcessor
-from sauron.processor.utils import validate, ValidationError
 from sauron.backend.server.api.errors import (
     BadRequestError,
     NoContentError,
