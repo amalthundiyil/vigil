@@ -24,7 +24,7 @@ setup(
     zip_safe=False,
     install_requires=required,
     extras_require={
-        "dev": ["check-manifest"],
+        "dev": dev_required,
         "test": ["coverage"],
     },
     entry_points={

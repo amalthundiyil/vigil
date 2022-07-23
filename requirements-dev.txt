@@ -29,7 +29,9 @@ beautifulsoup4==4.11.1
 black==22.6.0
     # via -r requirements-dev.in
 build==0.8.0
-    # via pip-tools
+    # via
+    #   check-manifest
+    #   pip-tools
 cereslib==0.3.1
     # via
     #   -r requirements.txt
@@ -49,6 +51,8 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements.txt
     #   requests
+check-manifest==0.48
+    # via -r requirements-dev.in
 click==8.1.3
     # via
     #   -r requirements.txt
@@ -427,6 +431,7 @@ tomli==2.0.1
     #   -r requirements.txt
     #   black
     #   build
+    #   check-manifest
     #   pylint
     #   pytest
 tomlkit==0.11.1
