@@ -12,6 +12,9 @@ from sauron.cli.checks_util import (
     process,
 )
 
+# DOMAINS = ["community", "popularity", "maintainence", "vulnerabilites"]
+DOMAINS = ["community", "popularity", "maintainence"]
+
 LOG = logging.getLogger("sauron.cli.checks")
 
 
@@ -157,8 +160,7 @@ def check(
     else:
         token = get_from_config("github_token")
         click.secho(f"🧐  Running all checks", fg="blue", bold=True)
-        processor_list = ["community", "popularity", "maintainence", "vulnerabilites"]
-        for domain in processor_list:
+        for domain in DOMAINS:
             p = get_validated_class(domain, url, name, type, token)
             click.secho(f"Analyzing {domain}", fg="blue", bold=True)
             data = process(p, True)
