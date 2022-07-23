@@ -30,9 +30,3 @@ def call_and_exit_flag(*args, callback, is_eager=True, **kwargs):
         **kwargs,
     )
 
-def transform(d):
-    new_d = {}
-    for old_key, v in d.items():
-        new_key = string.capwords(old_key, "_")
-        new_d[new_key] = v 
-    return new_d

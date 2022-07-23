@@ -1,13 +1,11 @@
-from flask import Blueprint, jsonify, request, current_app, make_response
-from sauron.backend.server.commands.auth import clear_tokens, refresh_tokens
-from sauron.backend.server.api.errors import (
-    BadRequestError,
-    NoContentError,
-    ForbiddenError,
-    UnauthorizedError,
-)
 from http import HTTPStatus
-import jwt
+
+from flask import Blueprint, jsonify, request, current_app, make_response
+
+from sauron.backend.server.commands.dashboard import (
+    filter_dashboard,
+    process_popularity,
+)
 
 
 dashboard = Blueprint("dashboard", __name__, url_prefix="/api/dashboard")
@@ -15,34 +13,10 @@ dashboard = Blueprint("dashboard", __name__, url_prefix="/api/dashboard")
 
 @dashboard.route("/", methods=["POST"])
 def post():
-    req = request.json
-    url = req["url"]
-    if not url:
-        return jsonify(
-            status_code=HTTPStatus.BAD_REQUEST,
-            message="Please specify a URL",
-            data={},
-        )
-    reports = vulns.process_vulns(url)
+    req = filter_dashboard(request)
+    data = process_popularity(req)
     return jsonify(
-        status_code=HTTPStatus.OK,
-        message=reports,
-        data={},
-    )
-
-
-@dashboard.route("/", methods=["GET"])
-def get():
-    req = request.json
-    url = req["url"]
-    if not url:
-        return jsonify(
-            status_code=HTTPStatus.BAD_REQUEST,
-            message="Please specify a URL",
-            data={},
-        )
-    return jsonify(
-        status_code=HTTPStatus.OK,
-        message=res.stdout,
-        data={},
+        status_code=HTTPStatus.CREATED,
+        message="Request processed successfully",
+        data=data,
     )

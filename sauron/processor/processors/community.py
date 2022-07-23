@@ -1,7 +1,7 @@
-
 from urllib.parse import urlparse
 from datetime import datetime
 import github
+
 
 class CommunityProcessor:
     def __init__(self, url, token=None) -> None:
@@ -11,7 +11,7 @@ class CommunityProcessor:
 
     def contributors(self):
         return self.repo.get_contributors().totalCount
-    
+
     def has_file(self, filename):
         try:
             _ = self.repo.get_contents(filename)
@@ -21,9 +21,8 @@ class CommunityProcessor:
 
     def process(self):
         return {
-            "has_readme" : self.has_file('README.md'),
-            "has_contributing" : self.has_file('CONTRIBUTING.md'),
-            "has_code_of_conduct": self.has_file('CODE_OF_CONDUCT.md'),
-            "contributors": self.contributors()
+            "has_readme": self.has_file("README.md"),
+            "has_contributing": self.has_file("CONTRIBUTING.md"),
+            "has_code_of_conduct": self.has_file("CODE_OF_CONDUCT.md"),
+            "contributors": self.contributors(),
         }
-        

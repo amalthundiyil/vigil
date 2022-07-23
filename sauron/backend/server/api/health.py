@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request, current_app, make_response
 
-from sauron.processor.popularity import PopularityProcessor
+from sauron.processor.processors.popularity import PopularityProcessor
 from sauron.processor.community import CommunityProcessor
 from sauron.backend.server.api.errors import (
     BadRequestError,

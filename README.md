@@ -11,7 +11,6 @@ Sauron - OSS Security Inspector
 <p align='center'>
 <img src="https://github.com/amal-thundiyil/sauron/actions/workflows/actions.yml/badge.svg">
 <a href="https://github.com/amal-thundiyil/sauron/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg">
-<a href="https://github.com/amal-thundiyil/sauron/pulls"><img src="https://img.shields.io/badge/PR-Welcome-brightgreen.svg"></a>
 <img src="https://visitor-badge.laobi.icu/badge?page_id=amal-thundiyil.sauron">
 </p>
 
@@ -21,31 +20,17 @@ Sauron - OSS Security Inspector
 
 TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal people 🙃.
 
-## Prequisites
-
-If you're installing from source code you'll need Git to clone the repository and ...
-
 ## Installation
 
 ### From Source Code
 
-You must have Python and Docker installed to run this project.
+> You will need python3-pip, nodejs, npm and Docker to run the project successfully. You can install it simply by running:
+>
+> ```sh
+> sudo apt install python3-pip nodejs npm
+> ```
 
-### Important packages to ahve beforehand
-1. python3-pip
-```sh
-sudo apt install python3-pip
-```
-
-2. NodeJS
-```sh
-sudo apt install nodejs
-```
-
-3. npm package manager
-```sh
-sudo apt install npm
-```
+````
 
 4. Python virtual environment
 ```sh
@@ -59,7 +44,7 @@ From the project root folder run the following commands:
 ```sh
 python3.8 -m venv venv
 source venv/bin/activate
-```
+````
 
 2. Install the developer dependencies:
 

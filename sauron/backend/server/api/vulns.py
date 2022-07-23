@@ -9,7 +9,7 @@ from sauron.backend.server.api.errors import (
 from http import HTTPStatus
 import jwt
 
-from sauron.processor.vulns import VulnsProcessor
+from sauron.processor.processors.vulns import VulnsProcessor
 
 
 vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")

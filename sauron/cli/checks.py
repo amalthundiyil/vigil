@@ -6,14 +6,16 @@ import pandas as pd
 from tabulate import tabulate
 from rich.console import Console
 
-from sauron.processor.community import CommunityProcessor
-from sauron.processor.maintainence import MaintainenceProcessor
-from sauron.processor.popularity import PopularityProcessor, PopularityTypes
-from sauron.processor.vulns import VulnsProcessor
-from sauron.cli.cli_util import transform
-from sauron.config import get_from_config
+from sauron.processor import BackendTypes
+from sauron.cli.checks_util import (
+    transform,
+    get_from_config,
+    get_validated_class,
+    process,
+)
 
 LOG = logging.getLogger("sauron.cli.checks")
+
 
 @click.group(help="Command to run any or all of the checks and scans.")
 @click.pass_context
@@ -82,28 +84,70 @@ def vulnerabilites(ctx, url):
     click.secho(f"🛡️  Analyzing Vulnerabilites ", fg="blue", bold=True)
     data = v.process()
     if not data:
-        click.secho(
-            f"❗ Failed analyzing vulnerabilties for {url}", fg="red", bold=True
-        )
+        click.secho(f"❗ Failed analyzing vulnerabilties for {url}", fg="red", bold=True)
         sys.exit(0)
     click.secho(f"✅ Completed analysis for {v.repo_url}", fg="green", bold=True)
     df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
     console = Console()
-    console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
-
-
-
+    console.print(
+        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        justify="center",
+    )
 
 
 @check.command(context_settings=dict(ignore_unknown_options=True))
 @click.option("-u", "--url", type=str, help="URL of the package to analyze")
-@click.option("-n", "--name", type=str, help="Name of package to analyze. For GitHub enter <organization>/<repository>")
-@click.option("--type", type=click.Choice([x.value for x in PopularityTypes]), help="Type of package to analyze")
+@click.option(
+    "-n",
+    "--name",
+    type=str,
+    help="Name of package to analyze. For GitHub enter <organization>/<repository>",
+)
+@click.option(
+    "--type",
+    type=click.Choice([x.value for x in BackendTypes]),
+    help="Type of package to analyze",
+)
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.pass_context
 def popularity(ctx, url, name, type, token):
-    token = token if token else get_from_config("github_token")
-    click.secho(f'📈 Analyzing Popularity ', fg="blue", bold=True)
+    token = get_from_config("github_token", token, silent=True)
+    click.secho(f"📈 Analyzing Popularity ", fg="blue", bold=True)
+    p = get_validated_class("popularity", url, name, type, token)
+    data = process(p, True)
+    click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
+    df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
+    console = Console()
+    console.print(
+        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        justify="center",
+    )
+
+
+@check.command(context_settings=dict(ignore_unknown_options=True))
+@click.option("-u", "--url", type=str, help="URL of the package to analyze")
+@click.option(
+    "-n",
+    "--name",
+    type=str,
+    help="Name of package to analyze. For GitHub enter <organization>/<repository>",
+)
+@click.option(
+    "--type",
+    type=click.Choice([x.value for x in BackendTypes]),
+    help="Type of package to analyze",
+)
+@click.option("-t", "--token", type=str, help="API token to increase rate limit.")
+@click.pass_context
+def all(ctx, url, name, type, token):
+    token = get_from_config("github_token")
+    click.secho(f"🧐  Running all checks", fg="blue", bold=True)
+    Processors = [
+        CommunityProcessor,
+        PopularityProcessor,
+        MaintainenceProcessor,
+        VulnsProcessor,
+    ]
     if name and type:
         obj = name
         p = PopularityProcessor.from_name(name, type, token)
@@ -111,7 +155,7 @@ def popularity(ctx, url, name, type, token):
         obj = url
         p = PopularityProcessor.from_url(url, token)
     else:
-        click.secho(f'❗ Missing fields', fg="red", bold=True)
+        click.secho(f"❗ Missing fields", fg="red", bold=True)
         sys.exit(0)
     try:
         data = p.process()
@@ -119,17 +163,12 @@ def popularity(ctx, url, name, type, token):
         data = transform(data)
     except Exception as e:
         LOG.error(e)
-        click.secho(f'❗ Failed analyzing popularity for {obj}', fg="red", bold=True)
+        click.secho(f"❗ Failed analyzing popularity for {obj}", fg="red", bold=True)
         sys.exit(0)
-    click.secho(f'✅️ Completed analysis for {p.name}', fg="green", bold=True)
+    click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
     df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
     console = Console()
-    console.print(tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False), justify="center")
-
-
-
-@check.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("-u", "--url", type=str, help="URL of the repository to analyze")
-@click.pass_context
-def all(ctx, url):
-    click.secho(f"🧐  Running all checks", fg="blue", bold=True)
+    console.print(
+        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        justify="center",
+    )
