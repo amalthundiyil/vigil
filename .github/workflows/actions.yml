@@ -35,12 +35,12 @@ jobs:
       - name: Start server
         run: |
           source venv/bin/activate
-          timeout 1 make backend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+          timeout 10 make backend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
       - name: Start frontend
         run: |
           source venv/bin/activate
-          timeout 1 make frontend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+          timeout 10 make frontend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
       - name: Run tests
         run: |
