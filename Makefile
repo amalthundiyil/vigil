@@ -23,8 +23,8 @@ chmod:
 	@ chmod +x scripts/*/*
 
 pip-compile:
-	pip-compile -v requirements-dev.in
-	pip-compile -v requirements.in
+	@ pip-compile -v requirements-dev.in
+	@ pip-compile -v requirements.in
 
 #
 #  Development
@@ -51,4 +51,4 @@ db:
 	@ - docker rm sauron_database
 
 test:
-	pytest
+	@ pytest
