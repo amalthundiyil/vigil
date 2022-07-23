@@ -8,5 +8,10 @@ echo
 target=$1
 
 cd "sauron/frontend"
-npm install 
+if [ $GITHUB_ACTIONS ]; then
+    npm ci 
+else
+    npm install
+fi
+
 cd "../.."
