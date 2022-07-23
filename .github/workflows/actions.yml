@@ -1,4 +1,4 @@
-name: build
+name: CI
 
 on: [push, pull_request]
 
@@ -14,22 +14,30 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Run Python commands
+
+      - name: Setup virtual environment
         run: |
           pip install --upgrade pip
-          python3.8 -m venv env
-          source env/bin/activate
-          echo "VIRTUAL ENV:" $VIRTUAL_ENV
+          python3.8 -m venv venv
+          source venv/bin/activate
+          echo "VIRTUAL ENV" $VIRTUAL_ENV
 
-      - name: "Install dependencies"
-        run: make install-dev
-
-      - name: "Start server"
-        run: make backend-start
-
-      - name: "Start frontend"
-        run: make frontend-start
-
-      - name: "Run tests"
+      - name: Install dependencies
         run: |
+          source venv/bin/activate
+          make install-dev
+
+      - name: Start server
+        run: |
+          source venv/bin/activate
+          make backend-start
+
+      - name: Start frontend
+        run: |
+          source venv/bin/activate
+          make frontend-start
+
+      - name: Run tests
+        run: |
+          source venv/bin/activate
           make test

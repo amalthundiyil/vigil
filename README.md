@@ -27,17 +27,10 @@ TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal pe
 > You will need python3-pip, nodejs, npm and Docker to run the project successfully. You can install it simply by running:
 >
 > ```sh
-> sudo apt install python3-pip nodejs npm
+> sudo apt install python3-pip python3.8-dev python3.8-venv nodejs npm
 > ```
 
-
-4. Python virtual environment
-```sh
-sudo apt-get install python3.8-dev python3.8-venv
-```
-
 From the project root folder run the following commands:
-
 
 ```sh
 # setup the virtual environment
@@ -54,7 +47,7 @@ make backend-start
 make frontend-start
 ```
 
-Setup the `sauron.config.json` configuration file with the .
+Setup the `sauron.config.json` configuration file with the desired configuration values.
 
 ## Usage
 
@@ -65,11 +58,10 @@ $ sauron --help
 Usage: sauron [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --version      Show version information and exit.
-  -v, --verbose  Repeat for more verbosity
-  --help         Show this message and exit.
+  --version  Show version information and exit.
+  --help     Show this message and exit.
 
 Commands:
-  check  Command to run any or all of the checks and scans.
+  check  Run different all (default) or specified checks
   db     Command to manage the database
 ```
