@@ -25,7 +25,6 @@ setup(
     install_requires=required,
     extras_require={
         "dev": dev_required,
-        "test": ["coverage"],
     },
     entry_points={
         "console_scripts": [
