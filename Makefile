@@ -51,4 +51,4 @@ db:
 	@ - docker rm sauron_database
 
 test:
-	@ pytest
+	@ python -m pytest
