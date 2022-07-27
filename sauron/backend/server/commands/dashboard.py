@@ -3,7 +3,7 @@ from http import HTTPStatus
 import jwt
 from flask import Blueprint, jsonify, request, current_app, make_response
 
-from sauron.processor.base import BaseProcessor, ValidationError
+from sauron.processor.base_processor import BaseProcessor, ValidationError
 from sauron.backend.server.api.errors import (
     BadRequestError,
     NoContentError,

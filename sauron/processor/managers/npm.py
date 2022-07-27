@@ -62,7 +62,7 @@ class Npm:
 
     def contributors(self):
         if type(self.g) == Github:
-            self.result.update({"contributors": self.g.contributors()})
+            self.result.update({"contributors": self.g.get_contributors()})
         else:
             self.result.update({"contributors": len(self.repo["users"])})
 

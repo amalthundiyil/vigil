@@ -23,3 +23,6 @@ def cli(ctx):
 
 cli.add_command(check)
 cli.add_command(db)
+
+if __name__ == '__main__':
+    cli()  

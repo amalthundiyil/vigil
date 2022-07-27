@@ -13,3 +13,5 @@ gitpython
 requests
 rich
 pybraries
+codeowners
+numpy
