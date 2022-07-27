@@ -1,17 +1,27 @@
-from sauron.processor.processors.community import CommunityProcessor
-from sauron.processor.processors.maintainence import MaintainenceProcessor
-from sauron.processor.processors.popularity import PopularityProcessor
-from sauron.processor.processors.vulns import VulnsProcessor
-from sauron.processor import BackendTypes
+import logging
+
+from sauron.processor.base_backend import BackendTypes
+from sauron.processor.base_backend import BaseBackend
+
+LOG = logging.getLogger("sauron.processor.base_processor")
 
 
 class BaseProcessor:
 
-    name = None
-    url = None
+    def __init__(self, name, type, url, backend) -> None:
+        self.name = name
+        self.type = type
+        self.url = url
+        self.backend = backend
+
 
     @classmethod
     def get_processor_class(cls, domain, url, name, type, token):
+        from sauron.processor.processors.community import CommunityProcessor
+        from sauron.processor.processors.maintainence import MaintainenceProcessor
+        from sauron.processor.processors.popularity import PopularityProcessor
+        from sauron.processor.processors.vulns import VulnsProcessor
+
         mapping = {
             "community": CommunityProcessor,
             "maintainence": MaintainenceProcessor,
@@ -22,26 +32,16 @@ class BaseProcessor:
         return cls.from_input(c, url, name, type, token)
 
     @staticmethod
-    def from_input(klass, url, name, type, token) -> None:
-        validate(url, name, type)
-        if name and type:
-            return klass.from_name(name, type, token)
-        elif url:
-            return klass.from_url(url, token)
-
-    @classmethod
-    def from_url(cls, url, token) -> None:
-        raise NotImplementedError("No popularity processor for given identifiers.")
-
-    @classmethod
-    def from_name(cls, name, type, token) -> None:
-        raise NotImplementedError("No popularity processor for given identifiers.")
+    def from_input(cls, *args, **kwargs) -> None:
+        backend = BaseBackend.from_input(*args, **kwargs)
+        obj = cls(backend.name, backend.type, backend.url, backend)
+        return obj
 
     def process(self):
-        raise NotImplementedError("No popularity processor for given identifiers.")
+        raise NotImplementedError("No processor for given identifiers.")
 
     def summarize(self, data):
-        raise NotImplementedError("No popularity processor for given identifiers.")
+        raise NotImplementedError("No processor for given identifiers.")
 
 
 class ValidationError(Exception):

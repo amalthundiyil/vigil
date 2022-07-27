@@ -1,9 +1,11 @@
 import logging
-import click
 import sys
 import string
 
-from sauron.processor.base import BaseProcessor, ValidationError
+import click
+import pandas as pd
+
+from sauron.processor.base_processor import BaseProcessor, ValidationError
 from sauron import config
 
 LOG = logging.getLogger("sauron.cli.checks")
@@ -31,35 +33,30 @@ def get_validated_class(domain, url=None, name=None, type=None, token=None):
         sys.exit(0)
 
 
-def process(p, silent):
+def full_process(p, silent):
     if not silent:
         data = p.process()
-        data = p.summarize(data)
-        data = transform(data)
-        return data
+        df = transform(data)
+        return df
     try:
         data = p.process()
-        data = p.summarize(data)
-        data = transform(data)
-        return data
+        df = transform(data)
+        return df
     except Exception as e:
         LOG.error(e)
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(0)
 
 
-def transform(o):
-    if type(o) == list:
-        return transform_list(o)
-    elif type(o) == dict:
-        return transform_dict(o)
-
-
-def transform_list(l):
-    new_l = []
+def transform(l):
+    frames = []
     for d in l:
-        new_l.append(transform_dict(d))
-    return new_l
+        nd = transform_dict(d)
+        frames.append(pd.DataFrame.from_dict(nd, orient='index'))
+    df = pd.concat(frames)
+    df.rename_axis("Metrics", inplace=True)
+    df.rename(columns={"score": "Score", "description": "Description"}, inplace=True)
+    return df
 
 
 def transform_dict(d):

@@ -1,39 +1,35 @@
-from urllib.parse import urlparse
-from datetime import datetime
-import github
+from sauron.processor.base_processor import BaseProcessor
+from sauron.processor.metrics.community import activity
 
 
-class CommunityProcessor:
-    def __init__(self, owner, repo, token=None) -> None:
-        self.name = f"{owner}/{repo}"
-        self.g = github.Github(token)
-        self.repo = self.g.get_repo(self.name)
+class CommunityProcessor(BaseProcessor):
+    def get_activity_score(self):
+        data = {
+            "updated_since": self.backend.updated_since,
+            "created_since": self.backend.created_since,
+            "maintainer_count": self.backend.maintainer_count,
+            "contributor_count": self.backend.contributor_count,
+            "commit_frequency": self.backend.commit_frequency,
+            "comment_frequency": self.backend.comment_frequency,
+            "closed_issues_count": self.backend.closed_issues_count,
+            "updated_issues_count": self.backend.updated_issues_count,
+        }
+        return activity.summarize_score(data)
 
-    @classmethod
-    def from_url(cls, url, token):
-        if url.endswith("/"):
-            url = url[:-1]
-        repo_url = urlparse(url).path[1:]
-        owner, repo = repo_url.split("/")
-        return cls(owner, repo, token)
+    def get_activity_description(self):
+        return activity.summarize_description()
 
-    def contributors(self):
-        return self.repo.get_contributors().totalCount
-
-    def has_file(self, filename):
-        try:
-            _ = self.repo.get_contents(filename)
-        except github.UnknownObjectException:
-            return "false"
-        return "true"
+    def get_activity(self):
+        activity = {
+            "score": self.get_activity_score(),
+            "description": self.get_activity_description(),
+        }
+        return activity
 
     def summarize(self, data):
-        return data
+        return self.data
 
     def process(self):
-        return {
-            "has_readme": self.has_file("README.md"),
-            "has_contributing": self.has_file("CONTRIBUTING.md"),
-            "has_code_of_conduct": self.has_file("CODE_OF_CONDUCT.md"),
-            "contributors": self.contributors(),
-        }
+        activity = self.get_activity()
+        self.data = [{"community_activity": activity}]
+        return self.data
