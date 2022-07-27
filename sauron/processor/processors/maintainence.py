@@ -1,45 +1,36 @@
-from urllib.parse import urlparse
-from datetime import datetime
-from github import Github
+from sauron.processor.base_processor import BaseProcessor
+from sauron.processor.metrics import maintainence 
 
 
-class MaintainenceProcessor:
-    def __init__(self, owner, repo, token=None) -> None:
-        self.name = f"{owner}/{repo}"
-        self.g = Github(token)
-        self.repo = self.g.get_repo(self.name)
+class MaintainenceProcessor(BaseProcessor):
+    def get_activity_score(self):
+        data = {
+            "updated_since": self.backend.updated_since,
+            "created_since": self.backend.created_since,
+            "commit_frequency": self.backend.commit_frequency,
+            "comment_frequency": self.backend.comment_frequency,
+            "closed_issues_count": self.backend.closed_issues_count,
+            "updated_issues_count": self.backend.updated_issues_count,
+            "code_review_count": self.backend.code_review_count,
+            "issue_age": self.backend.issue_age,
+            "downloads": self.backend.downloads,
+        }
+        return maintainence.summarize_score(data)
 
-    @classmethod
-    def from_url(cls, url, token):
-        if url.endswith("/"):
-            url = url[:-1]
-        repo_url = urlparse(url).path[1:]
-        owner, repo = repo_url.split("/")
-        return cls(owner, repo, token)
+    def get_activity_description(self):
+        return maintainence.summarize_description()
 
-    def latest_release(self):
-        latest_release = self.repo.get_releases()[0].created_at
-        if type(latest_release) != datetime:
-            return "Eternity"
-        now = datetime.now().date()
-        delta = now - latest_release.date()
-        return delta.days
+    def get_activity(self):
+        activity = {
+            "score": self.get_activity_score(),
+            "description": self.get_activity_description(),
+        }
+        return activity
 
-    def latest_commit(self):
-        latest_commit = self.repo.get_commits()[0].commit.committer.date
-        if type(latest_commit) != datetime:
-            return "Eternity"
-        now = datetime.now().date()
-        delta = now - latest_commit.date()
-        return delta.days
-    
-    def summarize(self,data):
-        return data
+    def summarize(self, data):
+        return self.data
 
     def process(self):
-        return {
-            "open_issues": self.repo.get_issues(state="open").totalCount,
-            "open_pr": self.repo.get_pulls(state="open").totalCount,
-            "latest_commit": self.latest_commit(),
-            "latest_release": self.latest_release(),
-        }
+        activity = self.get_activity()
+        self.data = [{"maintainence_activity": activity}]
+        return self.data

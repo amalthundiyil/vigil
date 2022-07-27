@@ -50,6 +50,15 @@ class Github(BaseBackend):
             return False
         return True
 
+    def downloads_data(self):
+        downloads = []
+        for release in self.repo.get_releases():
+            data = {"downloads": 0, "day": release.created_at}
+            data["day"] = datetime.strftime(data["day"], "%Y-%m-%d-%H-%M")
+            for asset in release.get_assets():
+                data["downloads"] += asset.download_count
+            downloads.append(data)
+        return downloads
 
     @classmethod
     def from_name(cls, name, token):
@@ -62,15 +71,11 @@ class Github(BaseBackend):
 
     @property
     def downloads(self):
-        downloads = []
-        for release in self.repo.get_releases():
-            data = {"downloads": 0, "day": release.created_at}
-            data["day"] = datetime.strftime(data["day"], "%Y-%m-%d-%H-%M")
-            for asset in release.get_assets():
-                data["downloads"] += asset.download_count
-            downloads.append(data)
-        return downloads
-
+        total = 0
+        data = self.downloads_data()
+        for d in data:
+            total += d["downloads"]
+        return total
     
     @property
     def forks(self):
@@ -136,6 +141,33 @@ class Github(BaseBackend):
         now = datetime.now()
         latest_issues = [i for i in sorted_issues if (now - i.updated_at).days <= 90]
         return len(latest_issues)
+
+    @property
+    def code_review_count(self):
+        now = datetime.now()
+        review_comments = self.repo.get_pulls_review_comments(since=(now - timedelta(days=90)))
+        review_comments_list = list(review_comments)
+        s = {}
+        for r in review_comments_list:
+            s[r.pull_request_url] = s.get(r.pull_request_url, 0) + 1
+        if not s:
+            return 0
+        code_review_count = sum(s.values()) // len(s)
+        return code_review_count
+
+    @property
+    def issue_age(self):
+        now = datetime.now()
+        issues = self.repo.get_issues(since=(now - timedelta(days=90)))
+        issue_list = list(issues)
+        if not issue_list:
+            return 0
+        issue_age = 0
+        for i in issue_list:
+            date_closed = datetime.now() if not i.closed_at else i.closed_at
+            issue_age += (date_closed - i.created_at).days
+        avg_issue_age = issue_age / len(issue_list)
+        return avg_issue_age
 
     @property 
     def comments(self):
