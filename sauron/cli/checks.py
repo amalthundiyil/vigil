@@ -44,13 +44,13 @@ def community(ctx, url, name, type, token):
 
 def maintainence(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
-    click.secho(f"️🛠️  Analyzing Maintainence", fg="blue", bold=True)
+    click.secho(f"️🛠️  Analyzing Maintainence", fg="yellow", bold=True)
     p = get_validated_class("maintainence", url, name, type, token)
     df = full_process(p, True)
     click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print(
-        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        tabulate(df, headers="keys", tablefmt="fancy_grid"),
         justify="center",
     )
 

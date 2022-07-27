@@ -1,5 +1,5 @@
 from sauron.processor.base_processor import BaseProcessor
-from sauron.processor.metrics.community import activity
+from sauron.processor.metrics import community
 
 
 class CommunityProcessor(BaseProcessor):
@@ -14,10 +14,10 @@ class CommunityProcessor(BaseProcessor):
             "closed_issues_count": self.backend.closed_issues_count,
             "updated_issues_count": self.backend.updated_issues_count,
         }
-        return activity.summarize_score(data)
+        return community.summarize_score(data)
 
     def get_activity_description(self):
-        return activity.summarize_description()
+        return community.summarize_description()
 
     def get_activity(self):
         activity = {

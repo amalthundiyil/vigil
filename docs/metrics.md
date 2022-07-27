@@ -12,14 +12,16 @@
 - created_since : Determine the average time per repository since a repository was created (in months).
 - comment_frequency : Determine the average number of comments per issue in the last 90 days.
 - updated_issues_count : Determine the number of issues updated in the last 90 days.
-- recent_releases_count : Determine the number of releases in the last year
+- recent_releases_count : Determine the number of releases in the last year.
 
-**Contribution Attribution**
+**Change Request Reviews**
 
-- code_review_count : Determine the average number of review comments per pull request in the last 90 days
+- code_review_count : Determine the average number of review comments per pull request in the last 90 days.
 
-- closed_issues_count : Determine the number of issues closed in the last 90 day
-- Issue Age:
+**Issues Closed**
+
+- closed_issues_count : Determine the number of issues closed in the last 90 days.
+- issue_age: Determine the open issue and the age of each open issue.
 
 ## Community Metrics
 
