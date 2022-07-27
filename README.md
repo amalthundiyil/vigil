@@ -10,7 +10,7 @@ Sauron - OSS Security Inspector
 
 <p align='center'>
 <img src="https://github.com/amal-thundiyil/sauron/actions/workflows/actions.yml/badge.svg">
-<a href="https://github.com/amal-thundiyil/sauron/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg">
+<a href="https://github.com/amal-thundiyil/sauron/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg"></a>
 <img src="https://visitor-badge.laobi.icu/badge?page_id=amal-thundiyil.sauron">
 </p>
 
@@ -24,10 +24,10 @@ TL;DR - Sauron is a Swiss Army knife for DevSecOps engineers, and also normal pe
 
 ### From Source Code
 
-> You will need python3-pip, nodejs, npm and Docker to run the project successfully. You can install it simply by running:
+> 💡 You will need Python, Node and Docker to run the project successfully. You can install it simply by running:
 >
 > ```sh
-> sudo apt install python3-pip python3.8-dev python3.8-venv nodejs npm
+> sudo apt install python3.8 python3.8-dev python3.8-venv python3-pip nodejs npm
 > ```
 
 From the project root folder run the following commands:
