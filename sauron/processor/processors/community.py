@@ -5,14 +5,10 @@ from sauron.processor.metrics import community
 class CommunityProcessor(BaseProcessor):
     def get_activity_score(self):
         data = {
-            "updated_since": self.backend.updated_since,
-            "created_since": self.backend.created_since,
             "maintainer_count": self.backend.maintainer_count,
+            "org_count": self.backend.org_count,
             "contributor_count": self.backend.contributor_count,
-            "commit_frequency": self.backend.commit_frequency,
-            "comment_frequency": self.backend.comment_frequency,
-            "closed_issues_count": self.backend.closed_issues_count,
-            "updated_issues_count": self.backend.updated_issues_count,
+            "dependents_count": self.backend.dependents_count,
         }
         return community.summarize_score(data)
 

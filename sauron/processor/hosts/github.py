@@ -101,7 +101,7 @@ class Github(BaseBackend):
         return owners
 
     @property
-    def dependents(self):
+    def dependents_count(self):
         return self.repo.network_count
     
     @property
@@ -173,3 +173,11 @@ class Github(BaseBackend):
     def comments(self):
         return self.repo.get_comments()
 
+    @property
+    def org_count(self):
+        users = self.repo.get_contributors()
+        orgs = set()
+        for u in users:
+            for o in u.get_orgs():
+                orgs.add(o)
+        return len(orgs) 
