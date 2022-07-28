@@ -24,6 +24,11 @@ class Github(BaseBackend):
         self.security_metrics = None
 
     @classmethod
+    def from_name(cls, name, token):
+        owner, repo = name.split("/")
+        return cls(owner, repo, token)
+
+    @classmethod
     def from_url(cls, url, token):
         if url.endswith("/"):
             url = url[:-1]
@@ -33,10 +38,6 @@ class Github(BaseBackend):
             repo = repo[:-4]
         return cls(owner, repo, token)
     
-    def summarize(self, data):
-        # counting downloads as releases for github
-        data["downloads"] = data["downloads"][0]["downloads"]
-        return data
 
     def has_file(self, filename):
         try:
@@ -93,15 +94,7 @@ class Github(BaseBackend):
             self.security_metrics.append(payload)
         return self.security_metrics
 
-    @classmethod
-    def from_name(cls, name, token):
-        owner, repo = name.split("/")
-        return cls(owner, repo, token)
     
-    @property
-    def stargazers(self):
-        return self.repo.stargazers_count
-
     @property
     def downloads(self):
         total = 0
@@ -132,7 +125,6 @@ class Github(BaseBackend):
             for p in c.paths:
                 owners += len(p[2])
         return owners
-
 
     
     @property

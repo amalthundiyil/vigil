@@ -60,6 +60,6 @@ if [[ ! -d logs ]]; then
 fi
 
 if [ ! -x "$(command -v docker)" ]; then
-    echo "You need to install docker to run Sauron."
+    echo "You need to install docker to run Sauron"
     exit 1
 fi
