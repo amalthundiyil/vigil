@@ -48,11 +48,11 @@ class BaseBackend:
         from sauron.processor.managers.pypi import Pypi
         b = None
         netloc = urlparse(url).netloc
-        if netloc == BackendUrls.npm_url:
+        if BackendUrls.npm_url in netloc:
             b = Npm.from_url(url, token)
-        elif netloc == BackendUrls.github_url:
+        elif BackendUrls.github_url in netloc:
             b = Github.from_url(url, token)
-        elif netloc == BackendUrls.pypi_url:
+        elif BackendUrls.pypi_url in netloc:
             b = Pypi.from_url(url, token)
         return b
 
@@ -72,6 +72,16 @@ class BaseBackend:
 
     def get_repo(self):
         raise NotImplementedError("BaseManager cannot get repo")
+    
+    @property
+    def get_downloads_data(self):
+        if self.host:
+            return self.host.get_downloads_data()
+
+    @property
+    def commit_frequency_data(self):
+        if self.host:
+            return self.host.commit_frequency_data()
 
     @property
     def downloads(self):
