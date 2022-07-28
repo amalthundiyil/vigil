@@ -33,16 +33,6 @@ class Github(BaseBackend):
             repo = repo[:-4]
         return cls(owner, repo, token)
     
-    def process(self):
-        return {
-            "stars": self.stargazers(),
-            "downloads": self.downloads(),
-            "forks": self.forks(),
-            "contributors": self.get_contributors(),
-            "dependents": self.dependents(),
-        }
-
-
     def summarize(self, data):
         # counting downloads as releases for github
         data["downloads"] = data["downloads"][0]["downloads"]
