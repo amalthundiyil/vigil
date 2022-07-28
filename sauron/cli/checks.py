@@ -10,6 +10,7 @@ from sauron.cli.checks_util import (
     get_from_config,
     get_validated_class,
     full_process,
+    summarize,
 )
 
 # DOMAINS = ["community", "popularity", "maintainence", "vulnerabilites"]
@@ -34,12 +35,15 @@ def community(ctx, url, name, type, token):
     click.secho(f"️🌏  Analyzing Community", fg="blue", bold=True)
     p = get_validated_class("community", url, name, type, token)
     df = full_process(p, True)
+    s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print(
-        tabulate(df, headers="keys", tablefmt="fancy_grid"),
-        justify="center",
+        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        justify="center", 
     )
+    click.secho(f'🚩 Aggregate score: {s["score"]}')
+    click.secho(f'📜 Aggregate summary: {s["description"]}')
 
 
 def maintainence(ctx, url, name, type, token):
