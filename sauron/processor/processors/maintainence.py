@@ -13,7 +13,6 @@ class MaintainenceProcessor(BaseProcessor):
             "updated_issues_count": self.backend.updated_issues_count,
             "code_review_count": self.backend.code_review_count,
             "issue_age": self.backend.issue_age,
-            "downloads": self.backend.downloads,
         }
         res = {"score": maintainence.summarize_score(data), "description": maintainence.summarize_description(data)}
         return res
@@ -28,7 +27,6 @@ class MaintainenceProcessor(BaseProcessor):
             "updated_issues_count": self.backend.updated_issues_count,
             "code_review_count": self.backend.code_review_count,
             "issue_age": self.backend.issue_age,
-            "downloads": self.backend.downloads,
         }
         metrics = []
         scores = []
@@ -38,4 +36,9 @@ class MaintainenceProcessor(BaseProcessor):
             scores.append(maintainence.get_param_score(k, v))
             descs.append(maintainence.get_param_description(k, v))
         return {"metrics": metrics, "score": scores, "description": descs}
-
+    
+    def server_ts(self):
+        data = {
+            "commit_frequency": self.backend.commit_frequency_data()
+        }
+        return data

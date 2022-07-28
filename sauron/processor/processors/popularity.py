@@ -9,6 +9,7 @@ class PopularityProcessor(BaseProcessor):
             "followers_count": self.backend.followers_count,
             "reactions_count": self.backend.reactions_count,
             "dependents_count": self.backend.dependents_count,
+            "downloads": self.backend.downloads,
         }
         res = {"score": popularity.summarize_score(data), "description": popularity.summarize_description(data)}
         return res
@@ -20,6 +21,7 @@ class PopularityProcessor(BaseProcessor):
             "followers_count": self.backend.followers_count,
             "reactions_count": self.backend.reactions_count,
             "dependents_count": self.backend.dependents_count,
+            "downloads": self.backend.downloads,
         }
         metrics = []
         scores = []
@@ -30,4 +32,9 @@ class PopularityProcessor(BaseProcessor):
             descs.append(popularity.get_param_description(k, v))
         return {"metrics": metrics, "score": scores, "description": descs}
 
+    def server_ts(self):
+        data = {
+            "downloads": self.backend.downloads_data(),
+        }
+        return data
 

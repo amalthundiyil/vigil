@@ -38,6 +38,9 @@ class BaseProcessor:
 
     def process(self):
         raise NotImplementedError("No processor for given identifiers.")
+    
+    def server_ts(self):
+        return None
 
     def summarize(self, data):
         raise NotImplementedError("No processor for given identifiers.")

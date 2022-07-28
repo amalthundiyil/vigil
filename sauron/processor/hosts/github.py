@@ -71,6 +71,15 @@ class Github(BaseBackend):
                 data["downloads"] += asset.download_count
             downloads.append(data)
         return downloads
+    
+    def commit_frequency_data(self):
+        data = self.repo.get_stats_participation().all
+        now = datetime.today()
+        new_data = []
+        for i in range(0, 13):
+            week = now - timedelta(weeks=i)
+            new_data.append({"commits": data[i], "day": week.strftime("%Y-%m-%d-%H-%M")})
+        return new_data
 
     def security(self):
         if self.security_metrics is not None:
