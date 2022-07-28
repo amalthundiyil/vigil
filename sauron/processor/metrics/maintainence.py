@@ -1,116 +1,53 @@
 import math
 
-COMMIT_FREQUENCY_WEIGHT_ACTIVITY = 0.18009
-UPDATED_SINCE_WEIGHT_ACTIVITY = -0.12742
-CODE_REVIEW_COUNT_WEIGHT_ACTIVITY = 0.04919
-CLOSED_ISSUES_WEIGHT_ACTIVITY = 0.04919
-ISSUE_AGE_ACTIVITY = 0.04919
-UPDATED_ISSUES_WEIGHT_ACTIVITY = 0.04919
-COMMENT_FREQUENCY_WEIGHT_ACTIVITY = 0.07768
-RECENT_RELEASES_WEIGHT_ACTIVITY = 0.03177
-CREATED_SINCE_WEIGHT_ACTIVITY = 0.07768
+from sauron.processor.metrics.community import THRESHOLDS
+
+WEIGHTS = {
+"commit_frequency" : 0.18009,
+"updated_since" : -0.12742,
+"code_review_count" : 0.04919,
+"closed_issues_count" : 0.04919,
+"issue_age" : 0.04919,
+"updated_issues_count" : 0.04919,
+"comment_frequency" : 0.07768,
+"downloads" : 0.03177,
+"created_since" : 0.07768,
+}
 
 # Max thresholds for various parameters.
-CODE_REVIEW_COUNT_THRESHOLD_ACTIVITY = 15
-CREATED_SINCE_THRESHOLD_ACTIVITY = 120
-UPDATED_SINCE_THRESHOLD_ACTIVITY = 12
-COMMIT_FREQUENCY_THRESHOLD_ACTIVITY = 1000
-RECENT_RELEASES_THRESHOLD_ACTIVITY = 26
-CLOSED_ISSUES_THRESHOLD_ACTIVITY = 1000
-UPDATED_ISSUES_THRESHOLD_ACTIVITY = 1000
-ISSUE_AGE_THRESHOLD_ACTIVITY = 1000
-COMMENT_FREQUENCY_THRESHOLD_ACTIVITY = 15
+THRESHOLDS = {
+"code_review_count" : 15,
+"created_since" : 120,
+"updated_since" : 12,
+"commit_frequency" : 1000,
+"downloads" : 26,
+"closed_issues_count" : 1000,
+"updated_issues_count" : 1000,
+"issue_age" : 1000,
+"comment_frequency" : 15,
+}
 
 
-def get_param_score(param, max_value, weight=1):
+def get_param_score(key, value):
     """Return paramater score given its current value, max value and
     parameter weight."""
-    return (math.log(1 + param) / math.log(1 + max(param, max_value))) * weight
+    max_value = THRESHOLDS[key]
+    weight = WEIGHTS[key]
+    return (math.log(1 + value) / math.log(1 + max(value, max_value))) * weight
 
+def get_param_description(key, value):
+    return f"{key} got a score of {value}"
 
-def summarize_score(item):
-    total_weight_ACTIVITY = (
-        CREATED_SINCE_WEIGHT_ACTIVITY
-        + UPDATED_SINCE_WEIGHT_ACTIVITY
-        + CODE_REVIEW_COUNT_WEIGHT_ACTIVITY
-        + COMMIT_FREQUENCY_WEIGHT_ACTIVITY
-        + CLOSED_ISSUES_WEIGHT_ACTIVITY
-        + UPDATED_ISSUES_WEIGHT_ACTIVITY
-        + COMMENT_FREQUENCY_WEIGHT_ACTIVITY
-        + RECENT_RELEASES_WEIGHT_ACTIVITY
-        + ISSUE_AGE_ACTIVITY
-    )
-    criticality_score = round(
-        (
-            (
-                get_param_score(
-                    item["updated_since"],
-                    UPDATED_SINCE_THRESHOLD_ACTIVITY,
-                    UPDATED_SINCE_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["created_since"],
-                    CREATED_SINCE_THRESHOLD_ACTIVITY,
-                    CREATED_SINCE_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["commit_frequency"],
-                    COMMIT_FREQUENCY_THRESHOLD_ACTIVITY,
-                    COMMIT_FREQUENCY_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["comment_frequency"],
-                    COMMENT_FREQUENCY_THRESHOLD_ACTIVITY,
-                    COMMENT_FREQUENCY_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["closed_issues_count"],
-                    CLOSED_ISSUES_THRESHOLD_ACTIVITY,
-                    CLOSED_ISSUES_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["updated_issues_count"],
-                    UPDATED_ISSUES_THRESHOLD_ACTIVITY,
-                    UPDATED_ISSUES_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["code_review_count"],
-                    CODE_REVIEW_COUNT_THRESHOLD_ACTIVITY,
-                    CODE_REVIEW_COUNT_WEIGHT_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["issue_age"],
-                    ISSUE_AGE_THRESHOLD_ACTIVITY,
-                    ISSUE_AGE_ACTIVITY,
-                )
-            )
-            + (
-                get_param_score(
-                    item["downloads"],
-                    RECENT_RELEASES_THRESHOLD_ACTIVITY,
-                    RECENT_RELEASES_WEIGHT_ACTIVITY,
-                )
-            )
-        )
-        / total_weight_ACTIVITY,
-        5,
-    )
+def summarize_score(data):
+    total = sum([v for k, v in WEIGHTS.items()])
+    total_score = 0
+    for k, v in data.items():
+        total_score += get_param_score(k, v)
+    criticality_score = round(total_score / total, 5)
     return criticality_score
 
 
-def summarize_description():
-    return ""
+def summarize_description(data):
+    s = summarize_score(data)
+    return f"Got score of {s}/1"
+
