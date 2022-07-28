@@ -204,10 +204,10 @@ class Github(BaseBackend):
         max_len = min(15, len(c_stats))
         sorted_c_stats = sorted(c_stats, key=operator.attrgetter("total"), reverse=True)[:max_len]
         top_commits = [u.total for u in sorted_c_stats]
-        avg_commits = sum(top_commits) // max_len
+        commits = sum(top_commits) // 2
         bus = 0
         for i in top_commits:
-            if i > avg_commits:
+            if i > commits:
                 bus += 1
         return bus
 

@@ -38,14 +38,14 @@ def full_process(p, silent):
         data = p.process()
         df = transform(data)
         return df
-    try:
-        data = p.process()
-        df = transform(data)
-        return df
-    except Exception as e:
-        LOG.error(e)
-        click.secho(f"❗ Failed: {e}", fg="red", bold=True)
-        sys.exit(0)
+    # try:
+    data = p.process()
+    df = transform(data)
+    return df
+    # except Exception as e:
+    #     LOG.error(e)
+    #     click.secho(f"❗ Failed: {e}", fg="red", bold=True)
+    #     sys.exit(0)
 
 
 def transform(l):
