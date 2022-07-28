@@ -6,6 +6,7 @@ WEIGHTS = {
 "stars_count" : 0.3090,
 "reactions_count" : 0.3090,
 "dependents_count" : 0.3090,
+"downloads" : 0.03177,
 }
 
 # Max thresholds for various parameters.
@@ -15,8 +16,8 @@ THRESHOLDS = {
 "stars_count" : 500000,
 "reactions_count" : 500000,
 "dependents_count" : 500000,
+"downloads" : 26,
 }
-
 
 
 def get_param_score(key, value):
