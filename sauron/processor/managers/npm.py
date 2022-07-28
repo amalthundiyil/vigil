@@ -39,40 +39,34 @@ class Npm:
         if "github" in parsed_url.netloc:
             self.g = Github.from_url(url, self.token)
 
+    @property
     def stargazers(self):
         if type(self.g) == Github:
-            self.result.update({"stargazers": self.g.stargazers()})
+            return self.g.stargazers
+        return None
 
+    @property
     def downloads(self):
         r = requests.get(f"https://api.npmjs.org/downloads/range/last-week/{self.name}")
         if r.status_code < 400 and r.status_code >= 200:
             obj = r.json()
-            self.result.update({"downloads": obj["downloads"]})
+            return obj["downloads"]
+        if type(self.g) == Github:
+            return self.g.downloads
+        return None
 
-    def summarize(self, data):
-        total = 0
-        for download in data["downloads"]:
-            total += download["downloads"]
-        data["downloads"] = total
-        return data
-
+    @property
     def forks(self):
         if type(self.g) == Github:
-            self.result.update({"forks": self.g.forks()})
+            return self.g.forks
+        return None
 
-    def contributors(self):
+    @property
+    def contributor_count(self):
         if type(self.g) == Github:
-            self.result.update({"contributors": self.g.get_contributors()})
-        else:
-            self.result.update({"contributors": len(self.repo["users"])})
-
-    def dependents(self):
+            return self.g.contributor_count
         return len(self.repo["users"])
 
-    def process(self):
-        self.stargazers(),
-        self.downloads(),
-        self.contributors(),
-        self.forks()
-        self.dependents(),
-        return self.result
+    @property
+    def dependents_count(self):
+        return len(self.repo["users"])
