@@ -78,15 +78,19 @@ def vulnerabilites(ctx, url, token):
 
 def popularity(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
-    click.secho(f"📈 Analyzing Popularity ", fg="blue", bold=True)
+    click.secho(f"📈 Analyzing Popularity ", fg="white", bold=True)
     p = get_validated_class("popularity", url, name, type, token)
     df = full_process(p, True)
-    click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
+    s = summarize(p, True)
+    click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print(
-        tabulate(df, headers="keys", tablefmt="fancy_grid"),
-        justify="center",
+        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        justify="center", 
     )
+    click.secho(f'🚩 Aggregate score: {s["score"]}')
+    click.secho(f'📜 Aggregate summary: {s["description"]}')
+
 
 @click.command(
     context_settings=dict(ignore_unknown_options=True),
