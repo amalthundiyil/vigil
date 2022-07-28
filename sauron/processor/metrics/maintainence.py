@@ -33,21 +33,30 @@ def get_param_score(key, value):
     parameter weight."""
     max_value = THRESHOLDS[key]
     weight = WEIGHTS[key]
+    return max(0, round((math.log(1 + value) / math.log(1 + max(value, max_value))) * weight * 100, 2))
+
+def get_summarize_param_score(key, value):
+    """Return paramater score given its current value, max value and
+    parameter weight."""
+    max_value = THRESHOLDS[key]
+    weight = WEIGHTS[key]
     return (math.log(1 + value) / math.log(1 + max(value, max_value))) * weight
 
+
 def get_param_description(key, value):
-    return f"{key} got a score of {value}"
+    score = get_param_score(key, value)
+    return f"{key} got a score of {score}"
 
 def summarize_score(data):
     total = sum([v for k, v in WEIGHTS.items()])
     total_score = 0
     for k, v in data.items():
-        total_score += get_param_score(k, v)
-    criticality_score = round(total_score / total, 5)
-    return criticality_score
+        total_score += get_summarize_param_score(k, v)
+    criticality_score = round(total_score / total, 2)
+    return round(criticality_score * 10, 2)
 
 
 def summarize_description(data):
     s = summarize_score(data)
-    return f"Got score of {s}/1"
+    return f"Got score of {s}/10"
 
