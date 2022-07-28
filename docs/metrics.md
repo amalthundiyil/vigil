@@ -37,10 +37,10 @@
 - Technical Forks
 - Reactions: Stars, badges, likes, thumbs up, thumbs down
 - Followers, watchers, downloads
-<!-- - Organizational Diversity -->
-<!-- - Burstiness -->
+  <!-- - Organizational Diversity -->
+  <!-- - Burstiness -->
 
-## Vulnerability Metrics
+## Security Metrics
 
 - CII-Best-Practices
 - Fuzzing
@@ -57,4 +57,4 @@
 - Branch-Protection
 - Code-Review
 - Contributors
-- Vulnerabilities
+- Vulnerabilites

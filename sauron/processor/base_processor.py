@@ -21,12 +21,11 @@ class BaseProcessor:
         from sauron.processor.processors.maintainence import MaintainenceProcessor
         from sauron.processor.processors.popularity import PopularityProcessor
         from sauron.processor.processors.security import SecurityProcessor
-
         mapping = {
             "community": CommunityProcessor,
             "maintainence": MaintainenceProcessor,
             "popularity": PopularityProcessor,
-            "vulnerabilities": SecurityProcessor,
+            "security": SecurityProcessor,
         }
         c = mapping.get(domain)
         return cls.from_input(c, url, name, type, token)

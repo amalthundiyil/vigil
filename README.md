@@ -17,6 +17,7 @@ Sauron - OSS Security Inspector
 > "_One tool to rule them all, one tool to find them, One tool to bring them all, and in the darkness bind them._"
 
 ## Introduction
+
 Sauron is an easy way for consumers of open-source projects to judge whether their repositories are safe.
 
 It is an automated tool that assesses a number of important heuristics associated with software security and assigns each check a score. You can use these scores to understand specific areas to improve in order to strengthen the security posture of your project. You can also assess the risks that dependencies introduce, and make informed decisions about accepting these risks, evaluating alternative solutions, or working with the maintainers to make improvements.

@@ -13,19 +13,19 @@ from sauron.cli.checks_util import (
     summarize,
 )
 
-# DOMAINS = ["community", "popularity", "maintainence", "vulnerabilites"]
-DOMAINS = ["community", "popularity", "maintainence"]
+DOMAINS = ["community", "popularity", "maintainence", "security"]
+# DOMAINS = ["community", "popularity", "maintainence"]
 
 LOG = logging.getLogger("sauron.cli.checks")
 
 
-def run_check(ctx, url, name, type, token, comm, maint, vulns, pop):
+def run_check(ctx, url, name, type, token, comm, maint, sec, pop):
     if comm:
         community(ctx, url, name, type, token)
     if maint:
         maintainence(ctx, url, name, type, token)
-    if vulns:
-        vulnerabilites(ctx, url, token)
+    if sec:
+        security(ctx, url, name, type, token)
     if pop:
         popularity(ctx, url, name, type, token)
 
@@ -63,17 +63,21 @@ def maintainence(ctx, url, name, type, token):
 
 
 
-def vulnerabilites(ctx, url, token):
-    click.secho(f"🛡️  Analyzing Vulnerabilites ", fg="blue", bold=True)
-    p = get_validated_class("vulnerabilities", url)
-    data = full_process(p, True)
-    click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
-    df = pd.DataFrame(data, columns=list(data[0].keys()))
+def security(ctx, url, name, type, token):
+    token = get_from_config("github_token", token, silent=True)
+    click.secho(f"🛡️  Analyzing security ", fg="blue", bold=True)
+    p = get_validated_class("security", url, name, type, token)
+    df = full_process(p, True)
+    s = summarize(p, True)
+    click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-        justify="center",
+        justify="center", 
     )
+    click.secho(f'🚩 Aggregate score: {s["score"]}')
+    click.secho(f'📜 Aggregate summary: {s["description"]}')
+
 
 
 def popularity(ctx, url, name, type, token):
@@ -94,7 +98,7 @@ def popularity(ctx, url, name, type, token):
 
 @click.command(
     context_settings=dict(ignore_unknown_options=True),
-    help="Run different all (default) or specified checks",
+    help="Run security and health checks of Open source software",
 )
 @click.option("-u", "--url", type=str, help="URL of the package to analyze")
 @click.option(
@@ -124,11 +128,11 @@ def popularity(ctx, url, name, type, token):
     help="Run maintainence checks",
 )
 @click.option(
-    "--vulnerabilites",
+    "--security",
     is_flag=True,
     default=False,
     show_default=True,
-    help="Run vulnerabilites checks",
+    help="Run security checks",
 )
 @click.option(
     "--popularity",
@@ -146,10 +150,10 @@ def check(
     token,
     community,
     maintainence,
-    vulnerabilites,
+    security,
     popularity,
 ):
-    if community or maintainence or vulnerabilites or popularity:
+    if community or maintainence or security or popularity:
         run_check(
             ctx,
             url,
@@ -158,7 +162,7 @@ def check(
             token,
             community,
             maintainence,
-            vulnerabilites,
+            security,
             popularity,
         )
     else:
