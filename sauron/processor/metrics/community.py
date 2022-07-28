@@ -1,95 +1,47 @@
 import math
 
-MAINTAINER_COUNT_WEIGHT = 0.2090
-CONTRIBUTOR_COUNT_WEIGHT = 0.18009
-ORG_COUNT_WEIGHT = 0.11501
-DEPENDENTS_COUNT_WEIGHT = 0.3090
-LICENSE_WEIGHT = 0.06010
-CODE_OF_CONDUCT_WEIGHT = 0.06010
-BUS_FACTOR = 0.0604
+WEIGHTS = {
+"maintainer_count" : 0.2090,
+"contributor_count" : 0.18009,
+"org_count" : 0.11501,
+"dependents_count" : 0.3090,
+"license" : 0.06010,
+"code_of_conduct" : 0.06010,
+"bus_factor" : 0.0604
+}
 
 # Max thresholds for various parameters.
-MAINTAINER_COUNT_THRESHOLD = 1000
-CONTRIBUTOR_COUNT_THRESHOLD = 1000
-ORG_COUNT_THRESHOLD = 10
-DEPENDENTS_COUNT_THRESHOLD = 500000
-LICENSE_THRESHOLD = 1
-CODE_OF_CONDUCT_THRESHOLD = 1
-BUS_FACTOR_THRESHOLD = CONTRIBUTOR_COUNT_THRESHOLD
+THRESHOLDS = {
+"maintainer_count" : 1000,
+"contributor_count" : 1000,
+"org_count" : 10,
+"dependents_count" : 500000,
+"license" : 1,
+"code_of_conduct" : 1,
+"bus_factor" : 1000
+}
 
 
 
-def get_param_score(param, max_value, weight=1):
+def get_param_score(key, value):
     """Return paramater score given its current value, max value and
     parameter weight."""
-    return (math.log(1 + param) / math.log(1 + max(param, max_value))) * weight
+    max_value = THRESHOLDS[key]
+    weight = WEIGHTS[key]
+    return (math.log(1 + value) / math.log(1 + max(value, max_value))) * weight
 
+def get_param_description(key, value):
+    return f"{key} got a score of {value}"
 
-def summarize_score(item):
-    total_weight = (
-        MAINTAINER_COUNT_WEIGHT
-        + ORG_COUNT_WEIGHT
-        + CONTRIBUTOR_COUNT_WEIGHT
-        + DEPENDENTS_COUNT_WEIGHT
-        + BUS_FACTOR
-    )
-    criticality_score = round(
-        (
-            (
-                get_param_score(
-                    item["maintainer_count"],
-                    MAINTAINER_COUNT_THRESHOLD,
-                    MAINTAINER_COUNT_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["org_count"],
-                    ORG_COUNT_THRESHOLD,
-                    ORG_COUNT_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["contributor_count"],
-                    CONTRIBUTOR_COUNT_THRESHOLD,
-                    CONTRIBUTOR_COUNT_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["dependents_count"],
-                    DEPENDENTS_COUNT_THRESHOLD,
-                    DEPENDENTS_COUNT_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["license"],
-                    LICENSE_THRESHOLD,
-                    LICENSE_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["code_of_conduct"],
-                    CODE_OF_CONDUCT_THRESHOLD,
-                    CODE_OF_CONDUCT_WEIGHT,
-                )
-            )
-            + (
-                get_param_score(
-                    item["bus_factor"],
-                    BUS_FACTOR_THRESHOLD,
-                    BUS_FACTOR,
-                )
-            )
-        )
-        / total_weight,
-        5,
-    )
+def summarize_score(data):
+    total_weight = sum([v for k, v in WEIGHTS.items()])
+    total_score = 0
+    for k, v in data.items():
+        total_score += get_param_score(k, v)
+    criticality_score = round(total_score / total_weight, 5)
     return criticality_score
 
 
-def summarize_description():
-    return ""
+def summarize_description(data):
+    s = summarize_score(data)
+    return f"Got score of {s}/1"

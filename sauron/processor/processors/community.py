@@ -3,7 +3,7 @@ from sauron.processor.metrics import community
 
 
 class CommunityProcessor(BaseProcessor):
-    def get_activity_score(self):
+    def summarize(self):
         data = {
             "maintainer_count": self.backend.maintainer_count,
             "org_count": self.backend.org_count,
@@ -13,22 +13,24 @@ class CommunityProcessor(BaseProcessor):
             "code_of_conduct": self.backend.code_of_conduct,
             "bus_factor": self.backend.bus_factor,
         }
-        return community.summarize_score(data)
-
-    def get_activity_description(self):
-        return community.summarize_description()
-
-    def get_activity(self):
-        activity = {
-            "score": self.get_activity_score(),
-            "description": self.get_activity_description(),
-        }
-        return activity
-
-    def summarize(self, data):
-        return self.data
+        res = {"score": community.summarize_score(data), "description": community.summarize_description(data)}
+        return res
 
     def process(self):
-        activity = self.get_activity()
-        self.data = [{"community_activity": activity}]
-        return self.data
+        data = {
+            "maintainer_count": self.backend.maintainer_count,
+            "org_count": self.backend.org_count,
+            "contributor_count": self.backend.contributor_count,
+            "dependents_count": self.backend.dependents_count,
+            "license": self.backend.license,
+            "code_of_conduct": self.backend.code_of_conduct,
+            "bus_factor": self.backend.bus_factor,
+        }
+        metrics = []
+        scores = []
+        descs = []
+        for k, v in data.items():
+            metrics.append(k) 
+            scores.append(community.get_param_score(k, v))
+            descs.append(community.get_param_description(k, v))
+        return {"metrics": metrics, "score": scores, "description": descs}

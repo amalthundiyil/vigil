@@ -100,7 +100,7 @@ class Github(BaseBackend):
         if self.has_file("OWNERS"):
             file = self.repo.get_contents("OWNERS")
         elif self.has_file("CODEOWNERS"):
-            file = self.repo.get_contents("OWNERS")
+            file = self.repo.get_contents("CODEOWNERS")
         if file:
             c = CodeOwners(file.content)
             owners = 0 
