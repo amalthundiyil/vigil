@@ -1,8 +1,10 @@
 from urllib.parse import urlparse
 from datetime import datetime, timedelta
-import numpy as np
+import subprocess
+import json
 import operator
 
+import numpy as np
 from github import Github as PyGithub
 from codeowners import CodeOwners
 
@@ -15,9 +17,11 @@ class Github(BaseBackend):
         self.g = PyGithub(token)
         self.name = f"{owner}/{repository}"
         self.owner = owner
+        self.token = token
         self.url = f"https://{BackendUrls.github_url}/{owner}/{repository}"
         self.type = BackendTypes.github
         self.repo = self.g.get_repo(self.name)
+        self.security_metrics = None
 
     @classmethod
     def from_url(cls, url, token):
@@ -68,11 +72,33 @@ class Github(BaseBackend):
             downloads.append(data)
         return downloads
 
+    def security(self):
+        if self.security_metrics is not None:
+            return self.security_metrics
+        result = subprocess.run(
+            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --repo={self.url} --format json',
+            shell=True,
+            stdout=subprocess.PIPE,
+        )
+        scorecard_output = result.stdout.decode("utf-8")
+        scorecard_output = scorecard_output[scorecard_output.find("{") :]
+        js = json.loads(scorecard_output)
+
+        self.security_metrics = []
+        for check in js.get("checks", []):
+            payload = {
+                "metric": check["name"].lower().replace('-', '_'),
+                "description": check["reason"],
+                "score": check["score"],
+            }
+            self.security_metrics.append(payload)
+        return self.security_metrics
+
     @classmethod
     def from_name(cls, name, token):
         owner, repo = name.split("/")
         return cls(owner, repo, token)
-
+    
     @property
     def stargazers(self):
         return self.repo.stargazers_count
