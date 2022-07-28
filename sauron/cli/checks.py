@@ -72,15 +72,13 @@ def popularity(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"📈 Analyzing Popularity ", fg="blue", bold=True)
     p = get_validated_class("popularity", url, name, type, token)
-    data = full_process(p, True)
+    df = full_process(p, True)
     click.secho(f"✅️ Completed analysis for {p.name}", fg="green", bold=True)
-    df = pd.DataFrame(data, columns=list(data.keys()), index=[0])
     console = Console()
     console.print(
-        tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+        tabulate(df, headers="keys", tablefmt="fancy_grid"),
         justify="center",
     )
-
 
 @click.command(
     context_settings=dict(ignore_unknown_options=True),

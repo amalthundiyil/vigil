@@ -9,7 +9,7 @@ from sauron.backend.server.api.errors import (
 from http import HTTPStatus
 import jwt
 
-from sauron.processor.processors.vulns import VulnsProcessor
+from sauron.processor.processors.security import SecurityProcessor
 
 
 vulns = Blueprint("vulns", __name__, url_prefix="/api/vulns")
@@ -22,7 +22,7 @@ def check_community():
         raise BadRequestError("Fields cannot be empty.")
     if not req["url"]:
         raise BadRequestError("Please enter the URL.")
-    v = VulnsProcessor(req["url"], req.get("token"))
+    v = SecurityProcessor(req["url"], req.get("token"))
     data = v.process()
     if not data:
         raise NoContentError("Failed to process request.")

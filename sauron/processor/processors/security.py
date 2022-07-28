@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 from git import Repo
 
 
-class VulnsProcessor:
+class SecurityProcessor:
     def __init__(self, owner, repo) -> None:
         self.url = f"https://github.com/{owner}/{repo}"
         self.name = f"{owner}/{repo}"

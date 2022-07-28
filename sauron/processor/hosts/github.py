@@ -14,6 +14,7 @@ class Github(BaseBackend):
         from sauron.processor.base_backend import BackendUrls, BackendTypes
         self.g = PyGithub(token)
         self.name = f"{owner}/{repository}"
+        self.owner = owner
         self.url = f"https://{BackendUrls.github_url}/{owner}/{repository}"
         self.type = BackendTypes.github
         self.repo = self.g.get_repo(self.name)
@@ -107,9 +108,7 @@ class Github(BaseBackend):
                 owners += len(p[2])
         return owners
 
-    @property
-    def dependents_count(self):
-        return self.repo.network_count
+
     
     @property
     def created_since(self):
@@ -212,5 +211,36 @@ class Github(BaseBackend):
         return bus
 
     @property
-    def elephant_factor(self):
-        pass
+    def forks(self):
+        return self.repo.forks_count
+
+    @property
+    def reactions_count(self):
+        now = datetime.now()
+        pr_comments = self.repo.get_pulls_comments(since=(now - timedelta(days=90)))
+        pr_comments_list = list(pr_comments)
+
+        issue_comments = self.repo.get_issues_comments(since=(now - timedelta(days=90)))
+        issue_comments_list = list(issue_comments)
+
+        all_comments = pr_comments_list + issue_comments_list
+        reactions = 0
+        for c in all_comments:
+            reactions += c.get_reactions().totalCount
+        return reactions
+
+    @property
+    def stars_count(self):
+        return self.repo.stargazers_count
+
+    @property
+    def followers_count(self):
+        return self.repo.owner.followers
+
+    @property
+    def watchers_count(self):
+        return self.repo.get_watchers().totalCount
+    
+    @property
+    def dependents_count(self):
+        return self.repo.network_count
