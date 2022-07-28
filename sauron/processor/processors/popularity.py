@@ -1,20 +1,32 @@
-from urllib.parse import urlparse
-
-from github import Github
-
-from sauron.processor.managers.pypi import Pypi
-from sauron.processor.managers.npm import Npm
-from sauron.processor.hosts.github import Github
-from sauron.processor.base_backend import BackendTypes, BackendUrls
+from sauron.processor.base_processor import BaseProcessor
+from sauron.processor.metrics import  popularity
 
 
-class PopularityProcessor:
+class PopularityProcessor(BaseProcessor):
+    def get_activity_score(self):
+        data = {
+            "watchers_count": self.backend.watchers_count,
+            "stars_count": self.backend.stars_count,
+            "followers_count": self.backend.followers_count,
+            "reactions_count": self.backend.reactions_count,
+            "dependents_count": self.backend.dependents_count,
+        }
+        return popularity.summarize_score(data)
 
-    name = None
-    url = None
+    def get_activity_description(self):
+        return popularity.summarize_description()
 
-    def process(self):
-        raise NotImplementedError("No popularity processor for given identifiers.")
+    def get_activity(self):
+        activity = {
+            "score": self.get_activity_score(),
+            "description": self.get_activity_description(),
+        }
+        return activity
 
     def summarize(self, data):
-        raise NotImplementedError("No popularity processor for given identifiers.")
+        return self.data
+
+    def process(self):
+        activity = self.get_activity()
+        self.data = [{"activity": activity}]
+        return self.data

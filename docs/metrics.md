@@ -30,17 +30,15 @@
 - org_count : Determine the number of distinct organizations that contributors belong to.
 - License, Code of Conduct
 - Bus Factor: Estimating the bus factor of GitHub projects, using information from commit history.
+<!-- - Elephant Factor -->
 
 ## Popularity Metrics
 
-- Clones
 - Technical Forks
-- Burstiness
-- Contributors
-- Stars, badges, likes, thumbs up, thumbs down, followers, watcher, Downloads.
-- Social Media Mentions/Followers
-- Organizational Diversity
-- Installations
+- Reactions: Stars, badges, likes, thumbs up, thumbs down
+- Followers, watchers, downloads
+<!-- - Organizational Diversity -->
+<!-- - Burstiness -->
 
 ## Vulnerability Metrics
 
@@ -52,7 +50,7 @@
 - Packaging
 - SAST
 - Dependency-Update-Tool
-- Token-Permissions]
+- Token-Permissions
 - Security-Policy
 - Signed-Releases
 - Binary-Artifacts
