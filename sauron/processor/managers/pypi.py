@@ -1,20 +1,24 @@
 from urllib.parse import urlparse
+import json
 from datetime import datetime
+import subprocess
 
 import requests
-from tomlkit import date
 
 from sauron.processor.hosts.github import Github
+from sauron.processor.base_backend import BackendTypes, BaseBackend, BackendUrls
 from sauron.config import setenv_from_config
 
 
-class Pypi:
+class Pypi(BaseBackend):
     def __init__(self, name, token=None) -> None:
         self.name = name
+        self.type = BackendTypes.pypi
+        self.url = f"https://{BackendUrls.pypi_url}/project/{name}"
         self.token = token
         self.repo = self.get_repo()
-        self.get_repository()
-        self.result = {}
+        self.host = self.get_repository()
+        self.security_metrics = None
 
     @classmethod
     def from_url(cls, url, token):
@@ -22,7 +26,7 @@ class Pypi:
             url = url[:-1]
         repo_url = urlparse(url).path[1:]
         owner, repo = repo_url.split("/")
-        return cls(owner, repo, token)
+        return cls(repo, token)
 
     @classmethod
     def from_name(cls, name, token):
@@ -40,12 +44,11 @@ class Pypi:
         url = self.repo["repository_url"]
         parsed_url = urlparse(url)
         if "github" in parsed_url.netloc:
-            self.g = Github.from_url(url, self.token)
+            return Github.from_url(url, self.token)
 
-    def stargazers(self):
-        self.result.update({"stars": self.repo["stars"]})
-
-    def downloads(self):
+    def downloads_data(self):
+        if self.host:
+            return self.host.downloads_data()
         r = requests.get(f"https://api.pepy.tech/api/projects/{self.name}")
         if not r.ok:
             return
@@ -58,29 +61,46 @@ class Pypi:
             if delta.days <= 7:
                 downloads.append({"downloads": int(v), "day": k})
         self.result.update({"downloads": downloads})
+        
+    def security(self):
+        if self.security_metrics is not None:
+            return self.security_metrics
+        result = subprocess.run(
+            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --pypi={self.name} --format json',
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if "error" in result.stdout.decode('utf-8') or result.stderr.decode('utf-8'):
+            return self.host.security()
+        scorecard_output = result.stdout.decode("utf-8")
+        scorecard_output = scorecard_output[scorecard_output.find("{") :]
+        js = json.loads(scorecard_output)
 
-    def summarize(self, data):
-        total = 0
-        for download in data["downloads"]:
-            total += download["downloads"]
-        data["downloads"] = total
-        return data
+        self.security_metrics = []
+        for check in js.get("checks", []):
+            payload = {
+                "metric": check["name"].lower().replace('-', '_'),
+                "description": check["reason"],
+                "score": check["score"],
+            }
+            self.security_metrics.append(payload)
+        return self.security_metrics
 
+    @property
     def forks(self):
-        self.result.update({"forks": self.repo["forks"]})
+        return self.repo["forks"]
 
-    def contributors(self):
+    @property
+    def contributor_count(self):
         d = self.search.project_contributors("pypi", self.name)
-        self.result.update({"contributors": len(d)})
+        return len(d)
+    
+    @property
+    def stars_count(self):
+         return self.repo["stars"]
 
-    def dependents(self):
+    @property
+    def dependents_count(self):
         d = self.search.project_dependent_repositories("pypi", self.name)
-        self.result.update({"dependents": len(d)})
-
-    def process(self):
-        self.stargazers(),
-        self.downloads(),
-        self.contributors(),
-        self.forks()
-        self.dependents(),
-        return self.result
+        return len(d)

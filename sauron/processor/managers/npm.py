@@ -16,7 +16,7 @@ class Npm(BaseBackend):
         self.token = token
         self.repo = self.get_repo()
         self.host = self.get_repository()
-        self.result = {}
+        self.security_metrics = None
 
     @classmethod
     def from_url(cls, url, token):
@@ -48,10 +48,13 @@ class Npm(BaseBackend):
         if self.security_metrics is not None:
             return self.security_metrics
         result = subprocess.run(
-            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --npm={self.name} --format json',
+            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --npm {self.name} --format json',
             shell=True,
             stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )
+        if "error" in result.stdout or result.stderr:
+            return self.host.security()
         scorecard_output = result.stdout.decode("utf-8")
         scorecard_output = scorecard_output[scorecard_output.find("{") :]
         js = json.loads(scorecard_output)
