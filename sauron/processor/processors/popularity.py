@@ -1,9 +1,8 @@
 from sauron.processor.base_processor import BaseProcessor
 from sauron.processor.metrics import  popularity
 
-
 class PopularityProcessor(BaseProcessor):
-    def get_activity_score(self):
+    def summarize(self):
         data = {
             "watchers_count": self.backend.watchers_count,
             "stars_count": self.backend.stars_count,
@@ -11,22 +10,24 @@ class PopularityProcessor(BaseProcessor):
             "reactions_count": self.backend.reactions_count,
             "dependents_count": self.backend.dependents_count,
         }
-        return popularity.summarize_score(data)
-
-    def get_activity_description(self):
-        return popularity.summarize_description()
-
-    def get_activity(self):
-        activity = {
-            "score": self.get_activity_score(),
-            "description": self.get_activity_description(),
-        }
-        return activity
-
-    def summarize(self, data):
-        return self.data
+        res = {"score": popularity.summarize_score(data), "description": popularity.summarize_description(data)}
+        return res
 
     def process(self):
-        activity = self.get_activity()
-        self.data = [{"activity": activity}]
-        return self.data
+        data = {
+            "watchers_count": self.backend.watchers_count,
+            "stars_count": self.backend.stars_count,
+            "followers_count": self.backend.followers_count,
+            "reactions_count": self.backend.reactions_count,
+            "dependents_count": self.backend.dependents_count,
+        }
+        metrics = []
+        scores = []
+        descs = []
+        for k, v in data.items():
+            metrics.append(k) 
+            scores.append(popularity.get_param_score(k, v))
+            descs.append(popularity.get_param_description(k, v))
+        return {"metrics": metrics, "score": scores, "description": descs}
+
+
