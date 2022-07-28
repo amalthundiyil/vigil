@@ -27,19 +27,9 @@
 
 - contributor_count : Determine how many active commit authors, review participants, issue authors, and issue comments participants there are in the past 90 days.
 - maintainer_count : Determine the average number of maintainers per repository.
-
 - org_count : Determine the number of distinct organizations that contributors belong to.
-- Time to First Response
-
-- License Coverage
-- License Declared
-- Code of Conduct:
-- Inclusive Leadership
-
-- Test Coverage:
-- Bus Factor:
-- Committers:
-- Elephant Factor:
+- License, Code of Conduct
+- Bus Factor: Estimating the bus factor of GitHub projects, using information from commit history.
 
 ## Popularity Metrics
 

@@ -9,6 +9,7 @@ class CommunityProcessor(BaseProcessor):
             "org_count": self.backend.org_count,
             "contributor_count": self.backend.contributor_count,
             "dependents_count": self.backend.dependents_count,
+            "bus_factor": self.backend.bus_factor,
         }
         return community.summarize_score(data)
 

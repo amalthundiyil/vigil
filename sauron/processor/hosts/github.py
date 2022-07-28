@@ -50,6 +50,13 @@ class Github(BaseBackend):
             return False
         return True
 
+    def get_license(self):
+        try:
+            _ = self.repo.get_license()
+        except Exception:
+            return False
+        return True
+
     def downloads_data(self):
         downloads = []
         for release in self.repo.get_releases():
@@ -181,3 +188,29 @@ class Github(BaseBackend):
             for o in u.get_orgs():
                 orgs.add(o)
         return len(orgs) 
+    
+    @property
+    def license(self):
+        return int(self.get_license())
+
+
+    @property
+    def code_of_conduct(self):
+        return int(self.has_file("CODE_OF_CONDUCT") or self.has_file("CODE_OF_CONDUCT.md"))
+
+    @property
+    def bus_factor(self):
+        c_stats = self.repo.get_stats_contributors()
+        max_len = min(15, len(c_stats))
+        sorted_c_stats = sorted(c_stats, key=operator.attrgetter("total"), reverse=True)[:max_len]
+        top_commits = [u.total for u in sorted_c_stats]
+        avg_commits = sum(top_commits) // max_len
+        bus = 0
+        for i in top_commits:
+            if i > avg_commits:
+                bus += 1
+        return bus
+
+    @property
+    def elephant_factor(self):
+        pass
