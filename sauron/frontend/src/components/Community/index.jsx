@@ -1,7 +1,8 @@
 import React from "react";
 import "./styles.css";
 import { Block, Close, Done } from "@mui/icons-material";
-function Community() {
+function Community({ metrics }) {
+  const data = metrics["data"]["data"]["community"];
   return (
     <div className="featured">
       <div className="featuredItem">

@@ -64,7 +64,6 @@ export default function Header() {
   const navigate = useNavigate();
 
   const handleChange = (value) => {
-    console.log(value);
     setSearchQuery(value);
   };
 
@@ -81,7 +80,6 @@ export default function Header() {
       const data = await axios.post("/api/dashboard/", payload, {
         "Content-Type": "application/json",
       });
-      console.log(data);
       setLoading(false);
       setMetrics(data);
       navigate("/dashboard");
@@ -90,10 +88,6 @@ export default function Header() {
   };
 
   const location = useLocation();
-  console.log(
-    location.pathname,
-    location.pathname !== "/home" || location.pathname !== "/"
-  );
   return (
     <>
       <CssBaseline />
