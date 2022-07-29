@@ -22,6 +22,7 @@ def post():
         data.append({"domain": domain, "data": d})
         print({"domain": domain, "data": d})
         LOG.info({"domain": domain, "data": d}) 
+    import pdb; pdb.set_trace()
     final_score, final_desc = final_summary(data)
     data.append({"final_score": final_score, "final_desc": final_desc})
     return jsonify(
