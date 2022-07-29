@@ -7,6 +7,7 @@ import GridWrapper from "../../components/GridWrapper";
 import { cardHeaderStyles } from "./styles";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "../../utils/axios";
 
 const filterData = (query, data) => {
   if (!query) {
@@ -24,7 +25,18 @@ const Home = ({ data }) => {
 
   const getHeader = () => {
     const handleChange = (value) => {
+      console.log(value);
       setSearchQuery(value);
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      let formData = new FormData(e.target);
+      formData.append("search", searchQuery);
+      const fetchData = async (formData) => {
+        const data = await axios.post("/api/dashboard", formData);
+      };
+      fetchData(formData).catch(console.error);
     };
 
     return (
@@ -32,6 +44,7 @@ const Home = ({ data }) => {
         <SearchBar
           placeholder="Search by package title"
           onChange={(event) => handleChange(event.target.value)}
+          onSubmit={(event) => handleSubmit(event)}
           searchBarWidth="720px"
         />
       </Box>
