@@ -4,7 +4,7 @@ import Barchart from "../Charts/Barchart";
 import Chart from "../Charts/Chart";
 import "./styles.css";
 
-function PackageStats() {
+function PackageStats({metrics}) {
   return (
     <div>
       <div className="chart-container">

@@ -115,3 +115,7 @@ class Npm(BaseBackend):
         if self.host:
             return self.host.forks
         return len(self.repo["users"])
+
+    @property
+    def description(self):
+        return self.repo["description"]

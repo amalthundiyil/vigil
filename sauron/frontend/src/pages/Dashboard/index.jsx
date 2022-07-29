@@ -8,8 +8,8 @@ import { useGlobalContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import axios from "../../utils/axios";
-import PackageStats from "../../components/Stats";
-import PackageInfo from "../../components/Info";
+import PackageStats from "../../components/PackageStats";
+import PackageInfo from "../../components/PackageInfo";
 import Community from "../../components/Community";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -31,9 +31,9 @@ export default function Dashboard() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <PackageInfo />
-      <PackageStats />
-      <Community />
+      <PackageInfo metrics={metrics} />
+      <PackageStats metrics={metrics} />
+      <Community metrics={metrics} />
     </Box>
   );
 }

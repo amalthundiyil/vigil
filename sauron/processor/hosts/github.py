@@ -261,3 +261,8 @@ class Github(BaseBackend):
     @property
     def dependents_count(self):
         return self.repo.network_count
+
+    
+    @property
+    def description(self):
+        return self.repo.description

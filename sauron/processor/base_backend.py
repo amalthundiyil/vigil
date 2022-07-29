@@ -200,4 +200,9 @@ class BaseBackend:
     def dependents_count(self):
         if self.host :
             return self.host.watchers_count
+    
+    @property
+    def description(self):
+        if self.host :
+            return self.host.description
 
