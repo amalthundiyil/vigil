@@ -6,11 +6,13 @@ from tabulate import tabulate
 from rich.console import Console
 
 from sauron.processor.base_backend import BackendTypes
+from sauron.processor.base_processor import final_summary
 from sauron.cli.checks_util import (
     get_from_config,
     get_validated_class,
     full_process,
     summarize,
+    transform
 )
 
 DOMAINS = ["community", "popularity", "maintainence", "security"]
@@ -60,7 +62,6 @@ def maintainence(ctx, url, name, type, token):
     )
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
-
 
 
 def security(ctx, url, name, type, token):
@@ -166,12 +167,28 @@ def check(
             popularity,
         )
     else:
-        token = get_from_config("github_token")
-        click.secho(f"🧐  Running all checks", fg="blue", bold=True)
+        token = get_from_config("github_token", token, silent=True)
+        click.secho(f"🏃 Running all checks", fg="white", bold=True)
+        scores = []
+        descs = []
         for domain in DOMAINS:
+            click.secho(f"🧐 Analyzing {domain}", fg="blue", bold=True)
             p = get_validated_class(domain, url, name, type, token)
-            click.secho(f"Analyzing {domain}", fg="blue", bold=True)
-            data = full_process(p, True)
-            click.secho(
-                f"✅️ Completed {domain} analysis for {p.name}", fg="green", bold=True
-            )
+            df = full_process(p, True)
+            s = summarize(p, True)
+            click.secho(f"✅️  Completed {domain} analysis", fg="green", bold=True)
+            scores.append(s["score"])
+            descs.append(s["description"])
+
+        df = transform({"metrics": DOMAINS, "score": scores, "description": descs})
+        final_score, final_description = final_summary(scores)
+        console = Console()
+        console.print(
+            tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
+            justify="center", 
+        )
+        click.secho(f'🚩 Aggregate score: {final_score}')
+        click.secho(f'📜 Aggregate summary: {final_description}')
+
+
+
