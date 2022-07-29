@@ -106,7 +106,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home data={allPackages} />} />
         <Route path="/home" element={<Home data={allPackages} />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Suspense>

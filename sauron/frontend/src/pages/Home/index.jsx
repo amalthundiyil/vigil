@@ -14,7 +14,7 @@ import axios from "../../utils/axios";
 
 const Home = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { loading, setLoading } = useGlobalContext();
+  const { loading, setLoading, setMetrics } = useGlobalContext();
   const navigate = useNavigate();
 
   const getHeader = () => {
@@ -38,6 +38,7 @@ const Home = ({ data }) => {
         });
         console.log(data);
         setLoading(false);
+        setMetrics(data);
         navigate("/dashboard");
       };
       fetchData(formData).catch(console.error);

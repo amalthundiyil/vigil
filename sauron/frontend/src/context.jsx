@@ -4,9 +4,9 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [isHome, setIsHome] = useState(false);
+  const [metrics, setMetrics] = useState([]);
   return (
-    <AppContext.Provider value={{ loading, setLoading }}>
+    <AppContext.Provider value={{ loading, setLoading, metrics, setMetrics }}>
       {children}
     </AppContext.Provider>
   );
