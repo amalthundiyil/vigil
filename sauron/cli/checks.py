@@ -190,7 +190,7 @@ def check(
         )
     else:
         token = get_from_config("github_token", token, silent=True)
-        click.secho(LOGO, fg="magenta")
+        click.secho(LOGO)
         click.secho(f"🧐 Running all checks", fg="white", bold=True)
         scores = []
         descs = []

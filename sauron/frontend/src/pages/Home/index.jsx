@@ -19,16 +19,15 @@ const Home = ({ data }) => {
 
   const getHeader = () => {
     const handleChange = (value) => {
-      console.log(value);
       setSearchQuery(value);
     };
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      setLoading(true);
       let formData = new FormData(e.target);
       formData.append("search", searchQuery);
       const fetchData = async (formData) => {
+        setLoading(true);
         const payload = {
           url: formData.get("search"),
           github_token: formData.get("github_token"),
@@ -43,11 +42,9 @@ const Home = ({ data }) => {
       };
       fetchData(formData).catch(console.error);
     };
-    console.log(loading);
 
     return (
       <>
-        {loading && <Spinner open={true} />}
         <Box sx={cardHeaderStyles.wrapper}>
           <SearchBar
             placeholder="Search by package title"
@@ -62,6 +59,7 @@ const Home = ({ data }) => {
 
   return (
     <GridWrapper>
+      {loading && <Spinner open={true} />}
       <BasicCard header={getHeader()} />
     </GridWrapper>
   );
