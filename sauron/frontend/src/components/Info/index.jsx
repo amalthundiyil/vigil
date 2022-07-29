@@ -1,7 +1,8 @@
 import React from "react";
-import "./packageinfo.css";
+import "./styles.css";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
-function Packageinfo() {
+
+function PackageInfo() {
   return (
     <div className="featured">
       <div className="featuredItem">
@@ -27,4 +28,4 @@ function Packageinfo() {
   );
 }
 
-export default Packageinfo;
+export default PackageInfo;

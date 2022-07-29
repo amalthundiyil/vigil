@@ -1,5 +1,5 @@
 import React from "react";
-import "./community.css";
+import "./styles.css";
 import { Block, Close, Done } from "@mui/icons-material";
 function Community() {
   return (
