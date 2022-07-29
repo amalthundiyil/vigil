@@ -8,18 +8,13 @@ import Dashboard from "../pages/Dashboard";
 import axios from "../utils/axios";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import Spinner from "../components/Spinner";
 
 const Router = () => {
   const [allPackages, setAllPackages] = useState([]);
 
   const particlesInit = async (main) => {
-    console.log(main);
-
     await loadFull(main);
-  };
-
-  const particlesLoaded = (container) => {
-    console.log(container);
   };
 
   useEffect(() => {
@@ -35,7 +30,6 @@ const Router = () => {
       <Particles
         id="tsparticles"
         init={particlesInit}
-        loaded={particlesLoaded}
         options={{
           background: {
             color: {
