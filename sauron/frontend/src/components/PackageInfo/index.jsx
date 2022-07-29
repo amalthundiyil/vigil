@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
-function PackageInfo() {
+function PackageInfo({metrics}) {
   return (
     <div className="featured">
       <div className="featuredItem">

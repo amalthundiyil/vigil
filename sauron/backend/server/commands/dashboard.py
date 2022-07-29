@@ -1,5 +1,6 @@
 from sauron.processor.base_processor import BaseProcessor, ValidationError, final_summary
 from sauron.cli.checks_util import get_from_config
+from sauron.cli.checks import DOMAINS
 from sauron.backend.server.api.errors import (
     BadRequestError,
     NoContentError,
@@ -23,6 +24,9 @@ def full_process(p):
 
 def summary(data):
     scores = []
-    for d in data:
-        scores.append(d["data"]["summary"]["score"])
+    for domain in DOMAINS:
+        scores.append(data[domain]["summary"]["score"])
     return final_summary(scores)
+
+def get_package_info(p):
+    return p.backend.description
