@@ -19,10 +19,12 @@ def create_app(config_class=DevelopmentSettings):
         cors.init_app(app, resources=r"/*", origins="*", supports_credentials=True)
 
     from sauron.backend.server.api.auth import auth
+    from sauron.backend.server.api.home import home
     from sauron.backend.server.api.dashboard import dashboard
     from sauron.backend.server.api.errors import errors
 
     app.register_blueprint(auth)
+    app.register_blueprint(home)
     app.register_blueprint(dashboard)
     app.register_blueprint(errors)
 
