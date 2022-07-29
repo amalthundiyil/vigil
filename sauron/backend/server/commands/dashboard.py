@@ -22,6 +22,7 @@ def full_process(p):
     return {"score_data": score_data, "ts_data": ts_data, "summary": summary_data}
 
 def summary(data):
+    import pdb; pdb.set_trace()
     print(data)
     scores = []
     for d in data:
