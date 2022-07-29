@@ -1,29 +1,21 @@
 import React from "react";
 import BasicCard from "../../components/BasicCard";
 import SearchBar from "../../components/SearchBar";
+import Spinner from "../../components/Spinner";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import GridWrapper from "../../components/GridWrapper";
 import { cardHeaderStyles } from "./styles";
 import { useState } from "react";
 import { useGlobalContext } from "../../context";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import axios from "../../utils/axios";
-
-const filterData = (query, data) => {
-  if (!query) {
-    return [{ slug: "no-packages-found", title: "No packages found" }];
-  } else {
-    return data.filter((d) =>
-      d.title.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-};
 
 const Home = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { loading, setLoading } = useGlobalContext();
-  const dataFiltered = filterData(searchQuery, data);
+  const navigate = useNavigate();
 
   const getHeader = () => {
     const handleChange = (value) => {
@@ -33,10 +25,10 @@ const Home = ({ data }) => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
+      setLoading(true);
       let formData = new FormData(e.target);
       formData.append("search", searchQuery);
       const fetchData = async (formData) => {
-        setLoading(true);
         const payload = {
           url: formData.get("search"),
           github_token: formData.get("github_token"),
@@ -45,20 +37,25 @@ const Home = ({ data }) => {
           "Content-Type": "application/json",
         });
         console.log(data);
+        setLoading(false);
+        navigate("/dashboard");
       };
       fetchData(formData).catch(console.error);
-      setLoading(false);
     };
+    console.log(loading);
 
     return (
-      <Box sx={cardHeaderStyles.wrapper}>
-        <SearchBar
-          placeholder="Search by package title"
-          onChange={(event) => handleChange(event.target.value)}
-          onSubmit={(event) => handleSubmit(event)}
-          searchBarWidth="720px"
-        />
-      </Box>
+      <>
+        {loading && <Spinner open={true} />}
+        <Box sx={cardHeaderStyles.wrapper}>
+          <SearchBar
+            placeholder="Search by package title"
+            onChange={(event) => handleChange(event.target.value)}
+            onSubmit={(event) => handleSubmit(event)}
+            searchBarWidth="720px"
+          />
+        </Box>
+      </>
     );
   };
 
