@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request, current_app, make_response
 
-from sauron.backend.server.commands.dashboard import get_validated_class, full_process
+from sauron.backend.server.commands.dashboard import get_validated_class, full_process, final_summary
 from sauron.cli.checks import DOMAINS
 
 
@@ -22,7 +22,8 @@ def post():
         data.append({"domain": domain, "data": d})
         print({"domain": domain, "data": d})
         LOG.info({"domain": domain, "data": d}) 
-
+    final_score, final_desc = final_summary(data)
+    data.append({"final_score": final_score, "final_desc": final_desc})
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Request processed successfully",
