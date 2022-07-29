@@ -34,7 +34,13 @@ const Home = ({ data }) => {
       let formData = new FormData(e.target);
       formData.append("search", searchQuery);
       const fetchData = async (formData) => {
-        const data = await axios.post("/api/dashboard", formData);
+        const payload = {};
+        for (var pair of formData.entries()) {
+          payload[pair[0]] = pair[1];
+        }
+        const data = await axios.post("/api/dashboard/", payload, {
+          "Content-Type": "application/json",
+        });
       };
       fetchData(formData).catch(console.error);
     };
