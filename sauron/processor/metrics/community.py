@@ -4,7 +4,6 @@ WEIGHTS = {
 "maintainer_count" : 0.2090,
 "contributor_count" : 0.18009,
 "org_count" : 0.11501,
-"dependents_count" : 0.3090,
 "license" : 0.06010,
 "code_of_conduct" : 0.06010,
 "bus_factor" : 0.0604
@@ -15,7 +14,6 @@ THRESHOLDS = {
 "maintainer_count" : 1000,
 "contributor_count" : 1000,
 "org_count" : 10,
-"dependents_count" : 500000,
 "license" : 1,
 "code_of_conduct" : 1,
 "bus_factor" : 1000
@@ -27,7 +25,9 @@ def get_param_score(key, value):
     parameter weight."""
     max_value = THRESHOLDS[key]
     weight = WEIGHTS[key]
-    return max(0, round((math.log(1 + value) / math.log(1 + max(value, max_value))) * weight * 100, 2))
+    total = sum([v for k, v in WEIGHTS.items()])
+    score = ((math.log(1 + value) / math.log(1 + max(value, max_value))) * weight) / total
+    return round(score * 100, 2)
 
 def get_summarize_param_score(key, value):
     """Return paramater score given its current value, max value and
@@ -46,7 +46,7 @@ def summarize_score(data):
     total_score = 0
     for k, v in data.items():
         total_score += get_summarize_param_score(k, v)
-    criticality_score = round(total_score / total, 2)
+    criticality_score = total_score / total
     return round(criticality_score * 10, 2)
 
 
