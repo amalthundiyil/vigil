@@ -4,6 +4,7 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
+  const [isHome, setIsHome] = useState(false);
   return (
     <AppContext.Provider value={{ loading, setLoading }}>
       {children}
