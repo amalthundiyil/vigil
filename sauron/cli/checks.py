@@ -19,6 +19,20 @@ DOMAINS = ["community", "popularity", "maintainence", "security"]
 # DOMAINS = ["community", "popularity", "maintainence"]
 
 LOG = logging.getLogger("sauron.cli.checks")
+LOGO = """
+███████╗ █████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗
+██╔════╝██╔══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║
+███████╗███████║██║   ██║██████╔╝██║   ██║██╔██╗ ██║
+╚════██║██╔══██║██║   ██║██╔══██╗██║   ██║██║╚██╗██║
+███████║██║  ██║╚██████╔╝██║  ██║╚██████╔╝██║ ╚████║
+╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+"""
+DOMAIN_TO_EMOJI = {
+    "community" : '🌏', 
+    "popularity" : '📈️', 
+    "maintainence" : '🛠️', 
+    "security" : '🛡️', 
+}
 
 
 def run_check(ctx, url, name, type, token, comm, maint, sec, pop):
@@ -168,11 +182,12 @@ def check(
         )
     else:
         token = get_from_config("github_token", token, silent=True)
-        click.secho(f"🏃 Running all checks", fg="white", bold=True)
+        click.echo(LOGO)
+        click.secho(f"🧐 Running all checks", fg="white", bold=True)
         scores = []
         descs = []
         for domain in DOMAINS:
-            click.secho(f"🧐 Analyzing {domain}", fg="blue", bold=True)
+            click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True)
             p = get_validated_class(domain, url, name, type, token)
             df = full_process(p, True)
             s = summarize(p, True)
