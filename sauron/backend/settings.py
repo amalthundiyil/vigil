@@ -22,12 +22,12 @@ class ProductionSettings(Settings):
 
 
 class StagingSettings(Settings):
-    DEVELOPMENT = True
+    Environment = "production"
     DEBUG = True
 
 
 class DevelopmentSettings(Settings):
-    DEVELOPMENT = True
+    Environment = "development"
     DEBUG = True
 
 
