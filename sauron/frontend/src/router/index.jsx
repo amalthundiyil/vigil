@@ -31,11 +31,7 @@ const Router = () => {
         id="tsparticles"
         init={particlesInit}
         options={{
-          background: {
-            color: {
-              value: "#eeeee4",
-            },
-          },
+          poistion: "absolute",
           fpsLimit: 120,
           interactivity: {
             events: {
@@ -61,13 +57,13 @@ const Router = () => {
           },
           particles: {
             color: {
-              value: "#C0C0C0",
+              value: "#F1ECEC",
             },
             links: {
               color: "#ffffff",
               distance: 150,
               enable: true,
-              opacity: 0.5,
+              opacity: 0.1,
               width: 1,
             },
             collisions: {
@@ -80,7 +76,7 @@ const Router = () => {
                 default: "bounce",
               },
               random: false,
-              speed: 2,
+              speed: 1,
               straight: false,
             },
             number: {
@@ -88,7 +84,7 @@ const Router = () => {
                 enable: true,
                 area: 800,
               },
-              value: 80,
+              value: 20,
             },
             opacity: {
               value: 0.5,

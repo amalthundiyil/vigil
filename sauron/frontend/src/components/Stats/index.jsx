@@ -1,8 +1,8 @@
 import React from "react";
-import { userData } from "../../dummydata";
+import { userData } from "../../dummyData";
 import Barchart from "../Charts/Barchart";
 import Chart from "../Charts/Chart";
-import "./packagestats.css";
+import "./styles.css";
 
 function PackageStats() {
   return (
