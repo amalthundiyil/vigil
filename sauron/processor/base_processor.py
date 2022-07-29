@@ -59,3 +59,8 @@ def validate(url, name, type):
         raise ValidationError(f"One of name and type is invalid ({name}, {type})")
     if not url and not (name and (type in BackendTypes)):
         raise ValidationError(f"Please enter a valid URL ({url})")
+
+def final_summary(scores):
+    final_score = round(sum (scores) / max(1, len(scores)), 2)
+    final_description = f"Got score of {final_score}"
+    return final_score, final_description
