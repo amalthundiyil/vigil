@@ -12,6 +12,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { CssBaseline } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../context";
+import { useState } from "react";
+import axios from "../../utils/axios";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,7 +58,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function Header() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { loading, setLoading, setMetrics } = useGlobalContext();
+  const navigate = useNavigate();
+
+  const handleChange = (value) => {
+    console.log(value);
+    setSearchQuery(value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    let formData = new FormData(e.target);
+    formData.append("search", searchQuery);
+    const fetchData = async (formData) => {
+      const payload = {
+        url: formData.get("search"),
+        github_token: formData.get("github_token"),
+      };
+      const data = await axios.post("/api/dashboard/", payload, {
+        "Content-Type": "application/json",
+      });
+      console.log(data);
+      setLoading(false);
+      setMetrics(data);
+      navigate("/dashboard");
+    };
+    fetchData(formData).catch(console.error);
+  };
+
   const location = useLocation();
   console.log(
     location.pathname,
@@ -65,7 +98,7 @@ export default function SearchAppBar() {
     <>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="sticky" sx={{ bgcolor: "#1c1c44", mb: 6 }}>
+        <AppBar position="sticky" sx={{ bgcolor: "#1c1c44", mb: 3 }}>
           <Toolbar>
             <Toolbar component={Link} to="/home">
               <img src={logo} alt="logo" width={60} />
@@ -79,15 +112,18 @@ export default function SearchAppBar() {
               Sauron
             </Typography>
             {!(location.pathname === "/home" || location.pathname === "/") && (
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
+              <form onSubmit={(e) => handleSubmit(e)}>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search…"
+                    onChange={(event) => handleChange(event.target.value)}
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+              </form>
             )}
           </Toolbar>
         </AppBar>

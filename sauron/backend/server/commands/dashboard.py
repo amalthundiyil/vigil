@@ -17,5 +17,6 @@ def get_validated_class(domain, url=None, name=None, type=None, token=None):
 
 def full_process(p):
     score_data = p.process()
+    summary_data = p.summarize()
     ts_data = p.server_ts()
-    return {"score_data": score_data, "ts_data": ts_data}
+    return {"score_data": score_data, "ts_data": ts_data, "summary": summary_data}

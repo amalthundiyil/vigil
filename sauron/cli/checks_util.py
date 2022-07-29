@@ -34,7 +34,7 @@ def get_validated_class(domain, url=None, name=None, type=None, token=None):
 
 def summarize(p, silent):
     if not silent:
-        data = p.process()
+        data = p.summarize()
         return data
     try:
         data = p.summarize()
