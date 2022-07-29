@@ -57,7 +57,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   const location = useLocation();
-  console.log(location.pathname);
+  console.log(
+    location.pathname,
+    location.pathname !== "/home" || location.pathname !== "/"
+  );
   return (
     <>
       <CssBaseline />
@@ -75,7 +78,7 @@ export default function SearchAppBar() {
             >
               Sauron
             </Typography>
-            {!(location.pathname !== "/home" || location.pathname !== "/") && (
+            {!(location.pathname === "/home" || location.pathname === "/") && (
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
