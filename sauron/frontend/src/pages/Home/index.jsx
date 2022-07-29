@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import GridWrapper from "../../components/GridWrapper";
 import { cardHeaderStyles } from "./styles";
 import { useState } from "react";
+import { useGlobalContext } from "../../context";
 import { NavLink } from "react-router-dom";
 import axios from "../../utils/axios";
 
@@ -21,6 +22,7 @@ const filterData = (query, data) => {
 
 const Home = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useGlobalContext();
   const dataFiltered = filterData(searchQuery, data);
 
   const getHeader = () => {
@@ -34,6 +36,8 @@ const Home = ({ data }) => {
       let formData = new FormData(e.target);
       formData.append("search", searchQuery);
       const fetchData = async (formData) => {
+        console.log(loading);
+        // setLoading(true);
         const payload = {
           url: formData.get("search"),
           github_token: formData.get("github_token"),
@@ -44,6 +48,7 @@ const Home = ({ data }) => {
         console.log(data);
       };
       fetchData(formData).catch(console.error);
+      // setLoading(false);
     };
 
     return (
