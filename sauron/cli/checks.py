@@ -65,7 +65,7 @@ def maintainence(ctx, url, name, type, token):
 
 def security(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
-    click.secho(f"🛡️  Analyzing security ", fg="blue", bold=True)
+    click.secho(f"🛡️  Analyzing security ", fg="yellow", bold=True)
     p = get_validated_class("security", url, name, type, token)
     df = full_process(p, True)
     s = summarize(p, True)
