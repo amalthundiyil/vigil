@@ -14,7 +14,7 @@ def post():
     req = request.json
     data = []
     for domain in DOMAINS:
-        p = get_validated_class(domain, req.get("url"), req.get("name"), req.get("type"), req.get("token"))
+        p = get_validated_class(domain, req.get("url"), req.get("name"), req.get("type"), req.get("github_token"))
         d = full_process(p)
         data.append({"domain": domain, "data": d})
 
