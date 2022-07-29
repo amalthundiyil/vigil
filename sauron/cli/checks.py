@@ -1,4 +1,5 @@
 import logging
+import sys
 import click
 
 import pandas as pd
@@ -156,6 +157,12 @@ def popularity(ctx, url, name, type, token):
     show_default=True,
     help="Run popularity checks",
 )
+
+@click.option(
+    "--threshold",
+    type=float,
+    help="Minimum score required to pass",
+)
 @click.pass_context
 def check(
     ctx,
@@ -167,6 +174,7 @@ def check(
     maintainence,
     security,
     popularity,
+    threshold,
 ):
     if community or maintainence or security or popularity:
         run_check(
@@ -182,7 +190,7 @@ def check(
         )
     else:
         token = get_from_config("github_token", token, silent=True)
-        click.echo(LOGO)
+        click.secho(LOGO, fg="magenta")
         click.secho(f"🧐 Running all checks", fg="white", bold=True)
         scores = []
         descs = []
@@ -191,7 +199,7 @@ def check(
             p = get_validated_class(domain, url, name, type, token)
             df = full_process(p, True)
             s = summarize(p, True)
-            click.secho(f"✅️  Completed {domain} analysis", fg="green", bold=True)
+            click.secho(f"✔️  Completed {domain} analysis", fg="green", bold=True)
             scores.append(s["score"])
             descs.append(s["description"])
 
@@ -204,6 +212,13 @@ def check(
         )
         click.secho(f'🚩 Aggregate score: {final_score}')
         click.secho(f'📜 Aggregate summary: {final_description}')
+
+        if threshold:
+            if final_score >= threshold:
+                click.secho("✅️  Passed all checks", fg="green", bold=True)
+            else:
+                click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
+                sys.exit(1)
 
 
 
