@@ -62,44 +62,9 @@ const Home = ({ data }) => {
     );
   };
 
-  const getContent = () =>
-    dataFiltered.map((d) => {
-      if (d.slug === "no-packages-found") {
-        return (
-          <Typography
-            key={d.slug}
-            align="center"
-            sx={{
-              margin: "40px 16px",
-              color: "rgba(0, 0, 0, 0.6)",
-              fontSize: "1.3rem",
-            }}
-          >
-            {d.title}
-          </Typography>
-        );
-      }
-
-      return (
-        <NavLink to={`/packages/${d.slug}`} key={d.slug}>
-          <Typography
-            key={d.slug}
-            align="center"
-            sx={{
-              margin: "40px 16px",
-              color: "rgba(0, 0, 0, 0.6)",
-              fontSize: "1.3rem",
-            }}
-          >
-            {d.title}
-          </Typography>
-        </NavLink>
-      );
-    });
-
   return (
     <GridWrapper>
-      <BasicCard header={getHeader()} content={getContent()} />
+      <BasicCard header={getHeader()} />
     </GridWrapper>
   );
 };
