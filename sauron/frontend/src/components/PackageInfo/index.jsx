@@ -6,7 +6,9 @@ import { capitalizeFirstLetter } from "../../utils/utils";
 import ProgressBar from "../ProgressBar";
 
 function PackageInfo({ metrics }) {
-  const data = metrics["data"]["data"];
+  const data = metrics.data.data;
+
+  console.log(data);
 
   return (
     <div className="featured">
