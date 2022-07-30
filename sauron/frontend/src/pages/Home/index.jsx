@@ -11,6 +11,7 @@ import { useGlobalContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import axios from "../../utils/axios";
+import Dropdown from "../../components/Dropdown/Dropdown";
 
 const Home = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,6 +47,7 @@ const Home = ({ data }) => {
     return (
       <>
         <Box sx={cardHeaderStyles.wrapper}>
+          <Dropdown/>
           <SearchBar
             placeholder="Search by package title"
             onChange={(event) => handleChange(event.target.value)}
