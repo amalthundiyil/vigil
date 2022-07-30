@@ -73,13 +73,13 @@ def get_summarize_param_score(key, value):
 def get_param_description(key, value):
     score = get_param_score(key, value)
     if score >= 7.5:
-        return DESCRIPTIONS[key]["LOW"]
+        return DESCRIPTIONS[key]["CRITICAL"]
     if score >= 5:
-        return DESCRIPTIONS[key]["MEDIUM"]
+        return DESCRIPTIONS[key]["HIGH"]
     if score >= 2.5:
-        return DESCRIPTIONS[key]["HIGH"]
+        return DESCRIPTIONS[key]["MEDIUM"]
     else:
-        return DESCRIPTIONS[key]["HIGH"]
+        return DESCRIPTIONS[key]["LOW"]
 
 
 def summarize_score(data):
@@ -95,13 +95,13 @@ def summarize_score(data):
 def summarize_description(data):
     score = summarize_score(data)
     if score >= 7.5:
-        return SUMMARY_DESC["LOW"]
+        return SUMMARY_DESC["CRITICAL"]
     if score >= 5:
-        return SUMMARY_DESC["MEDIUM"]
+        return SUMMARY_DESC["HIGH"]
     if score >= 2.5:
-        return SUMMARY_DESC["HIGH"]
+        return SUMMARY_DESC["MEDIUM"]
     else:
-        return SUMMARY_DESC["HIGH"]
+        return SUMMARY_DESC["LOW"]
 
 
 
