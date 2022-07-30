@@ -1,30 +1,33 @@
-from distutils.command.config import config
 import logging
 import subprocess
+import sys
+from datetime import datetime
 
 import click
+from elasticsearch import Elasticsearch
 
-from datetime import datetime
-import sys
 
 DEFAULT_ES_URL = "http://localhost:9200"
 
-LOG = logging.getLogger("sauron.cli.checks")
+LOG = logging.getLogger("sauron.cli.db")
+
+def get_es_client():
+    es = Elasticsearch()
 
 
-@click.group(help="Command to manage the database")
+@click.group(help="Manage the Elasticsearch database")
 def db():
     pass
 
 
 @db.command(context_settings=dict(ignore_unknown_options=True))
-@click.option("--repo-url", type=str, help="URL of repository to add to GitHub.")
+@click.option("--repo-url", type=str, help="URL of repository or package.")
 @click.option("-t", "--token", type=str, help="API token to increase rate limit.")
 @click.option(
     "--elastic-url",
     type=str,
     default=DEFAULT_ES_URL,
-    help="URL where Elasticsearch is listening.",
+    help="URL of Elasticsearch.",
 )
 @click.pass_context
 def add_repo(ctx, repo_url, token, elastic_url):
