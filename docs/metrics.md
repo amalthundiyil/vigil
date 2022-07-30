@@ -1,5 +1,12 @@
 # Metrics
 
+## Risk Levels
+
+- "Low" risk checks are weighted at 10
+- "Medium" risk checks are weighted at 7.5
+- "High" risk checks are weighted at 5
+- "Critical" risk checks are weighted at 2.5
+
 ## Maintainence Metrics
 
 **Code Changes Commits**
@@ -12,7 +19,7 @@
 - created_since : Determine the average time per repository since a repository was created (in months).
 - comment_frequency : Determine the average number of comments per issue in the last 90 days.
 - updated_issues_count : Determine the number of issues updated in the last 90 days.
-- recent_releases_count : Determine the number of releases in the last year.
+- downloads : Determine the number of releases in the last year.
 
 **Change Request Reviews**
 
@@ -58,10 +65,3 @@
 - Code-Review
 - Contributors
 - Vulnerabilites
-
-## Risk Levels
-
-- "Critical" risk checks are weighted at 10
-- "High" risk checks are weighted at 7.5
-- "Medium" risk checks are weighted at 5
-- "Low" risk checks are weighted at 2.5
