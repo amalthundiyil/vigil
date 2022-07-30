@@ -2,10 +2,10 @@
 
 ## Risk Levels
 
-- "Critical" risk checks are weighted at 10
-- "High" risk checks are weighted at 7.5
-- "Medium" risk checks are weighted at 5
-- "Low" risk checks are weighted at 2.5
+- "Low" risk checks are weighted at 10
+- "Medium" risk checks are weighted at 7.5
+- "High" risk checks are weighted at 5
+- "Critical" risk checks are weighted at 2.5
 
 ## Maintainence Metrics
 
