@@ -1,7 +1,5 @@
 import math
 
-from sauron.processor.metrics.community import THRESHOLDS
-
 WEIGHTS = {
 "commit_frequency" : 0.18009,
 "updated_since" : -0.12742,
@@ -27,6 +25,48 @@ THRESHOLDS = {
 "comment_frequency" : 15,
 }
 
+DESCRIPTIONS = {
+"commit_frequency" : {"HIGH": "Well maintained",
+				"LOW": "Poorly maintained",
+				"MEDIUM": "Maintained sometimes",
+				"CRITICAL": "Well maintained"},
+"comment_frequency" : {"HIGH": "You will never get heard here",
+				"LOW": "Issues and pull requests get a good response",
+				"MEDIUM": "You will get heard here often",
+				"CRITICAL": "No thanks. You can keep your comments to yourself"},
+"updated_since" : {"HIGH": "Recently updated",
+				"LOW": "Updated long ago",
+				"MEDIUM": "Updated some time ago",
+				"CRITICAL":"Updated with the last few days",},
+"code_review_count" :{"HIGH": "Many code_reviews",
+				"LOW": "Few code reviews",
+				"MEDIUM": "Some code reviews",
+				"CRITICAL":"Many code reviews",},
+"closed_issues_count" : {"HIGH": "Sizeable amount of closed issues",
+				"LOW": "Most issues are open",
+				"MEDIUM": "Some issues are open",
+				"CRITICAL":"All issues close"},
+"issue_age" : {"HIGH": "Issues are not very old",
+				"LOW": "Very old issues",
+				"MEDIUM": "Older issues present",
+				"CRITICAL":"Issues are closed almost immediately"},
+"updated_issues_count": {"HIGH": "Issues are updated frequently",
+				"LOW": "Issues are not updated at all",
+				"MEDIUM": "Some issues are updated",
+				"CRITICAL": "Looks like you found a blackhole",
+},
+"created_since" : {"HIGH": "Created a some time back",
+				"LOW": "Been around since centuries",
+				"MEDIUM": "Created long time ago",
+				"CRITICAL":"Created very recently",},
+}
+
+SUMMARY_DESC = {"HIGH": "Repo is well maintained and has active maintainers",
+                 "LOW":"Repo is poorly maintained and can be considered inactive",
+                 "MEDIUM":"Repo is dormant",
+                 "Critical":  "Repo is well maintained and has active maintainers"}
+
+
 
 def get_param_score(key, value):
     """Return paramater score given its current value, max value and
@@ -45,7 +85,14 @@ def get_summarize_param_score(key, value):
 
 def get_param_description(key, value):
     score = get_param_score(key, value)
-    return f"{key} got a score of {score}"
+    if score >= 7.5:
+        return DESCRIPTIONS[key]["LOW"]
+    if score >= 5:
+        return DESCRIPTIONS[key]["MEDIUM"]
+    if score >= 2.5:
+        return DESCRIPTIONS[key]["HIGH"]
+    else:
+        return DESCRIPTIONS[key]["HIGH"]
 
 def summarize_score(data):
     total = sum([v for k, v in WEIGHTS.items()])
@@ -57,8 +104,15 @@ def summarize_score(data):
 
 
 def summarize_description(data):
-    s = summarize_score(data)
-    return f"Got score of {s}/10"
+    score = summarize_score(data)
+    if score >= 7.5:
+        return SUMMARY_DESC["LOW"]
+    if score >= 5:
+        return SUMMARY_DESC["MEDIUM"]
+    if score >= 2.5:
+        return SUMMARY_DESC["HIGH"]
+    else:
+        return SUMMARY_DESC["HIGH"]
 
 
 
