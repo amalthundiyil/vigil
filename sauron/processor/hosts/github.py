@@ -234,10 +234,10 @@ class Github(BaseBackend):
     @property
     def reactions_count(self):
         now = datetime.now()
-        pr_comments = self.repo.get_pulls_comments(since=(now - timedelta(days=90)))
+        pr_comments = self.repo.get_pulls_comments(since=(now - timedelta(days=30)))
         pr_comments_list = list(pr_comments)
 
-        issue_comments = self.repo.get_issues_comments(since=(now - timedelta(days=90)))
+        issue_comments = self.repo.get_issues_comments(since=(now - timedelta(days=30)))
         issue_comments_list = list(issue_comments)
 
         all_comments = pr_comments_list + issue_comments_list
