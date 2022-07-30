@@ -43,7 +43,6 @@
 }
 
 .comm-features{
-    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -68,4 +67,10 @@
 
 .info{
     color: grey;
+}
+
+.desc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

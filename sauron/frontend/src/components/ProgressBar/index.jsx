@@ -24,7 +24,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 export default function CustomizedProgressBars({ value }) {
   return (
-    <Box sx={{ flexGrow: 1, m: 4 }}>
+    <Box sx={{ flexGrow: 1, m: 2 }}>
       <BorderLinearProgress variant="determinate" value={value * 10} />
     </Box>
   );
