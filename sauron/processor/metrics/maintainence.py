@@ -32,10 +32,8 @@ def get_param_score(key, value):
     """Return paramater score given its current value, max value and
     parameter weight."""
     max_value = THRESHOLDS[key]
-    weight = WEIGHTS[key]
-    total = sum([v for k, v in WEIGHTS.items()])
-    score = ((math.log(1 + value) / math.log(1 + max(value, max_value))) * weight) / total
-    return round(score * 100, 2)
+    score = (math.log(1 + value) / math.log(1 + max(value, max_value))) 
+    return round(score * 10, 2)
 
 def get_summarize_param_score(key, value):
     """Return paramater score given its current value, max value and

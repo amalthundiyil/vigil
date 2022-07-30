@@ -57,7 +57,6 @@ def community(ctx, url, name, type, token):
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-        justify="center", 
     )
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
@@ -73,7 +72,6 @@ def maintainence(ctx, url, name, type, token):
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-        justify="center", 
     )
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
@@ -89,7 +87,6 @@ def security(ctx, url, name, type, token):
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-        justify="center", 
     )
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
@@ -106,7 +103,6 @@ def popularity(ctx, url, name, type, token):
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-        justify="center", 
     )
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
