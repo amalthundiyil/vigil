@@ -21,9 +21,10 @@ function PackageStats({ metrics }) {
                 {<CartesianGrid stroke="#e0dfdf" strokeDasharray='5 5'/>}
             </LineChart>
           </ResponsiveContainer>
+          
           <ResponsiveContainer width='100%' aspect={4/1}>
-            <BarChart label="Maintenance" widhth='100%' data={data["maintainence"]["ts_data"]["commit_frequency"]}>
-              <XAxis dataKey="day" stroke="#8884d8" />
+            <BarChart widhth='100%' data={data["maintainence"]["ts_data"]["commit_frequency"]}>
+              <XAxis dataKey="day" stroke="#8884d8"/>
               <YAxis />
               <Tooltip wrapperStyle={{ width: 100, backgroundColor: '#ccc' }} />
               <Legend width={100} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />

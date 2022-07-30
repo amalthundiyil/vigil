@@ -26,7 +26,10 @@ function PackageInfo({ metrics }) {
           <span className="featuredMoney">{data["final_score"]} / 10</span>
           <ProgressBar value={data["final_score"]} />
         </div>
-        <span className="featuredSub">{data["final_desc"]}</span>
+        <div className="featuredSub">{"Popularity score: "+data["popularity"]["summary"]["score"]}</div>
+        <div className="featuredSub">{"Maintainance score: "+data["maintainence"]["summary"]["score"]}</div>
+        <div className="featuredSub">{"Community score: "+data["community"]["summary"]["score"]}</div>
+        <div className="featuredSub">{"Security score: "+data["security"]["summary"]["score"]}</div>
       </div>
     </div>
   );
