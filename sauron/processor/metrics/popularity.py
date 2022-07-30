@@ -19,6 +19,39 @@ THRESHOLDS = {
 "downloads" : 26,
 }
 
+DESCRIPTIONS = {
+"watchers_count" : {"HIGH": "Many watchers",
+				"LOW": "Zero to no watchers",
+				"MEDIUM": "Few watchers",
+				"CRITICAL": "Active community of watchers"},
+"followers_count" : {"HIGH": "Highly popular",
+				"LOW": "Barely popular",
+				"MEDIUM": "Some popularity",
+				"CRITICAL":"Key ecosystem project",},
+"stars_count" :{"HIGH": "Highly starred",
+				"LOW": "Rarely starred",
+				"MEDIUM": "Starred often",
+				"CRITICAL":"Very highly starred",},
+"reactions_count" : {"HIGH": "Many reactions",
+				"LOW": "Few to no reactions",
+				"MEDIUM": "Some reactions",
+				"CRITICAL":"A lot of reactions",},
+"dependents_count" : {"HIGH": "High number of dependents",
+				"LOW": "Low number of dependents",
+				"MEDIUM": "A few dependents",
+				"CRITICAL":"Very high number of dependents"},
+"downloads": {"HIGH": "Downloaded frequently",
+				"LOW": "Not downloaded often",
+				"MEDIUM": "Downloaded a few times",
+				"CRITICAL":"Very commonly downloaded",},
+
+}
+
+SUMMARY_DESC = {"HIGH": "Repo is popular and downloaded frequently",
+                 "LOW":"Repo is not very popular",
+                 "MEDIUM":"Some downloads and interaction",
+                 "Critical":  "Repo is a key ecosystem project"}
+
 
 def get_param_score(key, value):
     """Return paramater score given its current value, max value and
@@ -37,7 +70,14 @@ def get_summarize_param_score(key, value):
 
 def get_param_description(key, value):
     score = get_param_score(key, value)
-    return f"{key} got a score of {score}"
+    if score >= 7.5:
+        return DESCRIPTIONS[key]["LOW"]
+    if score >= 5:
+        return DESCRIPTIONS[key]["MEDIUM"]
+    if score >= 2.5:
+        return DESCRIPTIONS[key]["HIGH"]
+    else:
+        return DESCRIPTIONS[key]["HIGH"]
 
 def summarize_score(data):
     total = sum([v for k, v in WEIGHTS.items()])
@@ -47,7 +87,18 @@ def summarize_score(data):
     criticality_score = total_score / total
     return round(criticality_score * 10, 2)
 
-
 def summarize_description(data):
-    s = summarize_score(data)
-    return f"Got score of {s}/10"
+    score = summarize_score(data)
+    if score >= 7.5:
+        return SUMMARY_DESC["LOW"]
+    if score >= 5:
+        return SUMMARY_DESC["MEDIUM"]
+    if score >= 2.5:
+        return SUMMARY_DESC["HIGH"]
+    else:
+        return SUMMARY_DESC["HIGH"]
+
+
+
+
+

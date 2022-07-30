@@ -55,11 +55,14 @@ def community(ctx, url, name, type, token):
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
+    console.print("\n")
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
+    console.print("\n")
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
+    return s["score"]
 
 
 def maintainence(ctx, url, name, type, token):
@@ -69,12 +72,15 @@ def maintainence(ctx, url, name, type, token):
     df = full_process(p, True)
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
+    console.print("\n")
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
+    console.print("\n")
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
+    return s["score"]
 
 
 def security(ctx, url, name, type, token):
@@ -84,12 +90,15 @@ def security(ctx, url, name, type, token):
     df = full_process(p, True)
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
+    console.print("\n")
     console = Console()
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
+    console.print("\n")
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
+    return s["score"]
 
 
 
@@ -101,11 +110,14 @@ def popularity(ctx, url, name, type, token):
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
+    console.print("\n")
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
+    console.print("\n")
     click.secho(f'🚩 Aggregate score: {s["score"]}')
     click.secho(f'📜 Aggregate summary: {s["description"]}')
+    return s["score"]
 
 
 @click.command(
@@ -172,8 +184,11 @@ def check(
     popularity,
     threshold,
 ):
+    if threshold and threshold < 0:
+        click.secho(f"⚠️  Threshold can't be below 0. Currently set to {threshold}", fg="red", bold=True)
+        sys.exit(1)
     if community or maintainence or security or popularity:
-        run_check(
+        final_score = run_check(
             ctx,
             url,
             name,
@@ -202,19 +217,20 @@ def check(
         df = transform({"metrics": DOMAINS, "score": scores, "description": descs})
         final_score, final_description = final_summary(scores)
         console = Console()
+        console.print("\n")
         console.print(
             tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
-            justify="center", 
         )
+        console.print("\n")
         click.secho(f'🚩 Aggregate score: {final_score}')
         click.secho(f'📜 Aggregate summary: {final_description}')
 
-        if threshold:
-            if final_score >= threshold:
-                click.secho("✅️  Passed all checks", fg="green", bold=True)
-            else:
-                click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
-                sys.exit(1)
+    if threshold:
+        if final_score >= threshold:
+            click.secho("✅️  Passed all checks", fg="green", bold=True)
+        else:
+            click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
+            sys.exit(1)
 
 
 
