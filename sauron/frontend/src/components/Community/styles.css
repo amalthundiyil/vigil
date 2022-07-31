@@ -43,10 +43,9 @@
 }
 
 .comm-features{
-    padding: 5px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     font-weight: 700;
 }
 
@@ -64,4 +63,14 @@
 .sentiment{
     font-size: x-large;
     padding: 65px;
+}
+
+.info{
+    color: grey;
+}
+
+.desc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../context";
 import { useState } from "react";
 import axios from "../../utils/axios";
+import Dropdown from "../Dropdown/Dropdown";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
