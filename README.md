@@ -4,7 +4,7 @@
 
 <h1>
 <p align='center'>
-Sauron - OSS Security Inspector
+Sauron - OSS Security Inspector 
 </p>
 </h1>
 
