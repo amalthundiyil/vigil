@@ -1,5 +1,7 @@
 import logging
 
+from black import main
+
 from sauron.processor.base_backend import BackendTypes
 from sauron.processor.base_backend import BaseBackend
 
@@ -50,10 +52,25 @@ def validate(url, name, type):
         raise ValidationError(f"Please enter a valid URL ({url})")
 
 
+def get_summary(key):
+    from sauron.processor.metrics import community, maintainence, popularity
+    from sauron.processor.processors import security
+
+    desc = f"{community.DESCRIPTIONS[key]}. {maintainence.DESCRIPTIONS[key]}. {popularity.DESCRIPTIONS[key]}. {security.SUMMARY_DESC[key]}"
+    return desc
+
+
 def final_summary(scores):
     final_score = round(sum(scores) / max(1, len(scores)), 2)
-    final_description = f"Got score of {final_score}"
-    return final_score, final_description
+    if final_score >= 7.5:
+        desc = get_summary("CRITICAL")
+    if final_score >= 5:
+        desc = get_summary("HIGH")
+    if final_score >= 2.5:
+        desc = get_summary("MEDIUM")
+    else:
+        desc = get_summary("LOW")
+    return final_score, desc
 
 
 def processor_mapping(domain):

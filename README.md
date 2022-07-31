@@ -35,7 +35,6 @@ It is an automated tool that assesses a number of important heuristics associate
 From the project root folder run the following commands:
 
 ```sh
-# setup the virtual environment
 python3.8 -m venv venv
 source venv/bin/activate
 

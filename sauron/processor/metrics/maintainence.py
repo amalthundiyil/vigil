@@ -64,7 +64,7 @@ DESCRIPTIONS = {
 SUMMARY_DESC = {"HIGH": "Repo is well maintained and has active maintainers",
                  "LOW":"Repo is poorly maintained and can be considered inactive",
                  "MEDIUM":"Repo is dormant",
-                 "Critical":  "Repo is well maintained and has active maintainers"}
+                 "CRITICAL":  "Repo is well maintained and has active maintainers"}
 
 
 

@@ -50,7 +50,7 @@ DESCRIPTIONS = {
 SUMMARY_DESC = {"HIGH": "Repo is popular and downloaded frequently",
                  "LOW":"Repo is not very popular",
                  "MEDIUM":"Some downloads and interaction",
-                 "Critical":  "Repo is a key ecosystem project"}
+                 "CRITICAL":  "Repo is a key ecosystem project"}
 
 
 def get_param_score(key, value):
