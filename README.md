@@ -16,6 +16,8 @@ Sauron - OSS Security Inspector
 
 > "_One tool to rule them all, one tool to find them, One tool to bring them all, and in the darkness bind them._"
 
+[Demo Video](https://youtu.be/R768ofGlLa4)
+
 ## Introduction
 
 Sauron is an easy way for consumers of open-source projects to judge whether their dependencies are really safe.
@@ -58,7 +60,7 @@ Setup the `sauron.config.json` configuration file with the desired configuration
 ### Sauron CLI
 
 ```sh
-$ sauron check --url "https://github.com/amal-thundiyil/moni-moni" 
+$ sauron check --url "https://github.com/amal-thundiyil/moni-moni"
 
 ███████╗ █████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗
 ██╔════╝██╔══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║
