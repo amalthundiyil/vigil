@@ -1,11 +1,21 @@
 from secrets import token_hex
 import json
+import sys
 
 from elasticsearch import Elasticsearch, helpers
 import requests
+import click
 
 from sauron.processor.base_processor import validate
 from sauron.processor.base_backend import BackendTypes, BackendUrls
+
+
+def connect_es(elastic_url=None):
+    es = Elasticsearch([{"host": "localhost", "port": 9200}])
+    if not es.ping():
+        click.secho("❗ Could not connect to elastic search!", fg="red", bold=True)
+        return None
+    return es
 
 
 def add_data(es, data):

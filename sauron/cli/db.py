@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 from rich import print_json
 from rich.console import Console
 
-from sauron.cli.db_utils import add_data, get_data, drop_data
+from sauron.cli.db_utils import add_data, get_data, drop_data, connect_es
 from sauron.processor.base_backend import BackendTypes
 from sauron.backend.server.commands.dashboard import (
     get_package_info,

@@ -32,7 +32,11 @@ def get_validated_class(domain, url=None, name=None, type=None, token=None):
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(0)
 
+
 def summarize(p, silent):
+    es_data = get_es_data(p)
+    if es_data:
+        return es_data[p.domain]["summary"]
     if not silent:
         data = p.summarize()
         return data
@@ -44,7 +48,12 @@ def summarize(p, silent):
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(0)
 
+
 def full_process(p, silent):
+    es_data = get_es_data(p)
+    if es_data:
+        df = transform(es_data[p.domain]["score_data"])
+        return df
     if not silent:
         data = p.process()
         df = transform(data)
@@ -57,12 +66,27 @@ def full_process(p, silent):
         LOG.error(e)
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(0)
+
+
+def get_es_data(p):
+    from sauron.cli.db_utils import connect_es, get_data
+
+    es = connect_es()
+    if not es:
+        return
+    es_data = get_data(p.url, p.name, p.type, es)
+    if not es_data:
+        return
+    return es_data
 
 
 def transform(l):
     l["metrics"] = transform_list(l["metrics"])
     df = pd.DataFrame(l)
-    df.rename(columns={"metrics": "Metrics", "score": "Score", "description": "Description"}, inplace=True)
+    df.rename(
+        columns={"metrics": "Metrics", "score": "Score", "description": "Description"},
+        inplace=True,
+    )
     return df
 
 
@@ -73,5 +97,3 @@ def transform_list(l):
         new_key = " ".join(new_key.split("_"))
         new_l.append(new_key)
     return new_l
-
-

@@ -73,7 +73,6 @@ def maintainence(ctx, url, name, type, token):
     df = full_process(p, True)
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
-    console.print("\n")
     console = Console()
     console.print("\n")
     console.print(
@@ -92,8 +91,8 @@ def security(ctx, url, name, type, token):
     df = full_process(p, True)
     s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
-    console.print("\n")
     console = Console()
+    console.print("\n")
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
