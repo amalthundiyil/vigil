@@ -153,7 +153,15 @@ Commands:
 ### Sauron Web UI
 
 <p align='center'>
+React Application
+</p>
+
+<p align='center'>
 <img width="80%" src='./docs/images/dashboard.png'>
+</p>
+
+<p align='center'>
+Kibana Interface
 </p>
 
 <p align='center'>
@@ -168,13 +176,17 @@ Commands:
 - Assesses a number of important heuristics associated with software security and assigns each check a score.
 - Sauron tracks four major metrics as shown in the diagram to produce a final score out of 10.
 
-#### Architecture Diagram
+<p align='center'>
+ <b>Architecture Diagram</b>
+</p>
 
 <p align='center'>
 <img width="80%" src='./docs/images/arch.jpeg'>
 </p>
 
-#### Workflow
+<p align='center'>
+ <b>Workflow</b>
+</p>
 
 <p align='center'>
 <img width="80%" src='./docs/images/workflow.jpeg'>
