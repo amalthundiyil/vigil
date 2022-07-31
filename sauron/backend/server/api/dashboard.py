@@ -11,7 +11,7 @@ from sauron.backend.server.commands.dashboard import (
     get_es_data,
 )
 from sauron.cli.checks import DOMAINS
-from sauron.cli.db_utils import add_data
+from sauron.cli.db_utils import add_data, connect_es
 
 
 LOG = logging.getLogger("sauron.backend.server.api.dashboard")
@@ -53,6 +53,9 @@ def post():
         pkg_info["desc"],
         pkg_info["url"],
     )
+    es = connect_es()
+    res = add_data(es, data)
+    print(res)
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Request processed successfully",
