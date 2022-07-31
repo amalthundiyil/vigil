@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 from rich import print_json
 from rich.console import Console
 
-from sauron.cli.db_utils import add_data, get_data, drop_data
+from sauron.cli.db_utils import add_data, get_db_data, drop_data, connect_es
 from sauron.processor.base_backend import BackendTypes
 from sauron.backend.server.commands.dashboard import (
     get_package_info,
@@ -27,8 +27,34 @@ DEFAULT_ES_URL = "http://localhost:9200"
 LOG = logging.getLogger("sauron.cli.db")
 
 
-def get_es_client():
-    es = Elasticsearch()
+def add_es_data_cli(url, name, type, token, elastic_url=None):
+    es = connect_es(elastic_url)
+    data = {}
+    for domain in DOMAINS:
+        click.secho(
+            f"{DOMAIN_TO_EMOJI[domain]}  Ingesting {domain} data", fg="blue", bold=True
+        )
+        p = get_validated_class(domain, url, name, type, token)
+        d = full_process(p)
+        data[domain] = d
+        LOG.info(data[domain])
+        click.secho(f"✔️  Completed ingesting {domain} data", fg="green", bold=True)
+    data["final_score"], data["final_desc"] = summary(data)
+    pkg_info = get_package_info(p)
+    data["name"], data["type"], data["description"], data["url"] = (
+        pkg_info["name"],
+        pkg_info["type"],
+        pkg_info["desc"],
+        pkg_info["url"],
+    )
+    click.secho(f"➕ Adding repository data to Elasticsearch", bold=True)
+    try:
+        add_data(es, data)
+    except Exception as e:
+        click.secho(f"❗ Failed: {e}", fg="red", bold=True)
+        sys.exit(1)
+
+    click.secho(f"✅️  Completed adding data of {p.name}", fg="green", bold=True)
 
 
 @click.group(help="Manage the Elasticsearch database")
@@ -59,37 +85,7 @@ def db():
 @click.pass_context
 def add_repo(ctx, url, name, type, token, elastic_url):
     token = get_from_config("github_token", token, silent=True)
-    es = Elasticsearch([{"host": "localhost", "port": 9200}])
-    if not es.ping():
-        click.secho("❗ Could not connect to elastic search!", fg="red", bold=True)
-        sys.exit(1)
-
-    data = {}
-    for domain in DOMAINS:
-        click.secho(
-            f"{DOMAIN_TO_EMOJI[domain]}  Ingesting {domain} data", fg="blue", bold=True
-        )
-        p = get_validated_class(domain, url, name, type, token)
-        d = full_process(p)
-        data[domain] = d
-        LOG.info(data[domain])
-        click.secho(f"✔️  Completed ingesting {domain} data", fg="green", bold=True)
-    data["final_score"], data["final_desc"] = summary(data)
-    pkg_info = get_package_info(p)
-    data["name"], data["type"], data["description"], data["url"] = (
-        pkg_info["name"],
-        pkg_info["type"],
-        pkg_info["desc"],
-        pkg_info["url"],
-    )
-    click.secho(f"➕ Adding repository data to Elasticsearch", bold=True)
-    try:
-        add_data(es, data)
-    except Exception as e:
-        click.secho(f"❗ Failed: {e}", fg="red", bold=True)
-        sys.exit(1)
-
-    click.secho(f"✅️  Completed adding data of {p.name}", fg="green", bold=True)
+    add_es_data_cli(url, name, type, token, elastic_url)
 
 
 @db.command(context_settings=dict(ignore_unknown_options=True))
@@ -121,7 +117,7 @@ def get_repo(ctx, url, name, type, elastic_url):
     click.secho(f"🎯 Getting repository data from Elasticsearch", bold=True)
     p = get_validated_class("popularity", url, name, type)
     try:
-        d = get_data(url, name, type, es)
+        d = get_db_data(url, name, type, es)
     except Exception as e:
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(1)

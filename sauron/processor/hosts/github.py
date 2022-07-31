@@ -82,9 +82,17 @@ class Github(BaseBackend):
         )
         scorecard_output = result.stdout.decode("utf-8")
         scorecard_output = scorecard_output[scorecard_output.find("{") :]
-        js = json.loads(scorecard_output)
-
         self.security_metrics = []
+        try:
+            js = json.loads(scorecard_output)
+        except Exception:
+            self.security_metrics.append({
+                "metric": "none",
+                "description": "Could not perform security check",
+                "score": 0,
+            })
+
+
         for check in js.get("checks", []):
             payload = {
                 "metric": check["name"].lower().replace('-', '_'),
