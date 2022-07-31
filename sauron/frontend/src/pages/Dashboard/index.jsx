@@ -12,7 +12,7 @@ import axios from "../../utils/axios";
 import PackageStats from "../../components/PackageStats";
 import PackageInfo from "../../components/PackageInfo";
 import Community from "../../components/Community";
-import metrics from "../../data.json";
+// import metrics from "../../data.json";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -23,22 +23,22 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Dashboard() {
-  // const { loading, setLoading, metrics, setMetrics } = useGlobalContext();
-  // const navigate = useNavigate();
+  const { loading, setLoading, metrics, setMetrics } = useGlobalContext();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (loading || metrics.length <= 0) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (loading || metrics.length <= 0) {
+      navigate("/");
+    }
+  }, []);
 
-  // if (!loading && !metrics.length > 0) {
-  //   navigate("/");
-  // }
+  if (!loading && !metrics.length > 0) {
+    navigate("/");
+  }
 
-  // if (metrics.length <= 0) {
-  //   return <Spinner open={true} />;
-  // }
+  if (metrics.length <= 0) {
+    return <Spinner open={true} />;
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
