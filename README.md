@@ -153,11 +153,11 @@ Commands:
 ### Sauron Web UI
 
 <p align='center'>
-<img width="60%" src='./docs/images/dashboard.png'>
+<img width="80%" src='./docs/images/dashboard.png'>
 </p>
 
 <p align='center'>
-<img width="60%" src='./docs/images/kibana.png'>
+<img width="80%" src='./docs/images/kibana.png'>
 </p>
 
 ## 🎓 Description
@@ -171,13 +171,13 @@ Commands:
 #### Architecture Diagram
 
 <p align='center'>
-<img width="40%" src='./docs/images/arch.jpeg'>
+<img width="80%" src='./docs/images/arch.jpeg'>
 </p>
 
 #### Workflow
 
 <p align='center'>
-<img width="40%" src='./docs/images/workflow.jpeg'>
+<img width="80%" src='./docs/images/workflow.jpeg'>
 </p>
 
 Data processing is done by giving weights and thresholds to different parameters, tuned according to popular repositories and publicly defined metrics. More info in `docs/metrics.md`.
