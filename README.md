@@ -16,7 +16,13 @@ Sauron - OSS Security Inspector
 
 > "_One tool to rule them all, one tool to find them, One tool to bring them all, and in the darkness bind them._"
 
-<p align="center"> 🎥<a href="https://youtu.be/R768ofGlLa4">Demo Video </a>🎥</p>
+<p align="center"> 🎥<a href="">Demo Video </a>🎥</p>
+</p>
+<h3>
+<p align='center'>
+🎥 Find Sauron's demo video <a href="https://youtu.be/R768ofGlLa4">here</a> 🎥
+</p>
+</h3>
 
 ## 📌 Introduction
 
@@ -149,11 +155,11 @@ Commands:
 ### Sauron Web UI
 
 <p align='center'>
-<img width="40%" src='./docs/images/dashboard.jpeg'>
+<img width="40%" src='./docs/images/dashboard.png'>
 </p>
 
 <p align='center'>
-<img width="40%" src='./docs/images/kibana.jpeg'>
+<img width="40%" src='./docs/images/kibana.png'>
 </p>
 
 ## 🎓 Description
@@ -177,12 +183,6 @@ Commands:
 </p>
 
 Data processing is done by giving weights and thresholds to different parameters, tuned according to popular repositories and publicly defined metrics. More info in `docs/metrics.md`.
-
-#### Workflow
-
-<p align='center'>
-<img width="40%" src='./docs/images/workflow.jpeg'>
-</p>
 
 ### Limitations
 
