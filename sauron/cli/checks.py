@@ -1,3 +1,4 @@
+import imp
 import logging
 import sys
 import click
@@ -36,24 +37,24 @@ DOMAIN_TO_EMOJI = {
 }
 
 
-def run_check(ctx, url, name, type, token, comm, maint, sec, pop):
+def run_check(ctx, url, name, type, token, comm, maint, sec, pop, elastic):
     if comm:
-        return community(ctx, url, name, type, token)
+        return community(ctx, url, name, type, token, elastic)
     if maint:
-        return maintainence(ctx, url, name, type, token)
+        return maintainence(ctx, url, name, type, token, elastic)
     if sec:
-        return security(ctx, url, name, type, token)
+        return security(ctx, url, name, type, token, elastic)
     if pop:
-        return popularity(ctx, url, name, type, token)
+        return popularity(ctx, url, name, type, token, elastic)
     return -1
 
 
-def community(ctx, url, name, type, token):
+def community(ctx, url, name, type, token, elastic):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"️🌏  Analyzing Community", fg="blue", bold=True)
     p = get_validated_class("community", url, name, type, token)
-    df = full_process(p, True)
-    s = summarize(p, True)
+    df = full_process(p, True, elastic)
+    s = summarize(p, True, elastic)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -66,12 +67,12 @@ def community(ctx, url, name, type, token):
     return s["score"]
 
 
-def maintainence(ctx, url, name, type, token):
+def maintainence(ctx, url, name, type, token, elastic):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"️🛠️  Analyzing Maintainence", fg="yellow", bold=True)
     p = get_validated_class("maintainence", url, name, type, token)
-    df = full_process(p, True)
-    s = summarize(p, True)
+    df = full_process(p, True, elastic)
+    s = summarize(p, True, elastic)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -84,12 +85,12 @@ def maintainence(ctx, url, name, type, token):
     return s["score"]
 
 
-def security(ctx, url, name, type, token):
+def security(ctx, url, name, type, token, elastic):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"🛡️  Analyzing security ", fg="yellow", bold=True)
     p = get_validated_class("security", url, name, type, token)
-    df = full_process(p, True)
-    s = summarize(p, True)
+    df = full_process(p, True, elastic)
+    s = summarize(p, True, elastic)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -102,12 +103,12 @@ def security(ctx, url, name, type, token):
     return s["score"]
 
 
-def popularity(ctx, url, name, type, token):
+def popularity(ctx, url, name, type, token, elastic):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"📈 Analyzing Popularity ", fg="white", bold=True)
     p = get_validated_class("popularity", url, name, type, token)
-    df = full_process(p, True)
-    s = summarize(p, True)
+    df = full_process(p, True, elastic)
+    s = summarize(p, True, elastic)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -202,6 +203,7 @@ def check(
     if elastic:
         from sauron.cli.checks_util import add_data
 
+        token = get_from_config("github_token", token, silent=True)
         res = add_data("", url, name, type, token)
 
     if community or maintainence or security or popularity:
@@ -215,6 +217,7 @@ def check(
             maintainence,
             security,
             popularity,
+            elastic,
         )
     else:
         token = get_from_config("github_token", token, silent=True)
@@ -227,8 +230,8 @@ def check(
                 f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True
             )
             p = get_validated_class(domain, url, name, type, token)
-            df = full_process(p, True)
-            s = summarize(p, True)
+            df = full_process(p, True, elastic)
+            s = summarize(p, True, elastic)
             click.secho(f"✔️  Completed {domain} analysis", fg="green", bold=True)
             scores.append(s["score"])
             descs.append(s["description"])

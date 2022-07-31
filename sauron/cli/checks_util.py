@@ -33,10 +33,11 @@ def get_validated_class(domain, url=None, name=None, type=None, token=None):
         sys.exit(0)
 
 
-def summarize(p, silent):
-    es_data = get_es_data(p)
-    if es_data:
-        return es_data[p.domain]["summary"]
+def summarize(p, silent, elastic):
+    if elastic:
+        es_data = get_es_data(p)
+        if es_data:
+            return es_data[p.domain]["summary"]
     if not silent:
         data = p.summarize()
         return data
@@ -49,11 +50,12 @@ def summarize(p, silent):
         sys.exit(0)
 
 
-def full_process(p, silent):
-    es_data = get_es_data(p)
-    if es_data:
-        df = transform(es_data[p.domain]["score_data"])
-        return df
+def full_process(p, silent, elastic):
+    if elastic:
+        es_data = get_es_data(p)
+        if es_data:
+            df = transform(es_data[p.domain]["score_data"])
+            return df
     if not silent:
         data = p.process()
         df = transform(data)
