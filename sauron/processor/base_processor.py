@@ -56,7 +56,7 @@ def get_summary(key):
     from sauron.processor.metrics import community, maintainence, popularity
     from sauron.processor.processors import security
 
-    desc = f"{community.DESCRIPTIONS[key]}. {maintainence.DESCRIPTIONS[key]}. {popularity.DESCRIPTIONS[key]}. {security.SUMMARY_DESC[key]}"
+    desc = f"{community.SUMMARY_DESC[key]}. {maintainence.SUMMARY_DESC[key]}. {popularity.SUMMARY_DESC[key]}. {security.SUMMARY_DESC[key]}"
     return desc
 
 
