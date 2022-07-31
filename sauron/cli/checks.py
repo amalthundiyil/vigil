@@ -38,13 +38,14 @@ DOMAIN_TO_EMOJI = {
 
 def run_check(ctx, url, name, type, token, comm, maint, sec, pop):
     if comm:
-        community(ctx, url, name, type, token)
+        return community(ctx, url, name, type, token)
     if maint:
-        maintainence(ctx, url, name, type, token)
+        return maintainence(ctx, url, name, type, token)
     if sec:
-        security(ctx, url, name, type, token)
+        return security(ctx, url, name, type, token)
     if pop:
-        popularity(ctx, url, name, type, token)
+        return popularity(ctx, url, name, type, token)
+    return -1
 
 
 def community(ctx, url, name, type, token):
@@ -74,6 +75,7 @@ def maintainence(ctx, url, name, type, token):
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console.print("\n")
     console = Console()
+    console.print("\n")
     console.print(
         tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
     )
@@ -185,8 +187,9 @@ def check(
     threshold,
 ):
     if threshold and threshold < 0:
-        click.secho(f"⚠️  Threshold can't be below 0. Currently set to {threshold}", fg="red", bold=True)
+        click.secho(f"⚠️  Threshold must be greater than 0. Currently set to {threshold}", fg="red", bold=True)
         sys.exit(1)
+
     if community or maintainence or security or popularity:
         final_score = run_check(
             ctx,

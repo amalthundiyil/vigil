@@ -39,6 +39,9 @@ From the project root folder run the following commands:
 python3.8 -m venv venv
 source venv/bin/activate
 
+# for Elasticsearch (if you're using it)
+sudo sysctl -w vm.max_map_count=262144
+
 # install the developer dependencies:
 make install-dev
 

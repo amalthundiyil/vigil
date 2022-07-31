@@ -76,12 +76,12 @@ class BaseBackend:
     @property
     def get_downloads_data(self):
         if self.host:
-            return self.host.get_downloads_data()
+            return self.host.get_downloads_data
 
     @property
     def commit_frequency_data(self):
         if self.host:
-            return self.host.commit_frequency_data()
+            return self.host.commit_frequency_data
 
     @property
     def downloads(self):

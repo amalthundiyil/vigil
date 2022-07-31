@@ -24,7 +24,7 @@ def post():
         print(data[domain])
     data["final_score"], data["final_desc"] = summary(data)
     pkg_info = get_package_info(p)
-    data["name"], data["type"], data["description"] = pkg_info["name"], pkg_info["type"], pkg_info["desc"]
+    data["name"], data["type"], data["description"], data["url"] = pkg_info["name"], pkg_info["type"], pkg_info["desc"], pkg_info["url"]
     return jsonify(
         status_code=HTTPStatus.CREATED,
         message="Request processed successfully",

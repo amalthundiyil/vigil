@@ -29,4 +29,4 @@ def summary(data):
     return final_summary(scores)
 
 def get_package_info(p):
-    return {"desc": p.backend.description, "type": p.type, "name": p.name}
+    return {"desc": p.backend.description, "type": p.type, "name": p.name, "url": p.url}
