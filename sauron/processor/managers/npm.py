@@ -94,9 +94,11 @@ class Npm(BaseBackend):
 
     @property
     def maintainer_count(self):
+        n =  len(self.repo["maintainers"])
+        if n:
+            return n
         if self.host:
             return self.host.maintainer_count
-        return len(self.repo["maintainers"])
 
     @property
     def license(self):

@@ -26,16 +26,6 @@ echo "Done!"
 if [[ ! -e sauron.config.json && ! -e $HOME/.sauron/sauron.config.json ]]; then
   echo "No config file found. Generating..."
   scripts/install/config.sh $target
-else
-  read -r -p "We noticed you have a config file already. Would you like to overwrite it with a new one? [Y/n] " response
-  case "$response" in
-      [yY][eE][sS]|[yY])
-          echo "Generating a config file..."
-          scripts/install/config.sh $target
-          ;;
-      *)
-          ;;
-  esac
 fi
 
 echo "================================="

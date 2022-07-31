@@ -20,30 +20,18 @@ jobs:
         with:
           node-version: "16.x"
 
-      - name: Setup virtual environment
-        run: |
-          pip install --upgrade pip
-          python3.8 -m venv venv
-          source venv/bin/activate
-          echo "VIRTUAL ENV" $VIRTUAL_ENV
-
       - name: Install dependencies
         run: |
-          source venv/bin/activate
           make install-dev
 
       - name: Start server
         run: |
-          source venv/bin/activate
           timeout 10 make backend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
       - name: Start frontend
         run: |
-          source venv/bin/activate
           timeout 10 make frontend-start || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
       - name: Run tests
         run: |
-          source venv/bin/activate
-          pip list
           make test

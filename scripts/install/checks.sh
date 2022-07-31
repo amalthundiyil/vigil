@@ -1,25 +1,5 @@
 #!/bin/bash
 
-if [[ -z "$VIRTUAL_ENV" ]]; then
-  echo "*** We noticed you're not currently inside a virtual environment. Sauron MUST be run inside a virtual environment. ***"
-  read -r -p "*** Would you like us to generate a environment for you automatically? If you select no, you must create it yourself. [Y/n] " response
-  case "$response" in
-      [yY][eE][sS]|[yY])
-          echo
-          $sauron_python_command -m venv $HOME/.virtualenvs/sauron_env
-          echo "*** Your environment was installed to $HOME/.virtualenvs/sauron_env/. Please activate your environment using your shell's appropriate command. ***"
-          echo "*** For example, if you're using bash, run 'source $HOME/.virtualenvs/sauron_env/bin/activate'. ***"
-          echo "*** Once you've activated your virtual environment, please rerun the installation command. ***"
-          exit 1
-          ;;
-      *)
-          echo
-          echo "Please create & activate your virtual environment and rerun the installation command when you're finished."
-          exit 1
-          ;;
-  esac
-fi
-
 function check_python_version() {
   major_python_version=$($1 -c 'import sys; print(sys.version_info.major)')
   minor_python_version=$($1 -c 'import sys; print(sys.version_info.minor)')

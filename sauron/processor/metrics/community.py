@@ -52,7 +52,7 @@ DESCRIPTIONS = {
 SUMMARY_DESC = {"HIGH": "Community is active and has a strong code of conduct",
                  "LOW":"Inactive community",
                  "MEDIUM":"Community is dormant",
-                 "Critical":  "Community is active and has a strong code of conduct"}
+                 "CRITICAL":  "Community is active and has a strong code of conduct"}
 
 
 def get_param_score(key, value):

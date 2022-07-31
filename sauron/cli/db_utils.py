@@ -31,46 +31,27 @@ def add_data(es, data):
     return res
 
 
+def iterate_over_items(es, type, key, value):
+    es_d = es.search(index="sauron", query={"match_all": {}})
+    if es_d and es_d["hits"] and es_d["hits"]["hits"]:
+        data = es_d["hits"]["hits"]
+        for d in data:
+            if d["_source"][key] == value:
+                return d["_source"]
+
+
 def get_db_data(url, name, type, es):
     validate(url, name, type)
     if not es.indices.exists("sauron"):
         return
     es.indices.refresh(index="sauron")
     if url:
-        es_d = es.search(index="sauron", query={"match": {"url": url}})
-        if es_d and es_d["hits"] and es_d["hits"]["hits"]:
-            return es_d["hits"]["hits"][0]["_source"]
+        return iterate_over_items(es, type, "url", url)
     elif name and type:
         if type == BackendTypes.github:
-            owner = name.split("/")[0]
-            repo = name.split("/")[1]
-            q = {
-                "bool": {
-                    "must": [
-                        {"term": {"type": type}},
-                    ]
-                }
-            }
-            es_d = es.search(index="sauron", query=q)
-            if es_d and es_d["hits"] and es_d["hits"]["hits"]:
-                data = es_d["hits"]["hits"]
-                for d in data:
-                    if d["_source"]["name"] == name:
-                        return d["_source"]
+            return iterate_over_items(es, type, "url", url)
         else:
-            es_d = es.search(
-                index="sauron",
-                query={
-                    "bool": {
-                        "must": [
-                            {"term": {"name": name}},
-                            {"term": {"type": type}},
-                        ]
-                    }
-                },
-            )
-            if es_d and es_d["hits"] and es_d["hits"]["hits"]:
-                return es_d["hits"]["hits"][0]["_source"]
+            return iterate_over_items(es, type, "name", name)
 
 
 def drop_data(es):

@@ -14,6 +14,7 @@ from sauron.processor.base_backend import BaseBackend
 class Github(BaseBackend):
     def __init__(self, owner, repository, token=None) -> None:
         from sauron.processor.base_backend import BackendUrls, BackendTypes
+
         self.g = PyGithub(token)
         self.name = f"{owner}/{repository}"
         self.owner = owner
@@ -37,7 +38,6 @@ class Github(BaseBackend):
         if repo.endswith(".git"):
             repo = repo[:-4]
         return cls(owner, repo, token)
-    
 
     def has_file(self, filename):
         try:
@@ -57,19 +57,19 @@ class Github(BaseBackend):
         downloads = []
         for release in self.repo.get_releases():
             data = {"downloads": 0, "day": release.created_at}
-            data["day"] = datetime.strftime(data["day"], "%Y-%m-%d-%H-%M")
+            data["day"] = datetime.strftime(data["day"], "%Y-%m-%d")
             for asset in release.get_assets():
                 data["downloads"] += asset.download_count
             downloads.append(data)
         return downloads
-    
+
     def commit_frequency_data(self):
         data = self.repo.get_stats_participation().all
         now = datetime.today()
         new_data = []
         for i in range(0, 13):
             week = now - timedelta(weeks=i)
-            new_data.append({"commits": data[i], "day": week.strftime("%Y-%m-%d-%H-%M")})
+            new_data.append({"commits": data[i], "day": week.strftime("%Y-%m-%d")})
         return new_data
 
     def security(self):
@@ -85,24 +85,24 @@ class Github(BaseBackend):
         self.security_metrics = []
         try:
             js = json.loads(scorecard_output)
+            for check in js.get("checks", []):
+                payload = {
+                    "metric": check["name"].lower().replace("-", "_"),
+                    "description": check["reason"],
+                    "score": check["score"],
+                }
+                self.security_metrics.append(payload)
         except Exception:
-            self.security_metrics.append({
-                "metric": "none",
-                "description": "Could not perform security check",
-                "score": 0,
-            })
+            self.security_metrics.append(
+                {
+                    "metric": "none",
+                    "description": "Could not perform security check",
+                    "score": 0,
+                }
+            )
 
-
-        for check in js.get("checks", []):
-            payload = {
-                "metric": check["name"].lower().replace('-', '_'),
-                "description": check["reason"],
-                "score": check["score"],
-            }
-            self.security_metrics.append(payload)
         return self.security_metrics
 
-    
     @property
     def downloads(self):
         total = 0
@@ -110,7 +110,7 @@ class Github(BaseBackend):
         for d in data:
             total += d["downloads"]
         return total
-    
+
     @property
     def forks(self):
         return self.repo.forks_count
@@ -129,12 +129,11 @@ class Github(BaseBackend):
             file = self.repo.get_contents("CODEOWNERS")
         if file:
             c = CodeOwners(file.content)
-            owners = 0 
+            owners = 0
             for p in c.paths:
                 owners += len(p[2])
         return owners
 
-    
     @property
     def created_since(self):
         now = datetime.now()
@@ -150,9 +149,9 @@ class Github(BaseBackend):
     @property
     def commit_frequency(self):
         data = self.repo.get_stats_participation().all
-        avg_commits_per_week  = sum(data[:13]) // 13
+        avg_commits_per_week = sum(data[:13]) // 13
         return avg_commits_per_week
-    
+
     @property
     def comment_frequency(self):
         now = datetime.now()
@@ -164,11 +163,13 @@ class Github(BaseBackend):
     def closed_issues_count(self):
         return self.repo.get_issues(state="closed").totalCount
 
-    @property 
+    @property
     def updated_issues_count(self):
         issues = self.repo.get_issues()
         issues_l = list(issues)
-        sorted_issues = sorted(issues_l, key=operator.attrgetter("updated_at"), reverse=True)
+        sorted_issues = sorted(
+            issues_l, key=operator.attrgetter("updated_at"), reverse=True
+        )
         now = datetime.now()
         latest_issues = [i for i in sorted_issues if (now - i.updated_at).days <= 90]
         return len(latest_issues)
@@ -176,7 +177,9 @@ class Github(BaseBackend):
     @property
     def code_review_count(self):
         now = datetime.now()
-        review_comments = self.repo.get_pulls_review_comments(since=(now - timedelta(days=90)))
+        review_comments = self.repo.get_pulls_review_comments(
+            since=(now - timedelta(days=90))
+        )
         review_comments_list = list(review_comments)
         s = {}
         for r in review_comments_list:
@@ -200,7 +203,7 @@ class Github(BaseBackend):
         avg_issue_age = issue_age / len(issue_list)
         return avg_issue_age
 
-    @property 
+    @property
     def comments(self):
         return self.repo.get_comments()
 
@@ -211,22 +214,25 @@ class Github(BaseBackend):
         for u in users:
             for o in u.get_orgs():
                 orgs.add(o)
-        return len(orgs) 
-    
+        return len(orgs)
+
     @property
     def license(self):
         return int(self.get_license())
 
-
     @property
     def code_of_conduct(self):
-        return int(self.has_file("CODE_OF_CONDUCT") or self.has_file("CODE_OF_CONDUCT.md"))
+        return int(
+            self.has_file("CODE_OF_CONDUCT") or self.has_file("CODE_OF_CONDUCT.md")
+        )
 
     @property
     def bus_factor(self):
         c_stats = self.repo.get_stats_contributors()
         max_len = min(15, len(c_stats))
-        sorted_c_stats = sorted(c_stats, key=operator.attrgetter("total"), reverse=True)[:max_len]
+        sorted_c_stats = sorted(
+            c_stats, key=operator.attrgetter("total"), reverse=True
+        )[:max_len]
         top_commits = [u.total for u in sorted_c_stats]
         commits = sum(top_commits) // 2
         bus = 0
@@ -265,12 +271,11 @@ class Github(BaseBackend):
     @property
     def watchers_count(self):
         return self.repo.get_watchers().totalCount
-    
+
     @property
     def dependents_count(self):
         return self.repo.network_count
 
-    
     @property
     def description(self):
         return self.repo.description

@@ -47,8 +47,6 @@ class Pypi(BaseBackend):
             return Github.from_url(url, self.token)
 
     def downloads_data(self):
-        if self.host:
-            return self.host.downloads_data()
         r = requests.get(f"https://api.pepy.tech/api/projects/{self.name}")
         if not r.ok:
             return
@@ -60,8 +58,10 @@ class Pypi(BaseBackend):
             delta = now - dt
             if delta.days <= 7:
                 downloads.append({"downloads": int(v), "day": k})
-        self.result.update({"downloads": downloads})
-        
+        if not downloads and self.host:
+            return self.host.downloads_data()
+        return downloads
+
     def security(self):
         if self.security_metrics is not None:
             return self.security_metrics
@@ -71,7 +71,7 @@ class Pypi(BaseBackend):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        if "error" in result.stdout.decode('utf-8') or result.stderr.decode('utf-8'):
+        if "error" in result.stdout.decode("utf-8") or result.stderr.decode("utf-8"):
             return self.host.security()
         scorecard_output = result.stdout.decode("utf-8")
         scorecard_output = scorecard_output[scorecard_output.find("{") :]
@@ -80,7 +80,7 @@ class Pypi(BaseBackend):
         self.security_metrics = []
         for check in js.get("checks", []):
             payload = {
-                "metric": check["name"].lower().replace('-', '_'),
+                "metric": check["name"].lower().replace("-", "_"),
                 "description": check["reason"],
                 "score": check["score"],
             }
@@ -95,10 +95,10 @@ class Pypi(BaseBackend):
     def contributor_count(self):
         d = self.search.project_contributors("pypi", self.name)
         return len(d)
-    
+
     @property
     def stars_count(self):
-         return self.repo["stars"]
+        return self.repo["stars"]
 
     @property
     def dependents_count(self):
