@@ -53,7 +53,7 @@ class Npm(BaseBackend):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        if "error" in result.stdout or result.stderr:
+        if "error" in result.stdout.decode('utf-8') or result.stderr.decode('utf-8'):
             return self.host.security()
         scorecard_output = result.stdout.decode("utf-8")
         scorecard_output = scorecard_output[scorecard_output.find("{") :]

@@ -190,7 +190,6 @@ def check(
         click.secho(f"⚠️  Threshold must be greater than 0. Currently set to {threshold}", fg="red", bold=True)
         sys.exit(1)
 
-
     if community or maintainence or security or popularity:
         final_score = run_check(
             ctx,

@@ -53,8 +53,8 @@ dev-stop:
 dev: dev-stop dev-start
 
 db:
-	@ - docker stop sauron_database
-	@ - docker rm sauron_database
+	@sudo sysctl -w vm.max_map_count=262144
+	@docker-compose up
 
 test:
 	@ python -m pytest
