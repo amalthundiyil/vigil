@@ -70,7 +70,7 @@ make backend-start
 make frontend-start
 ```
 
-Setup the `sauron.config.json` configuration file with the configuration values.
+Setup the `sauron.config.json` configuration file with the configuration values. You can refer to `sauron.example.json` for details.
 
 ## 👨‍💻️ Usage
 
@@ -203,6 +203,6 @@ Data processing is done by giving weights and thresholds to different parameters
 
 ### Future Scope
 
-- [] Adding monetization in the form of actionable steps to improve package health.
-- [] Could be expanded to work on the security of cloud infrastructure, other package managers, and source code hosting platforms.
-- [] Seamless integrations into developer tooling, workflows, and automation pipelines.
+- [ ] Adding monetization in the form of actionable steps to improve package health.
+- [ ] Could be expanded to work on the security of cloud infrastructure, other package managers, and source code hosting platforms.
+- [ ] Seamless integrations into developer tooling, workflows, and automation pipelines.
