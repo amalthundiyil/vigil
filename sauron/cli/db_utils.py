@@ -1,6 +1,8 @@
 from secrets import token_hex
 import json
 import sys
+from tkinter import E
+from urllib.parse import urlparse
 
 from elasticsearch import Elasticsearch, helpers
 import requests
@@ -11,7 +13,11 @@ from sauron.processor.base_backend import BackendTypes, BackendUrls
 
 
 def connect_es(elastic_url=None):
-    es = Elasticsearch([{"host": "localhost", "port": 9200}])
+    if elastic_url:
+        url = urlparse(elastic_url)
+        es = Elasticsearch([{"host": url.hostname, "port": url.port}])
+    else:
+        es = Elasticsearch([{"host": "localhost", "port": 9200}])
     if not es.ping():
         click.secho("❗ Could not connect to elastic search!", fg="red", bold=True)
         return None
@@ -25,8 +31,10 @@ def add_data(es, data):
     return res
 
 
-def get_data(url, name, type, es):
+def get_db_data(url, name, type, es):
     validate(url, name, type)
+    if not es.indices.exists("sauron"):
+        return
     es.indices.refresh(index="sauron")
     if url:
         es_d = es.search(index="sauron", query={"match": {"url": url}})

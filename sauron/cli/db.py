@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 from rich import print_json
 from rich.console import Console
 
-from sauron.cli.db_utils import add_data, get_data, drop_data, connect_es
+from sauron.cli.db_utils import add_data, get_db_data, drop_data, connect_es
 from sauron.processor.base_backend import BackendTypes
 from sauron.backend.server.commands.dashboard import (
     get_package_info,
@@ -121,7 +121,7 @@ def get_repo(ctx, url, name, type, elastic_url):
     click.secho(f"🎯 Getting repository data from Elasticsearch", bold=True)
     p = get_validated_class("popularity", url, name, type)
     try:
-        d = get_data(url, name, type, es)
+        d = get_db_data(url, name, type, es)
     except Exception as e:
         click.secho(f"❗ Failed: {e}", fg="red", bold=True)
         sys.exit(1)

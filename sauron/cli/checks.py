@@ -13,7 +13,7 @@ from sauron.cli.checks_util import (
     get_validated_class,
     full_process,
     summarize,
-    transform
+    transform,
 )
 
 DOMAINS = ["community", "popularity", "maintainence", "security"]
@@ -29,10 +29,10 @@ LOGO = """
 ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 """
 DOMAIN_TO_EMOJI = {
-    "community" : '🌏', 
-    "popularity" : '📈️', 
-    "maintainence" : '🛠️', 
-    "security" : '🛡️', 
+    "community": "🌏",
+    "popularity": "📈️",
+    "maintainence": "🛠️",
+    "security": "🛡️",
 }
 
 
@@ -102,7 +102,6 @@ def security(ctx, url, name, type, token):
     return s["score"]
 
 
-
 def popularity(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"📈 Analyzing Popularity ", fg="white", bold=True)
@@ -166,11 +165,17 @@ def popularity(ctx, url, name, type, token):
     show_default=True,
     help="Run popularity checks",
 )
-
 @click.option(
     "--threshold",
     type=float,
     help="Minimum score required to pass",
+)
+@click.option(
+    "--elastic",
+    is_flag=True,
+    default=False,
+    show_default=True,
+    help="Use Sauron CLI with Elasticsearch.",
 )
 @click.pass_context
 def check(
@@ -184,10 +189,20 @@ def check(
     security,
     popularity,
     threshold,
+    elastic,
 ):
     if threshold and threshold < 0:
-        click.secho(f"⚠️  Threshold must be greater than 0. Currently set to {threshold}", fg="red", bold=True)
+        click.secho(
+            f"⚠️  Threshold must be greater than 0. Currently set to {threshold}",
+            fg="red",
+            bold=True,
+        )
         sys.exit(1)
+
+    if elastic:
+        from sauron.cli.checks_util import add_data
+
+        res = add_data("", url, name, type, token)
 
     if community or maintainence or security or popularity:
         final_score = run_check(
@@ -208,7 +223,9 @@ def check(
         scores = []
         descs = []
         for domain in DOMAINS:
-            click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True)
+            click.secho(
+                f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True
+            )
             p = get_validated_class(domain, url, name, type, token)
             df = full_process(p, True)
             s = summarize(p, True)
@@ -224,15 +241,14 @@ def check(
             tabulate(df, headers="keys", tablefmt="fancy_grid", showindex=False),
         )
         console.print("\n")
-        click.secho(f'🚩 Aggregate score: {final_score}')
-        click.secho(f'📜 Aggregate summary: {final_description}')
+        click.secho(f"🚩 Aggregate score: {final_score}")
+        click.secho(f"📜 Aggregate summary: {final_description}")
 
     if threshold:
         if final_score >= threshold:
             click.secho("✅️  Passed all checks", fg="green", bold=True)
         else:
-            click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
+            click.secho(
+                f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True
+            )
             sys.exit(1)
-
-
-
