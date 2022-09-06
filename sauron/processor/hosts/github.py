@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 from datetime import datetime, timedelta
 import subprocess
 import json
+import shutil
 import operator
 
 import numpy as np
@@ -76,8 +77,9 @@ class Github(BaseBackend):
         if self.security_metrics is not None:
             return self.security_metrics
         result = subprocess.run(
-            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --repo={self.url} --format json',
+            f'{shutil.which("scorecard")} --repo={self.url} --format json',
             shell=True,
+            env={"GITHUB_AUTH_TOKEN": self.token},
             stdout=subprocess.PIPE,
         )
         scorecard_output = result.stdout.decode("utf-8")

@@ -28,6 +28,28 @@ if [[ ! -e sauron.config.json && ! -e $HOME/.sauron/sauron.config.json ]]; then
   scripts/install/config.sh $target
 fi
 
+echo "Installing ossf/scorecard"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  if [[ ! -f /usr/local/bin/scorecard ]]; then
+    cd /usr/local/bin
+    wget "https://github.com/ossf/scorecard/releases/download/v4.6.0/scorecard_4.6.0_linux_amd64.tar.gz"
+    tar -xf scorecard_4.6.0_linux_amd64.tar.gz 
+    mv scorecard-linux-amd64 scorecard
+  fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ ! -f /usr/local/bin/scorecard ]]; then
+    cd /usr/local/bin
+    wget "https://github.com/ossf/scorecard/releases/download/v4.6.0/scorecard_4.6.0_darwin_amd64.tar.gz"
+    tar -xf scorecard_4.6.0_darwin_amd64.tar.gz 
+    mv scorecard-darwin-amd64 scorecard
+  fi
+else
+  echo "Couldn't recognize platform :/"
+fi
+
+echo "Completed installing ossf/scorecard"
+
+
 echo "================================="
 echo "===== INSTALLATION COMPLETE ====="
 echo "================================="

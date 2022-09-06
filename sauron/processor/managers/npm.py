@@ -48,12 +48,13 @@ class Npm(BaseBackend):
         if self.security_metrics is not None:
             return self.security_metrics
         result = subprocess.run(
-            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --npm {self.name} --format json',
+            f'scorecard --repo={self.url} --format json',
             shell=True,
+            env={"GITHUB_AUTH_TOKEN": self.token},
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        if "error" in result.stdout.decode('utf-8') or result.stderr.decode('utf-8'):
+        if "error" in result.stdout.decode("utf-8") or result.stderr.decode("utf-8"):
             return self.host.security()
         scorecard_output = result.stdout.decode("utf-8")
         scorecard_output = scorecard_output[scorecard_output.find("{") :]
@@ -62,7 +63,7 @@ class Npm(BaseBackend):
         self.security_metrics = []
         for check in js.get("checks", []):
             payload = {
-                "metric": check["name"].lower().replace('-', '_'),
+                "metric": check["name"].lower().replace("-", "_"),
                 "description": check["reason"],
                 "score": check["score"],
             }
@@ -77,7 +78,7 @@ class Npm(BaseBackend):
         if self.host:
             return self.host.downloads
         return None
-    
+
     @property
     def downloads(self):
         total = 0
@@ -94,7 +95,7 @@ class Npm(BaseBackend):
 
     @property
     def maintainer_count(self):
-        n =  len(self.repo["maintainers"])
+        n = len(self.repo["maintainers"])
         if n:
             return n
         if self.host:
