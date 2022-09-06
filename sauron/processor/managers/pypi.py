@@ -66,8 +66,9 @@ class Pypi(BaseBackend):
         if self.security_metrics is not None:
             return self.security_metrics
         result = subprocess.run(
-            f'docker run --rm -it --env "GITHUB_AUTH_TOKEN={self.token}" gcr.io/openssf/scorecard:stable --pypi={self.name} --format json',
+            f'scorecard --repo={self.url} --format json',
             shell=True,
+            env={"GITHUB_AUTH_TOKEN": self.token},
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
