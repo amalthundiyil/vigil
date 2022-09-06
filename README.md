@@ -112,44 +112,9 @@ $ sauron check --url "https://github.com/amal-thundiyil/moni-moni"
 
 🚩 Aggregate score: 2.91
 📜 Aggregate summary: Community is dormant. Repo is dormant. Some downloads and interaction. Security can be improved upon
-``
 ```
 
 You can run `--help` to see the different CLI commands and options.
-
-```sh
-$ sauron check --help
-Usage: sauron check [OPTIONS]
-
-  Run security and health checks of Open source software
-
-Options:
-  -u, --url TEXT            URL of the package to analyze
-  -n, --name TEXT           Name of package to analyze. For GitHub enter
-                            <organization>/<repository>
-  --type [github|npm|pypi]  Type of package to analyze
-  -t, --token TEXT          API token to increase rate limit.
-  --community               Run community checks
-  --maintainence            Run maintainence checks
-  --security                Run security checks
-  --popularity              Run popularity checks
-  --threshold FLOAT         Minimum score required to pass
-  --elastic                 Use Sauron CLI with Elasticsearch.
-  --help                    Show this message and exit.
-
-$ sauron db --help
-Usage: sauron db [OPTIONS] COMMAND [ARGS]...
-
-  Manage the Elasticsearch database
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  add-repo
-  drop
-  get-repo
-```
 
 ### Sauron Web UI
 
@@ -190,7 +155,7 @@ Kibana Interface
 </p>
 
 <p align='center'>
-<img width="80%" src='./docs/images/workflow.jpeg'>
+<img width="80%" src='./docs/images/workflow.png'>
 </p>
 
 Data processing is done by giving weights and thresholds to different parameters, tuned according to popular repositories and publicly defined metrics. More info in `docs/metrics.md`.
