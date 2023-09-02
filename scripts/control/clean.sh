@@ -21,6 +21,6 @@ echo "Removing build files..."
 find . -wholename build -delete
 find . -wholename dist -delete
 rm -rf .tox/
-rm -rf ./sauron.egg-info
+rm -rf ./vigil.egg-info
 rm -rf ./venv
 echo "Done cleaning!"

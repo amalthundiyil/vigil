@@ -13,7 +13,7 @@ else
     pip install -e .'[dev]'
 fi
 
-# FLASK_APP_PATH=$(realpath "sauron/backend/server")
+# FLASK_APP_PATH=$(realpath "vigil/backend/server")
 # MIGRATIONS_DIR="$FLASK_APP_PATH/models"
 
 # if [[ ! -d "$MIGRATIONS_DIR/migrations" ]]; then

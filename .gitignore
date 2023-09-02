@@ -4,7 +4,7 @@
 env.txt
 docker_env.txt
 pyenv.txt
-sauron_export_env.sh
+vigil_export_env.sh
 .DS_Store
 *.config.json
 !docker.config.json
@@ -34,7 +34,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -146,12 +145,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Sauron-spdx
+# Vigil-spdx
 ./spdx-scanner/dosocs2.conf
 spdx-scanner/dosocs2.conf
-spdx-scanner/sauron-spdx/
+spdx-scanner/vigil-spdx/
 workers/spdx_worker/dosocs2.conf
-workers/spdx_worker/sauron-spdx/
+workers/spdx_worker/vigil-spdx/
 workers/spdx_worker/ex-raw.txt
 workers/spdx_worker/ex.json
 

@@ -47,7 +47,7 @@ dev-start:
 	@ scripts/control/start_backend.sh
 
 dev-stop:
-	@ sauron backend stop
+	@ vigil backend stop
 	@ scripts/control/kill_frontend.sh
 
 dev: dev-stop dev-start

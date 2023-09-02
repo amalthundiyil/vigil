@@ -7,6 +7,6 @@ echo
 
 target=$1
 
-cd "sauron/frontend"
+cd "vigil/frontend"
 npm install
 cd "../.."

@@ -5,19 +5,19 @@ First of all, thank you for your contribution!
 There are several areas where you can help, the [OpenSource Guide](https://opensource.guide/how-to-contribute/)
 is a nice guide emphasizing that not all contributions need to be code.
 
-We also have a [Code of Conduct](https://github.com/amal-thundiyil/sauron/tree/master/CODE_OF_CONDUCT.md)
+We also have a [Code of Conduct](https://github.com/amal-thundiyil/vigil/tree/master/CODE_OF_CONDUCT.md)
 that is worth reading!
 
-Please **[open an issue first](https://github.com/amal-thundiyil/sauron/issues/new)** for any bug report or new feature if there isn't
+Please **[open an issue first](https://github.com/amal-thundiyil/vigil/issues/new)** for any bug report or new feature if there isn't
 already one opened. We use GitHub issues to keep track of failures in the
 software and addition of new features. A GitHub issue is a nice place to discuss ideas
 and get feedback from other members of the project.
 
 If you want to find an area that currently needs improving have a look at the
-open issues listed at the [issues page](https://github.com/amal-thundiyil/sauron/issues).
+open issues listed at the [issues page](https://github.com/amal-thundiyil/vigil/issues).
 
 For newcomers, issues with minor complexity are tagged
-as [good first issue](https://github.com/amal-thundiyil/sauron/labels/good-first-issue).
+as [good first issue](https://github.com/amal-thundiyil/vigil/labels/good-first-issue).
 
 # Reporting Bugs
 

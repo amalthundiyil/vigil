@@ -8,4 +8,4 @@ COPY . .
 
 RUN make install-dev 
 
-ENTRYPOINT [ "sauron" ]
+ENTRYPOINT [ "vigil" ]

@@ -23,7 +23,7 @@ echo "Done!"
 scripts/install/frontend.sh $target 2>&1 | tee logs/frontend-install.log
 echo "Done!"
 
-if [[ ! -e sauron.config.json && ! -e $HOME/.sauron/sauron.config.json ]]; then
+if [[ ! -e vigil.config.json && ! -e $HOME/.vigil/vigil.config.json ]]; then
   echo "No config file found. Generating..."
   scripts/install/config.sh $target
 fi

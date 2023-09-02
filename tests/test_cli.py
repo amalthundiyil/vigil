@@ -1,5 +1,5 @@
 from click.testing import CliRunner
-from sauron.cli.cli import cli
+from vigil.cli.cli import cli
 
 
 def test_cli():

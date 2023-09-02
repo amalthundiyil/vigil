@@ -6,8 +6,8 @@ Your choice: "
 
 target=$1
 
-if [[ ! -e sauron.config.json ]]; then
-    touch ./sauron.config.json
+if [[ ! -e vigil.config.json ]]; then
+    touch ./vigil.config.json
 else
-    touch $HOME/.sauron/sauron.config.json 
+    touch $HOME/.vigil/vigil.config.json 
 fi

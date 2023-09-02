@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 version = {}
-with open(os.path.join("sauron", "_version.py")) as version_file:
+with open(os.path.join("vigil", "_version.py")) as version_file:
     exec(version_file.read(), version)
 
 with open("requirements.txt") as fp:
@@ -19,11 +19,11 @@ with open('LICENSE') as f:
 
 
 setup(
-    name="sauron",
+    name="vigil",
     version=version["__version__"],
     description="Open Source Software Security Inspector",
     long_description=readme,
-    url="http://github.com/amal-thundiyil/sauron",
+    url="http://github.com/amal-thundiyil/vigil",
     author="Amal Thundiyil",
     author_email="amal.s.thundiyil@gmail.com",
     license=license,
@@ -36,7 +36,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "sauron = sauron.cli.cli:cli",
+            "vigil = vigil.cli.cli:cli",
         ],
     },
 )
