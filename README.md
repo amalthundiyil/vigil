@@ -1,7 +1,7 @@
 [![Actions](https://github.com/amal-thundiyil/vigil/actions/workflows/actions.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/actions.yml) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amal-thundiyil/vigil/blob/main/LICENSE) 
 
-# Vigil
+# Vigil 🧐
 
 Vigil is an easy way for consumers of open-source projects to judge whether their dependencies are really safe.
 
