@@ -8,3 +8,4 @@ dist/
 *.egg-info/
 
 vigil.config.json
+*.bk*

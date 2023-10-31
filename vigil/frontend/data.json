@@ -1,0 +1,201 @@
+{
+  "data": {
+    "community": {
+      "score_data": {
+        "description": [
+          "Few to no maintainers",
+          "Some organizations",
+          "Some contributors",
+          "A good license",
+          "Ethical",
+          "Repo dependent on only a few contributors"
+        ],
+        "metrics": [
+          "maintainer_count",
+          "org_count",
+          "contributor_count",
+          "license",
+          "code_of_conduct",
+          "bus_factor"
+        ],
+        "score": [0.0, 2.89, 2.59, 10.0, 10.0, 1.0]
+      },
+      "summary": {
+        "description": "Community is dormant",
+        "score": 3.01
+      },
+      "ts_data": null
+    },
+    "description": "A full-stack crowd-funding platform 💸 for social, charity, personal and creative causes. 👬",
+    "final_desc": "Community is dormant. Repo is dormant. Some downloads and interaction. Security can be improved upon",
+    "final_score": 3.44,
+    "maintainence": {
+      "score_data": {
+        "description": [
+          "Updated long ago",
+          "Created a some time back",
+          "Poorly maintained",
+          "Issues and pull requests get a good response",
+          "Sizeable amount of closed issues",
+          "Issues are not updated at all",
+          "Few code reviews",
+          "Older issues present"
+        ],
+        "metrics": [
+          "updated_since",
+          "created_since",
+          "commit_frequency",
+          "comment_frequency",
+          "closed_issues_count",
+          "updated_issues_count",
+          "code_review_count",
+          "issue_age"
+        ],
+        "score": [0.0, 6.45, 0.0, 0.0, 6.36, 1.0, 0.0, 3.6]
+      },
+      "summary": {
+        "description": "Repo is poorly maintained and can be considered inactive",
+        "score": 2.38
+      },
+      "ts_data": {
+        "commit_frequency": [
+          {
+            "commits": 1,
+            "day": "2023-10-31"
+          },
+          {
+            "commits": 1,
+            "day": "2023-10-24"
+          },
+          {
+            "commits": 2,
+            "day": "2023-10-17"
+          },
+          {
+            "commits": 2,
+            "day": "2023-10-10"
+          },
+          {
+            "commits": 4,
+            "day": "2023-10-03"
+          },
+          {
+            "commits": 0,
+            "day": "2023-09-26"
+          },
+          {
+            "commits": 0,
+            "day": "2023-09-19"
+          },
+          {
+            "commits": 0,
+            "day": "2023-09-12"
+          },
+          {
+            "commits": 0,
+            "day": "2023-09-05"
+          },
+          {
+            "commits": 0,
+            "day": "2023-08-29"
+          },
+          {
+            "commits": 0,
+            "day": "2023-08-22"
+          },
+          {
+            "commits": 0,
+            "day": "2023-08-15"
+          },
+          {
+            "commits": 0,
+            "day": "2023-08-08"
+          }
+        ]
+      }
+    },
+    "name": "amal-thundiyil/moni-moni",
+    "popularity": {
+      "score_data": {
+        "description": [
+          "Zero to no watchers",
+          "Rarely starred",
+          "Barely popular",
+          "Few to no reactions",
+          "Low number of dependents",
+          "Not downloaded often"
+        ],
+        "metrics": [
+          "watchers_count",
+          "stars_count",
+          "followers_count",
+          "reactions_count",
+          "dependents_count",
+          "downloads"
+        ],
+        "score": [1.37, 1.37, 2.28, 0.0, 0.53, 0.0]
+      },
+      "summary": {
+        "description": "Repo is not very popular",
+        "score": 1.09
+      },
+      "ts_data": {
+        "downloads": []
+      }
+    },
+    "security": {
+      "score_data": {
+        "description": [
+          "binaries present in source code",
+          "branch protection is not maximal on development and all release branches",
+          "28 out of 28 merged PRs checked by a CI test -- score normalized to 10",
+          "no badge detected",
+          "GitHub code reviews found for 20 commits out of the last 30 -- score normalized to 6",
+          "1 different organizations found -- score normalized to 3",
+          "no dangerous workflow patterns detected",
+          "update tool detected",
+          "project is not fuzzed",
+          "license file detected",
+          "0 commit(s) out of 30 and 0 issue activity out of 1 found in the last 90 days -- score normalized to 0",
+          "no published package detected",
+          "dependency not pinned by hash detected -- score normalized to 5",
+          "SAST tool is not run on all commits -- score normalized to 0",
+          "security policy file not detected",
+          "no releases found",
+          "non read-only tokens detected in GitHub workflows",
+          "no vulnerabilities detected"
+        ],
+        "metrics": [
+          "binary_artifacts",
+          "branch_protection",
+          "ci_tests",
+          "cii_best_practices",
+          "code_review",
+          "contributors",
+          "dangerous_workflow",
+          "dependency_update_tool",
+          "fuzzing",
+          "license",
+          "maintained",
+          "packaging",
+          "pinned_dependencies",
+          "sast",
+          "security_policy",
+          "signed_releases",
+          "token_permissions",
+          "vulnerabilities"
+        ],
+        "score": [9, 2, 10, 0, 6, 3, 10, 10, 0, 10, 0, -1, 5, 0, 0, -1, 0, 10]
+      },
+      "summary": {
+        "description": "Repo is secure with few problems",
+        "score": 7.3
+      },
+      "ts_data": null
+    },
+    "type": "github",
+    "url": "https://github.com/amal-thundiyil/moni-moni"
+  },
+  "message": "Request processed successfully",
+  "status_code": 201
+}
