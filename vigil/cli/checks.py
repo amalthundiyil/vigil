@@ -7,9 +7,9 @@ import pandas as pd
 from tabulate import tabulate
 from rich.console import Console
 
-from vigil.processor.base_backend import BackendTypes
-from vigil.processor.base_processor import final_summary
-from vigil.cli.checks_util import (
+from base.backend import BackendTypes
+from base.processor import final_summary
+from checks_util import (
     get_from_config,
     get_validated_class,
     full_process,
@@ -201,7 +201,7 @@ def check(
         sys.exit(1)
 
     if elastic:
-        from vigil.cli.checks_util import add_data
+        from checks_util import add_data
 
         token = get_from_config("github_token", token, silent=True)
         res = add_data("", url, name, type, token)
@@ -226,9 +226,7 @@ def check(
         scores = []
         descs = []
         for domain in DOMAINS:
-            click.secho(
-                f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True
-            )
+            click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True)
             p = get_validated_class(domain, url, name, type, token)
             df = full_process(p, True, elastic)
             s = summarize(p, True, elastic)
@@ -251,7 +249,5 @@ def check(
         if final_score >= threshold:
             click.secho("✅️  Passed all checks", fg="green", bold=True)
         else:
-            click.secho(
-                f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True
-            )
+            click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
             sys.exit(1)

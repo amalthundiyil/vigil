@@ -1,6 +1,0 @@
--r requirements.txt
-
-pip-tools
-black
-pytest
-check-manifest

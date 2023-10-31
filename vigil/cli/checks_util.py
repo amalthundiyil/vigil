@@ -5,13 +5,13 @@ import string
 import click
 import pandas as pd
 
-from vigil.processor.base_processor import BaseProcessor, ValidationError
-from vigil import config
+from base.processor import BaseProcessor, ValidationError
+import config
 
 LOG = logging.getLogger("vigil.cli.checks")
 
 
-def get_from_config(key, value, silent):
+def get_from_config(key, value, silent=False):
     if not silent:
         return value if value else config.get_from_config(key)
     try:
@@ -71,13 +71,13 @@ def full_process(p, silent, elastic):
 
 
 def add_data(elastic_url, url, name, type, token):
-    from vigil.cli.db_utils import connect_es, add_data, get_db_data
-    from vigil.backend.server.commands.dashboard import (
+    from db_utils import connect_es, add_data, get_db_data
+    from backend.server.commands.dashboard import (
         full_process,
         summary,
         get_package_info,
     )
-    from vigil.cli.checks import DOMAINS
+    from checks import DOMAINS
 
     es = connect_es(elastic_url)
     if not es:
@@ -105,7 +105,7 @@ def add_data(elastic_url, url, name, type, token):
 
 
 def get_es_data(p):
-    from vigil.cli.db_utils import connect_es, get_db_data
+    from db_utils import connect_es, get_db_data
 
     es = connect_es()
     if not es:

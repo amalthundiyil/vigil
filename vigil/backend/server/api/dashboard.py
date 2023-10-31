@@ -3,15 +3,15 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request, current_app, make_response
 
-from vigil.backend.server.commands.dashboard import (
+from server.commands.dashboard import (
     get_validated_class,
     full_process,
     summary,
     get_package_info,
     get_es_data,
 )
-from vigil.cli.checks import DOMAINS
-from vigil.cli.db_utils import add_data, connect_es
+from checks import DOMAINS
+from db_utils import add_data, connect_es
 
 
 LOG = logging.getLogger("vigil.backend.server.api.dashboard")
@@ -23,9 +23,7 @@ def post():
     req = request.json
     LOG.info("Collecting dashboard data...")
     data = {}
-    es_data = get_es_data(
-        req.get("url"), req.get("name"), req.get("type"), req.get("github_token")
-    )
+    es_data = get_es_data(req.get("url"), req.get("name"), req.get("type"), req.get("github_token"))
     if es_data:
         return jsonify(
             status_code=HTTPStatus.CREATED,

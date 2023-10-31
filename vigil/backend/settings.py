@@ -1,6 +1,5 @@
 import os
 import secrets
-from vigil import ROOT_VIGIL_DIRECTORY
 
 
 class Settings:

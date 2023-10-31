@@ -8,8 +8,8 @@ from elasticsearch import Elasticsearch, helpers
 import requests
 import click
 
-from vigil.processor.base_processor import validate
-from vigil.processor.base_backend import BackendTypes, BackendUrls
+from base.processor import validate
+from base.backend import BackendTypes, BackendUrls
 
 
 def connect_es(elastic_url=None):

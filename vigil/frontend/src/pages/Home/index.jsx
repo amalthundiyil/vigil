@@ -30,8 +30,9 @@ const Home = ({ data }) => {
         setLoading(true);
         const payload = {
           url: formData.get("search"),
-          github_token: formData.get("github_token"),
+          github_token: process.env.REACT_APP_GITHUB_TOKEN,
         };
+        console.log(payload);
         const data = await axios.post("/api/dashboard/", payload, {
           "Content-Type": "application/json",
         });

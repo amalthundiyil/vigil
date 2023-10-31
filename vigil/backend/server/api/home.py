@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request, current_app, make_response
 
-from vigil.cli.checks import DOMAINS
+from checks import DOMAINS
 
 
 home = Blueprint("home", __name__, url_prefix="/api/home")
@@ -16,4 +16,3 @@ def get():
         message="Request processed successfully",
         data=data,
     )
-

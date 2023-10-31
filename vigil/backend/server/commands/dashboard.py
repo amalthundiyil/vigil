@@ -1,11 +1,11 @@
-from vigil.processor.base_processor import (
+from base.processor import (
     BaseProcessor,
     ValidationError,
     final_summary,
 )
-from vigil.cli.checks_util import get_from_config
-from vigil.cli.checks import DOMAINS
-from vigil.backend.server.api.errors import (
+from checks_util import get_from_config
+from checks import DOMAINS
+from server.api.errors import (
     BadRequestError,
     NoContentError,
     ForbiddenError,
@@ -40,7 +40,7 @@ def get_package_info(p):
 
 
 def get_es_data(url=None, name=None, type=None, token=None):
-    from vigil.cli.db_utils import connect_es, get_db_data
+    from db_utils import connect_es, get_db_data
 
     p = BaseProcessor.get_processor_class("community", url, name, type, token)
     es = connect_es()

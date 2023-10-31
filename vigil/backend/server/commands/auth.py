@@ -1,7 +1,7 @@
 from flask import request, current_app
 from functools import wraps
-from vigil.backend.server.api.errors import ForbiddenError, NoContentError, UnauthorizedError
-from vigil.backend.server.models.user import User
+from server.api.errors import ForbiddenError, NoContentError, UnauthorizedError
+from server.models.user import User
 import jwt
 
 refresh_tokens = {}
@@ -17,9 +17,7 @@ def tokens_required(f):
     def wrapper(*args, **kwargs):
         try:
             token = request.headers["authorization"].split("Bearer ")[1]
-            data = jwt.decode(
-                token, current_app.config["SECRET_KEY"], algorithms="HS256"
-            )
+            data = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms="HS256")
             refresh_token = request.cookies.get("refresh_token")
             if not refresh_token:
                 raise NoContentError("No session found.")

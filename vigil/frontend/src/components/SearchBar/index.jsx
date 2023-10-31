@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
-import Dropdown from "../../components/Dropdown/Dropdown";
+import Dropdown from "../Dropdown/Dropdown";
 
 const SearchBar = ({ placeholder, onChange, onSubmit, searchBarWidth }) => {
   return (

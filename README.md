@@ -1,4 +1,4 @@
-[![Actions](https://github.com/amal-thundiyil/vigil/actions/workflows/actions.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/actions.yml) 
+[![CI](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amal-thundiyil/vigil/blob/main/LICENSE) 
 
 # Vigil 🧐
@@ -76,8 +76,8 @@ Data processing is done by giving weights and thresholds to different parameters
 
 ## Contributing 
 
-For information on how to contribute to this project, please refer to the [Contributing Guidelines](CONTRIBUTING.md).
+For information on how to contribute to this project, please refer to the [Contributing Guidelines](.github/CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). Please review the license before using or contributing to the project.
+This project is licensed under the [MIT License](./LICENSE). Please review the license before using or contributing to the project.

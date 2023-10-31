@@ -1,13 +1,13 @@
 import datetime
-from vigil.backend.server import db
+from server import db
 from flask import current_app, request
 import jwt
 import secrets
-from vigil.backend.server.api.errors import UnauthorizedError
+from server.api.errors import UnauthorizedError
 
 
 class User(db.Model):
-    __table_args__ = {'extend_existing': True} 
+    __table_args__ = {"extend_existing": True}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
@@ -31,9 +31,7 @@ class User(db.Model):
             payload={
                 "user_id": self.id,
                 "exp": datetime.datetime.utcnow()
-                + datetime.timedelta(
-                    days=int(current_app.config["REFRESH_TOKEN_LIFE"])
-                ),
+                + datetime.timedelta(days=int(current_app.config["REFRESH_TOKEN_LIFE"])),
             },
             key=current_app.config["SECRET_KEY"],
             algorithm="HS256",

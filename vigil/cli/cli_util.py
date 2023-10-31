@@ -1,11 +1,10 @@
 import click
 import string
-
-from vigil._version import __version__
+from constants import VERSION
 
 
 def print_version(ctx):
-    click.echo(f"Vigil version info - v{__version__}")
+    click.echo(f"Vigil version info - v{VERSION}")
 
 
 def call_and_exit_flag(*args, callback, is_eager=True, **kwargs):
@@ -29,4 +28,3 @@ def call_and_exit_flag(*args, callback, is_eager=True, **kwargs):
         is_eager=is_eager,
         **kwargs,
     )
-

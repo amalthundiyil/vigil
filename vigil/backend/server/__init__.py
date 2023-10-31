@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from vigil.backend.settings import DevelopmentSettings
+from settings import DevelopmentSettings
 from flask_cors import CORS
 
 db = SQLAlchemy()
@@ -18,10 +18,10 @@ def create_app(config_class=DevelopmentSettings):
     if os.environ.get("FLASK_ENV") == "development":
         cors.init_app(app, resources=r"/*", origins="*", supports_credentials=True)
 
-    from vigil.backend.server.api.auth import auth
-    from vigil.backend.server.api.home import home
-    from vigil.backend.server.api.dashboard import dashboard
-    from vigil.backend.server.api.errors import errors
+    from server.api.auth import auth
+    from server.api.home import home
+    from server.api.dashboard import dashboard
+    from server.api.errors import errors
 
     app.register_blueprint(auth)
     app.register_blueprint(home)

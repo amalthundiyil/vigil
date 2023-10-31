@@ -1,3 +1,0 @@
-include vigil/alembic.ini
-include requirements.txt
-include requirements-dev.txt

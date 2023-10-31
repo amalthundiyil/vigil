@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 import os
 from flask import Blueprint, jsonify, current_app
-from vigil.backend.settings import DevelopmentSettings
+from settings import DevelopmentSettings
 
 errors = Blueprint("errors", __name__)
 

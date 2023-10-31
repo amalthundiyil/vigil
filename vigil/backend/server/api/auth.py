@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request, current_app, make_response
-from vigil.backend.server import bcrypt, db
-from vigil.backend.server.models.user import User
-from vigil.backend.server.commands.auth import clear_tokens, refresh_tokens
-from vigil.backend.server.api.errors import (
+from server import bcrypt, db
+from server.models.user import User
+from server.commands.auth import clear_tokens, refresh_tokens
+from server.api.errors import (
     BadRequestError,
     NoContentError,
     ForbiddenError,

@@ -8,18 +8,18 @@ from elasticsearch import Elasticsearch
 from rich import print_json
 from rich.console import Console
 
-from vigil.cli.db_utils import add_data, get_db_data, drop_data, connect_es
-from vigil.processor.base_backend import BackendTypes
-from vigil.backend.server.commands.dashboard import (
+from db_utils import add_data, get_db_data, drop_data, connect_es
+from base.backend import BackendTypes
+from server.commands.dashboard import (
     get_package_info,
     summary,
     full_process,
 )
-from vigil.cli.checks_util import (
+from checks_util import (
     get_from_config,
     get_validated_class,
 )
-from vigil.cli.checks import DOMAINS, DOMAIN_TO_EMOJI
+from checks import DOMAINS, DOMAIN_TO_EMOJI
 
 
 DEFAULT_ES_URL = "http://localhost:9200"
@@ -31,9 +31,7 @@ def add_es_data_cli(url, name, type, token, elastic_url=None):
     es = connect_es(elastic_url)
     data = {}
     for domain in DOMAINS:
-        click.secho(
-            f"{DOMAIN_TO_EMOJI[domain]}  Ingesting {domain} data", fg="blue", bold=True
-        )
+        click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Ingesting {domain} data", fg="blue", bold=True)
         p = get_validated_class(domain, url, name, type, token)
         d = full_process(p)
         data[domain] = d
