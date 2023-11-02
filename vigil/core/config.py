@@ -21,6 +21,7 @@ def setenv(key, value):
 def get_config_file():
     config_file_name = "vigil.config.json"
     config_file_path = Path(PROJECT_ROOT_DIRECTORY) / config_file_name
+    # need to pip install -e . for finding the config in project root dir
     if Path.is_file(config_file_path):
         return str(config_file_path)
     config_dir = Path.home() / ".vigil"
