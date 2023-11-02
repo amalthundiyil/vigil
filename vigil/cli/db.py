@@ -19,7 +19,8 @@ from checks_util import (
     get_from_config,
     get_validated_class,
 )
-from checks import DOMAINS, DOMAIN_TO_EMOJI
+from checks import DOMAIN_TO_EMOJI
+from constants import DOMAINS
 
 
 DEFAULT_ES_URL = "http://localhost:9200"

@@ -77,7 +77,7 @@ def add_data(elastic_url, url, name, type, token):
         summary,
         get_package_info,
     )
-    from checks import DOMAINS
+    from constants import DOMAINS
 
     es = connect_es(elastic_url)
     if not es:

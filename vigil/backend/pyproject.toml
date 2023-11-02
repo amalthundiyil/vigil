@@ -12,7 +12,6 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-vigil-cli = "*"
 vigil-core = "*"
 python = ">=3.7"
 uvicorn = "^0.22.0"

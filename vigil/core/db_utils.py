@@ -5,8 +5,6 @@ from tkinter import E
 from urllib.parse import urlparse
 
 from elasticsearch import Elasticsearch, helpers
-import requests
-import click
 
 from base.processor import validate
 from base.backend import BackendTypes, BackendUrls

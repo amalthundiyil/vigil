@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 
-from checks import DOMAINS
+from constants import DOMAINS
 from db_utils import add_data, connect_es
 from dashboard import get_es_data, get_validated_class, get_package_info, summary, full_process
 

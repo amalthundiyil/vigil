@@ -3,11 +3,9 @@ from base.processor import (
     ValidationError,
     final_summary,
 )
-from checks_util import get_from_config
-from checks import DOMAINS
+from constants import DOMAINS
 
 def get_validated_class(domain, url=None, name=None, type=None, token=None):
-    token = get_from_config("github_token", token, silent=False)
     try:
         return BaseProcessor.get_processor_class(domain, url, name, type, token)
     except ValidationError as e:

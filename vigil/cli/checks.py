@@ -17,8 +17,8 @@ from checks_util import (
     transform,
 )
 
-DOMAINS = ["community", "popularity", "maintainence", "security"]
-# DOMAINS = ["community", "popularity", "maintainence"]
+from constants import DOMAINS
+
 
 LOG = logging.getLogger("vigil.cli.checks")
 LOGO = """
