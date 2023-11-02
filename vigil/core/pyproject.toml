@@ -8,7 +8,7 @@ version = "0.0.1"
 description = "Vigil Core"
 authors = [ "Amal Thundiyil <amal.s.thundiyil@gmail.com>" ]
 packages = [
-  { include = "base" },
+  { include = "*" },
 ]
 
 [tool.poetry.dependencies]
