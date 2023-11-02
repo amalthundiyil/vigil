@@ -5,13 +5,6 @@ from base.processor import (
 )
 from checks_util import get_from_config
 from checks import DOMAINS
-from server.api.errors import (
-    BadRequestError,
-    NoContentError,
-    ForbiddenError,
-    UnauthorizedError,
-)
-
 
 def get_validated_class(domain, url=None, name=None, type=None, token=None):
     token = get_from_config("github_token", token, silent=False)
@@ -50,3 +43,4 @@ def get_es_data(url=None, name=None, type=None, token=None):
     if not es_data:
         return
     return es_data
+

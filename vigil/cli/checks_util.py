@@ -72,7 +72,7 @@ def full_process(p, silent, elastic):
 
 def add_data(elastic_url, url, name, type, token):
     from db_utils import connect_es, add_data, get_db_data
-    from backend.server.commands.dashboard import (
+    from dashboard import (
         full_process,
         summary,
         get_package_info,

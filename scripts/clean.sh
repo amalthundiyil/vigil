@@ -11,6 +11,7 @@ clean_venvs() {
 clean_builds() {
   find . -type d -name "*.egg-info" -exec rm -r {} +
   find . -type d -name "*.dist" -exec rm -r {} +
+  find . -type d -name "dist" -exec rm -r {} +
   find . -type d -name "build" -exec rm -r {} +
 }
 

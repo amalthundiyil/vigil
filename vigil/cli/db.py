@@ -10,7 +10,7 @@ from rich.console import Console
 
 from db_utils import add_data, get_db_data, drop_data, connect_es
 from base.backend import BackendTypes
-from server.commands.dashboard import (
+from dashboard import (
     get_package_info,
     summary,
     full_process,
