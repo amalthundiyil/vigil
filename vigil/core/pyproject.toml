@@ -9,6 +9,11 @@ description = "Vigil Core"
 authors = [ "Amal Thundiyil <amal.s.thundiyil@gmail.com>" ]
 packages = [
   { include = "*" },
+  { include = "base" },
+  { include = "hosts" },
+  { include = "managers" },
+  { include = "metrics" },
+  { include = "processors" },
 ]
 
 [tool.poetry.dependencies]
