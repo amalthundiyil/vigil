@@ -6,7 +6,6 @@ import { Progress } from "@/components/ui/progress";
 
 export default function Community(data: any) {
   let communityData = data["data"]["community"]["score_data"];
-  console.log("communityData ", communityData);
 
   return (
     <>

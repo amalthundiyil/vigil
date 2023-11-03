@@ -32,9 +32,7 @@ export default function DashboardPage() {
 
   const selectedSource: any = localStorage.getItem("selectedSource");
   const searchResults: any = localStorage.getItem("searchResults");
-  console.log(selectedSource, searchResults);
   const data = JSON.parse(searchResults);
-  console.log(data);
 
   if (!selectedSource || selectedSource.length === 0 || !data || data === "") {
     router.push("/");

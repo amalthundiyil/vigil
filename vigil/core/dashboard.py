@@ -29,16 +29,3 @@ def summary(data):
 def get_package_info(p):
     return {"desc": p.backend.description, "type": p.type, "name": p.name, "url": p.url}
 
-
-def get_es_data(elastic_url=None, url=None, name=None, type=None, token=None):
-    from db_utils import connect_es, get_db_data
-
-    p = BaseProcessor.get_processor_class("community", url, name, type, token)
-    es = connect_es(elastic_url)
-    if not es:
-        return
-    es_data = get_db_data(p.url, p.name, p.type, es)
-    if not es_data:
-        return
-    return es_data
-

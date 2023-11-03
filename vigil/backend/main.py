@@ -1,18 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-
 import os
-
-from constants import DOMAINS
-from db_utils import add_data, connect_es
-from dashboard import get_es_data, get_validated_class, get_package_info, summary, full_process
-
+import redis
+import json
 
 from dotenv import load_dotenv
-load_dotenv()
+from constants import DOMAINS
+from dashboard import get_validated_class, get_package_info, summary, full_process
 
+load_dotenv()
 
 app = FastAPI()
 
@@ -24,6 +21,19 @@ origins = [
     "https://vigil-frontend-amal-thundiyil.cloud.okteto.net"
 ]
 
+class SearchQuery(BaseModel):
+    type: str
+    name: str
+    github_token: str
+
+redis_url = os.getenv("VIGIL_REDIS_URL", "redis://localhost:6379/0")
+redis_client = redis.from_url(redis_url, decode_responses=True)
+
+@app.get("/")
+async def main():
+    return {"message": "Hello World"}
+
+# https://stackoverflow.com/a/65788650/17297103
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,25 +42,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class SearchQuery(BaseModel):
-    type: str
-    name: str
-    github_token: str
-
-
-@app.get("/")
-async def main():
-    return {"message": "Hello World"}
-
 @app.post("/api/dashboard")
-def post(search_item : SearchQuery):
-    print("search item", search_item)
+def post(search_item: SearchQuery):
     data = dict()
-    es_data = get_es_data(elastic_url=os.getenv("VIGIL_ES_URL"), name=search_item.name, type=search_item.type)
-    if es_data:
-        return { "data" : es_data}
 
-    print(es_data)
+    redis_key = f"{search_item.type}:{search_item.name}"
+    redis_data = redis_client.get(redis_key)
+
+    if redis_data:
+        data = json.loads(redis_data)
+        return {"data": data}
+
     for domain in DOMAINS:
         p = get_validated_class(
             domain,
@@ -70,14 +72,11 @@ def post(search_item : SearchQuery):
         pkg_info["desc"],
         pkg_info["url"],
     )
-    print(es)
-    es = connect_es(os.getenv("VIGIL_ES_URL"))
-    print(es)
 
-    res = add_data(es, data)
-    print(res)
+    json_data = json.dumps(data)
+    redis_client.set(redis_key, json_data)
 
-    return { "data" : data }
+    return {"data": data}
 
 if __name__ == '__main__':
     import uvicorn

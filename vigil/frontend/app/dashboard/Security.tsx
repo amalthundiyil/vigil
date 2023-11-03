@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 
 export default function Security(data: any) {
   let securityData = data["data"]["security"]["score_data"];
-  console.log(securityData["score"][11]);
+  console.log("securityData", securityData);
 
   return (
     <>

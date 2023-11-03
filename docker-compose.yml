@@ -18,49 +18,24 @@ services:
         container_name: vigil-backend
         command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
         environment:
-            VIGIL_ES_URL: ${VIGIL_ES_URL}
-            VIGIL_LIBRARIES_API_KEY: ${VIGIL_LIBRARIES_API_KEY}
+            VIGIL_REDIS_URL: ${VIGIL_REDIS_URL}
         ports:
             - 5000:5000
         depends_on:
-            - vigil-es
+            - vigil-redis  
 
     vigil-cli:
         build: ./vigil/cli
         container_name: vigil-cli
 
-    vigil-es:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
-        container_name: vigil-es
-        environment:
-            - node.name=elasticsearch
-            - discovery.seed_hosts=elasticsearch
-            - cluster.initial_master_nodes=elasticsearch
-            - cluster.name=docker-cluster
-            - bootstrap.memory_lock=true
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
+    vigil-redis: 
+        image: redis:7.2.2-alpine
+        container_name: vigil-redis
+        ports:
+            - 6379:6379
         volumes:
-            - vigil-esdata:/usr/share/elasticsearch/data
-        ports:
-            - 9200:9200
-
-    vigil-kibana:
-        image: docker.elastic.co/kibana/kibana:7.9.2
-        container_name: vigil-kibana
-        environment:
-            ELASTICSEARCH_URL: "http://vigil-es:9200"
-        ports:
-            - 5601:5601
-        depends_on:
-            - vigil-es
+            - vigil-redis-data:/data
 
 volumes:
-    vigil-esdata:
+    vigil-redis-data:
         driver: local
-
-networks:
-    vigil-network:
