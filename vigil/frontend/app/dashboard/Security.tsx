@@ -31,16 +31,16 @@ export default function Security(data: any) {
         </div>
         <div className="grid grid-rows-4 gap-2">
           <h2 className="font-medium capitalize">
-            {securityData["metrics"][17]}
+            {(securityData["metrics"][17] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {securityData["metrics"][12].replaceAll("_", " ")}
+            {(securityData["metrics"][12] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium uppercase">
-            {securityData["metrics"][13]}
+            {(securityData["metrics"][13] || "").replaceAll("-", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {securityData["metrics"][1].replaceAll("_", " ")}
+            {(securityData["metrics"][1] || "").replaceAll("_", " ")}
           </h2>
         </div>
       </div>

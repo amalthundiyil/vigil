@@ -1,10 +1,31 @@
-version: '2.2'
+version: '3'
 
 services:
+    vigil-frontend:
+        build: ./vigil/frontend
+        container_name: vigil-frontend
+        command: ["pnpm", "dev" ]
+        ports:
+            - 3000:3000
+        depends_on:
+            - vigil-backend
 
-    elasticsearch:
+    vigil-backend:
+        build: ./vigil/backend
+        container_name: vigil-backend
+        command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
+        ports:
+            - 5000:5000
+        depends_on:
+            - vigil-es
+    
+    vigil-cli:
+        build: ./vigil/cli
+        container_name: vigil-cli
+
+    vigil-es:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
-        container_name: elasticsearch
+        container_name: vigil-es
         environment:
             - node.name=elasticsearch
             - discovery.seed_hosts=elasticsearch
@@ -17,20 +38,20 @@ services:
                 soft: -1
                 hard: -1
         volumes:
-            - esdata1:/usr/share/elasticsearch/data
+            - vigil-esdata:/usr/share/elasticsearch/data
         ports:
             - 9200:9200
 
-    kibana:
+    vigil-kibana:
         image: docker.elastic.co/kibana/kibana:7.9.2
-        container_name: kibana
+        container_name: vigil-kibana
         environment:
             ELASTICSEARCH_URL: "http://elasticsearch:9200"
         ports:
             - 5601:5601
         depends_on:
-            - elasticsearch
+            - vigil-es
 
 volumes:
-    esdata1:
+    vigil-esdata:
         driver: local

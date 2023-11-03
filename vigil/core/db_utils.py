@@ -17,7 +17,7 @@ def connect_es(elastic_url=None):
     else:
         es = Elasticsearch([{"host": "localhost", "port": 9200}])
     if not es.ping():
-        click.secho("❗ Could not connect to elastic search!", fg="red", bold=True)
+        print("❗ Could not connect to elastic search!")
         return None
     return es
 

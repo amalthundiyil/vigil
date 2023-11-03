@@ -28,7 +28,7 @@ def get_config_file():
     config_dir.mkdir(parents=True, exist_ok=True)
     with open(str(config_dir / config_file_name), "a") as f:
         f.write("")
-    return str(config_dir)
+    return str(config_dir / config_file_name)
 
 
 def get_from_config(key):

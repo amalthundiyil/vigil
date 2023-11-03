@@ -14,6 +14,7 @@ origins = [
     "https://localhost:3000",
     "http://localhost",
     "https://localhost",
+    "https://vigil-frontend-amal-thundiyil.cloud.okteto.net"
 ]
 
 app.add_middleware(
@@ -41,14 +42,16 @@ def post(search_item : SearchQuery):
     if es_data:
         return { "data" : es_data}
 
+    print(es_data)
     for domain in DOMAINS:
         p = get_validated_class(
             domain,
             name=search_item.name,
             type=search_item.type,
-            github_token=search_item.github_token,
+            token=search_item.github_token,
         )
         d = full_process(p)
+        print(d)
         data[domain] = d
 
     data["final_score"], data["final_desc"] = summary(data)
@@ -59,8 +62,11 @@ def post(search_item : SearchQuery):
         pkg_info["desc"],
         pkg_info["url"],
     )
+    print(data)
     es = connect_es()
+
     res = add_data(es, data)
+    print(res)
 
     return { "data" : data }
 

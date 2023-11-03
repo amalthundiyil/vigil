@@ -1,0 +1,25 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Okteto CLI
+        run: curl https://get.okteto.com -sSfL | sh && sudo mv /usr/local/bin/okteto /usr/bin/okteto
+
+      - name: Set Okteto Context
+        run: okteto context use https://cloud.okteto.com --token ${{ secrets.OKTETO_TOKEN }}
+
+      - name: Deploy
+        run: okteto deploy -n amal-thundiyil

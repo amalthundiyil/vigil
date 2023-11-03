@@ -1,4 +1,5 @@
 [![CI](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml) 
+[![CD](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amal-thundiyil/vigil/blob/main/LICENSE) 
 
 # Vigil 🧐

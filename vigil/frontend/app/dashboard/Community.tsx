@@ -35,19 +35,19 @@ export default function Community(data: any) {
         </div>
         <div className="grid grid-rows-4 gap-6">
           <h2 className="font-medium capitalize">
-            {communityData["metrics"][0].replaceAll("_", " ")}
+            {(communityData["metrics"][0] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {communityData["metrics"][5].replaceAll("_", " ")}
+            {(communityData["metrics"][5] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {communityData["metrics"][2].replaceAll("_", " ")}
+            {(communityData["metrics"][2] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {communityData["metrics"][3].replaceAll("_", " ")}
+            {(communityData["metrics"][3] || "").replaceAll("_", " ")}
           </h2>
           <h2 className="font-medium capitalize">
-            {communityData["metrics"][4].replaceAll("_", " ")}
+            {(communityData["metrics"][4] || "").replaceAll("_", " ")}
           </h2>
         </div>
       </div>
