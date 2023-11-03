@@ -4,7 +4,10 @@ services:
     vigil-frontend:
         build: ./vigil/frontend
         container_name: vigil-frontend
-        command: ["pnpm", "dev" ]
+        command: ["pnpm", "dev"]
+        environment:
+            NEXT_PUBLIC_GITHUB_TOKEN: ${NEXT_PUBLIC_GITHUB_TOKEN}
+            NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
         ports:
             - 3000:3000
         depends_on:
@@ -14,11 +17,14 @@ services:
         build: ./vigil/backend
         container_name: vigil-backend
         command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
+        environment:
+            VIGIL_ES_URL: ${VIGIL_ES_URL}
+            VIGIL_LIBRARIES_API_KEY: ${VIGIL_LIBRARIES_API_KEY}
         ports:
             - 5000:5000
         depends_on:
             - vigil-es
-    
+
     vigil-cli:
         build: ./vigil/cli
         container_name: vigil-cli
@@ -46,7 +52,7 @@ services:
         image: docker.elastic.co/kibana/kibana:7.9.2
         container_name: vigil-kibana
         environment:
-            ELASTICSEARCH_URL: "http://elasticsearch:9200"
+            ELASTICSEARCH_URL: "http://vigil-es:9200"
         ports:
             - 5601:5601
         depends_on:
@@ -55,3 +61,6 @@ services:
 volumes:
     vigil-esdata:
         driver: local
+
+networks:
+    vigil-network:

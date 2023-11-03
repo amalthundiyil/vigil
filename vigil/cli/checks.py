@@ -37,24 +37,24 @@ DOMAIN_TO_EMOJI = {
 }
 
 
-def run_check(ctx, url, name, type, token, comm, maint, sec, pop, elastic):
+def run_check(ctx, url, name, type, token, comm, maint, sec, pop):
     if comm:
-        return community(ctx, url, name, type, token, elastic)
+        return community(ctx, url, name, type, token)
     if maint:
-        return maintainence(ctx, url, name, type, token, elastic)
+        return maintainence(ctx, url, name, type, token)
     if sec:
-        return security(ctx, url, name, type, token, elastic)
+        return security(ctx, url, name, type, token)
     if pop:
-        return popularity(ctx, url, name, type, token, elastic)
+        return popularity(ctx, url, name, type, token)
     return -1
 
 
-def community(ctx, url, name, type, token, elastic):
+def community(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"️🌏  Analyzing Community", fg="blue", bold=True)
     p = get_validated_class("community", url, name, type, token)
-    df = full_process(p, True, elastic)
-    s = summarize(p, True, elastic)
+    df = full_process(p, True)
+    s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -67,12 +67,12 @@ def community(ctx, url, name, type, token, elastic):
     return s["score"]
 
 
-def maintainence(ctx, url, name, type, token, elastic):
+def maintainence(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"️🛠️  Analyzing Maintainence", fg="yellow", bold=True)
     p = get_validated_class("maintainence", url, name, type, token)
-    df = full_process(p, True, elastic)
-    s = summarize(p, True, elastic)
+    df = full_process(p, True)
+    s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -85,12 +85,12 @@ def maintainence(ctx, url, name, type, token, elastic):
     return s["score"]
 
 
-def security(ctx, url, name, type, token, elastic):
+def security(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"🛡️  Analyzing security ", fg="yellow", bold=True)
     p = get_validated_class("security", url, name, type, token)
-    df = full_process(p, True, elastic)
-    s = summarize(p, True, elastic)
+    df = full_process(p, True)
+    s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -103,12 +103,12 @@ def security(ctx, url, name, type, token, elastic):
     return s["score"]
 
 
-def popularity(ctx, url, name, type, token, elastic):
+def popularity(ctx, url, name, type, token):
     token = get_from_config("github_token", token, silent=True)
     click.secho(f"📈 Analyzing Popularity ", fg="white", bold=True)
     p = get_validated_class("popularity", url, name, type, token)
-    df = full_process(p, True, elastic)
-    s = summarize(p, True, elastic)
+    df = full_process(p, True)
+    s = summarize(p, True)
     click.secho(f"✅️  Completed analysis for {p.name}", fg="green", bold=True)
     console = Console()
     console.print("\n")
@@ -171,13 +171,6 @@ def popularity(ctx, url, name, type, token, elastic):
     type=float,
     help="Minimum score required to pass",
 )
-@click.option(
-    "--elastic",
-    is_flag=True,
-    default=False,
-    show_default=True,
-    help="Use Vigil CLI with Elasticsearch.",
-)
 @click.pass_context
 def check(
     ctx,
@@ -190,7 +183,6 @@ def check(
     security,
     popularity,
     threshold,
-    elastic,
 ):
     if threshold and threshold < 0:
         click.secho(
@@ -199,12 +191,6 @@ def check(
             bold=True,
         )
         sys.exit(1)
-
-    if elastic:
-        from checks_util import add_data
-
-        token = get_from_config("github_token", token, silent=True)
-        res = add_data("", url, name, type, token)
 
     if community or maintainence or security or popularity:
         final_score = run_check(
@@ -217,7 +203,6 @@ def check(
             maintainence,
             security,
             popularity,
-            elastic,
         )
     else:
         token = get_from_config("github_token", token, silent=True)
@@ -228,8 +213,8 @@ def check(
         for domain in DOMAINS:
             click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True)
             p = get_validated_class(domain, url, name, type, token)
-            df = full_process(p, True, elastic)
-            s = summarize(p, True, elastic)
+            df = full_process(p, True)
+            s = summarize(p, True)
             click.secho(f"✔️  Completed {domain} analysis", fg="green", bold=True)
             scores.append(s["score"])
             descs.append(s["description"])

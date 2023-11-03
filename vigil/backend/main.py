@@ -3,9 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 
+import os
+
 from constants import DOMAINS
 from db_utils import add_data, connect_es
 from dashboard import get_es_data, get_validated_class, get_package_info, summary, full_process
+
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = FastAPI()
 
@@ -37,8 +44,9 @@ async def main():
 
 @app.post("/api/dashboard")
 def post(search_item : SearchQuery):
+    print("search item", search_item)
     data = dict()
-    es_data = get_es_data(name=search_item.name, type=search_item.type)
+    es_data = get_es_data(elastic_url=os.getenv("VIGIL_ES_URL"), name=search_item.name, type=search_item.type)
     if es_data:
         return { "data" : es_data}
 
@@ -62,8 +70,9 @@ def post(search_item : SearchQuery):
         pkg_info["desc"],
         pkg_info["url"],
     )
-    print(data)
-    es = connect_es()
+    print(es)
+    es = connect_es(os.getenv("VIGIL_ES_URL"))
+    print(es)
 
     res = add_data(es, data)
     print(res)

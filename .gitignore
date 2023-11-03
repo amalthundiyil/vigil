@@ -9,3 +9,4 @@ dist/
 
 vigil.config.json
 *.bk*
+.env

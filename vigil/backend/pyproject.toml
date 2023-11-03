@@ -14,6 +14,7 @@ packages = [
 [tool.poetry.dependencies]
 vigil-core = "*"
 python = ">=3.7"
+python-dotenv = "^1.0.0"
 uvicorn = "^0.22.0"
 fastapi = "^0.103.2"
 

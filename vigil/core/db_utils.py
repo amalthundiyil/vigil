@@ -16,9 +16,7 @@ def connect_es(elastic_url=None):
         es = Elasticsearch([{"host": url.hostname, "port": url.port}])
     else:
         es = Elasticsearch([{"host": "localhost", "port": 9200}])
-    if not es.ping():
-        print("Could not connect to elastic search!")
-        return None
+
     return es
 
 
