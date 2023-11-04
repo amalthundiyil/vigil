@@ -42,7 +42,7 @@ services:
         ports:
             - 9090:9090
         volumes:
-            - ./prometheus_data/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./vigil/infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
 
@@ -57,13 +57,6 @@ services:
 volumes:
     vigil-redis-data:
         driver: local
-
-    prometheus_data:
-        driver: local
-        driver_opts:
-            o: bind
-            type: none
-            device: ./prometheus_data
 
     grafana_data:
         driver: local
