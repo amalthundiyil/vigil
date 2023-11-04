@@ -36,6 +36,38 @@ services:
         volumes:
             - vigil-redis-data:/data
 
+    vigil-prometheus:
+        image: prom/prometheus
+        container_name: vigil-prometheus
+        ports:
+            - 9090:9090
+        volumes:
+            - ./prometheus_data/prometheus.yml:/etc/prometheus/prometheus.yml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+
+    vigil-grafana:
+        image: grafana/grafana
+        container_name: vigil-grafana
+        ports:
+            - 8080:3000
+        volumes:
+            - grafana_data:/var/lib/grafana
+
 volumes:
     vigil-redis-data:
         driver: local
+
+    prometheus_data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ./prometheus_data
+
+    grafana_data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ./grafana_data

@@ -8,19 +8,14 @@ import sys
 
 from dotenv import load_dotenv
 from constants import DOMAINS
+from prometheus_fastapi_instrumentator import Instrumentator
 from dashboard import get_validated_class, get_package_info, summary, full_process
 
 load_dotenv()
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "https://localhost:3000",
-    "http://localhost",
-    "https://localhost",
-    "https://vigil-frontend-amal-thundiyil.cloud.okteto.net"
-]
+Instrumentator().instrument(app).expose(app)
 
 class SearchQuery(BaseModel):
     type: str

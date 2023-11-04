@@ -11,3 +11,6 @@ vigil.config.json
 *.bk*
 .env
 *.rdb
+
+grafana_data
+prometheus_data
