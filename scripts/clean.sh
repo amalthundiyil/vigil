@@ -15,9 +15,14 @@ clean_builds() {
   find . -type d -name "build" -exec rm -r {} +
 }
 
+clean_frontend() {
+  find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+}
+
 
 clean_python_caches
 clean_venvs
 clean_builds
+clean_frontend
 
 echo "Clean completed."

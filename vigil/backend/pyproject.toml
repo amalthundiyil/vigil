@@ -13,7 +13,7 @@ packages = [
 
 [tool.poetry.dependencies]
 vigil-core = "*"
-python = ">=3.7"
+python = ">=3.9"
 python-dotenv = "^1.0.0"
 uvicorn = "^0.22.0"
 redis = "^5.0.1"

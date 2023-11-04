@@ -26,7 +26,7 @@ export default function Search() {
           name: search,
           github_token: process.env.NEXT_PUBLIC_GITHUB_TOKEN,
         };
-        const response = await axios.post("/api/dashboard/", payload);
+        const response = await axios.post("/api/dashboard", payload);
         setSearchResults(response.data);
         localStorage.setItem("selectedSource", selectedSource);
         localStorage.setItem("searchResults", JSON.stringify(response.data));

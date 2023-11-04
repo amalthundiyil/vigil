@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import os
 import redis
 import json
+import sys
 
 from dotenv import load_dotenv
 from constants import DOMAINS

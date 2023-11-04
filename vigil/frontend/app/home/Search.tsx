@@ -17,7 +17,7 @@ export default function Search() {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedSource, setSelectedSource] = useState(""); // to store the selected source
+  const [selectedSource, setSelectedSource] = useState("");
 
   const handleSearch = async () => {
     if (selectedSource && search) {
@@ -27,7 +27,7 @@ export default function Search() {
           name: search,
           github_token: process.env.NEXT_PUBLIC_GITHUB_TOKEN,
         };
-        const response = await axios.post("/api/dashboard/", payload);
+        const response = await axios.post("/api/dashboard", payload);
         setSearchResults(response.data);
         console.log(response.data);
         localStorage.setItem("selectedSource", selectedSource);
