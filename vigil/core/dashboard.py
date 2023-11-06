@@ -1,9 +1,6 @@
-from base.processor import (
-    BaseProcessor,
-    ValidationError,
-    final_summary,
-)
+from base.processor import BaseProcessor, ValidationError, final_summary
 from constants import DOMAINS
+
 
 def get_validated_class(domain, url=None, name=None, type=None, token=None):
     try:
@@ -28,4 +25,3 @@ def summary(data):
 
 def get_package_info(p):
     return {"desc": p.backend.description, "type": p.type, "name": p.name, "url": p.url}
-

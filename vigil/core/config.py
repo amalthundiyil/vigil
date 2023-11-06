@@ -1,7 +1,6 @@
 import json
-import os
 import logging
-
+import os
 from pathlib import Path
 
 from constants import PROJECT_ROOT_DIRECTORY

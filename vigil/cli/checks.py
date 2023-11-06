@@ -1,24 +1,19 @@
-import imp
 import logging
 import sys
+
 import click
-
-import pandas as pd
-from tabulate import tabulate
-from rich.console import Console
-
 from base.backend import BackendTypes
 from base.processor import final_summary
 from checks_util import (
+    full_process,
     get_from_config,
     get_validated_class,
-    full_process,
     summarize,
     transform,
 )
-
 from constants import DOMAINS
-
+from rich.console import Console
+from tabulate import tabulate
 
 LOG = logging.getLogger("vigil.cli.checks")
 LOGO = """
@@ -211,7 +206,9 @@ def check(
         scores = []
         descs = []
         for domain in DOMAINS:
-            click.secho(f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True)
+            click.secho(
+                f"{DOMAIN_TO_EMOJI[domain]}  Analyzing {domain}", fg="blue", bold=True
+            )
             p = get_validated_class(domain, url, name, type, token)
             df = full_process(p, True)
             s = summarize(p, True)
@@ -234,5 +231,7 @@ def check(
         if final_score >= threshold:
             click.secho("✅️  Passed all checks", fg="green", bold=True)
         else:
-            click.secho(f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True)
+            click.secho(
+                f"⚠️  Failed to meet minimum score of {threshold}", fg="red", bold=True
+            )
             sys.exit(1)

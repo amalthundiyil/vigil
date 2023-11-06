@@ -19,6 +19,8 @@ export default function Search() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedSource, setSelectedSource] = useState("");
 
+  if (typeof window === "undefined") return null;
+
   const handleSearch = async () => {
     if (selectedSource && search) {
       try {

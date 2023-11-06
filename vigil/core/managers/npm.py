@@ -1,11 +1,10 @@
-from urllib.parse import urlparse
 import json
 import subprocess
+from urllib.parse import urlparse
 
 import requests
-
+from base.backend import BackendTypes, BackendUrls, BaseBackend
 from hosts.github import Github
-from base.backend import BackendTypes, BaseBackend, BackendUrls
 
 
 class Npm(BaseBackend):

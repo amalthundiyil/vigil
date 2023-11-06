@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
   const router = useRouter();
+  if (typeof window === 'undefined') return null;
 
   const selectedSource: any = localStorage.getItem("selectedSource");
   const searchResults: any = localStorage.getItem("searchResults");

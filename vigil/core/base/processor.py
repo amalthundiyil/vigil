@@ -1,7 +1,6 @@
 import logging
 
-from  base.backend import BackendTypes
-from  base.backend import BaseBackend
+from base.backend import BackendTypes, BaseBackend
 
 LOG = logging.getLogger("vigil.processor.base.processor")
 

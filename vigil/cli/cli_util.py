@@ -1,5 +1,4 @@
 import click
-import string
 from constants import VERSION
 
 

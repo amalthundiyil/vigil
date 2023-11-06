@@ -1,20 +1,19 @@
-from urllib.parse import urlparse
-from datetime import datetime, timedelta
-import subprocess
 import json
-import shutil
 import operator
+import shutil
+import subprocess
+from datetime import datetime, timedelta
+from urllib.parse import urlparse
 
 import numpy as np
-from github import Github as PyGithub
-from codeowners import CodeOwners
-
 from base.backend import BaseBackend
+from codeowners import CodeOwners
+from github import Github as PyGithub
 
 
 class Github(BaseBackend):
     def __init__(self, owner, repository, token=None) -> None:
-        from base.backend import BackendUrls, BackendTypes
+        from base.backend import BackendTypes, BackendUrls
 
         self.g = PyGithub(token)
         self.name = f"{owner}/{repository}"
@@ -169,7 +168,9 @@ class Github(BaseBackend):
     def updated_issues_count(self):
         issues = self.repo.get_issues()
         issues_l = list(issues)
-        sorted_issues = sorted(issues_l, key=operator.attrgetter("updated_at"), reverse=True)
+        sorted_issues = sorted(
+            issues_l, key=operator.attrgetter("updated_at"), reverse=True
+        )
         now = datetime.now()
         latest_issues = [i for i in sorted_issues if (now - i.updated_at).days <= 90]
         return len(latest_issues)
@@ -177,7 +178,9 @@ class Github(BaseBackend):
     @property
     def code_review_count(self):
         now = datetime.now()
-        review_comments = self.repo.get_pulls_review_comments(since=(now - timedelta(days=90)))
+        review_comments = self.repo.get_pulls_review_comments(
+            since=(now - timedelta(days=90))
+        )
         review_comments_list = list(review_comments)
         s = {}
         for r in review_comments_list:
@@ -220,13 +223,17 @@ class Github(BaseBackend):
 
     @property
     def code_of_conduct(self):
-        return int(self.has_file("CODE_OF_CONDUCT") or self.has_file("CODE_OF_CONDUCT.md"))
+        return int(
+            self.has_file("CODE_OF_CONDUCT") or self.has_file("CODE_OF_CONDUCT.md")
+        )
 
     @property
     def bus_factor(self):
         c_stats = self.repo.get_stats_contributors()
         max_len = min(15, len(c_stats))
-        sorted_c_stats = sorted(c_stats, key=operator.attrgetter("total"), reverse=True)[:max_len]
+        sorted_c_stats = sorted(
+            c_stats, key=operator.attrgetter("total"), reverse=True
+        )[:max_len]
         top_commits = [u.total for u in sorted_c_stats]
         commits = sum(top_commits) // 2
         bus = 0

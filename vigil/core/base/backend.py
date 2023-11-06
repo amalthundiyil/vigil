@@ -31,7 +31,7 @@ class BaseBackend:
 
     @classmethod
     def from_input(cls, url, name, type, token) -> None:
-        from  base.processor import validate
+        from base.processor import validate
 
         validate(url, name, type)
         if name and type:

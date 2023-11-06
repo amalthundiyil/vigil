@@ -1,10 +1,6 @@
-import logging
-import os
-
 import click
-
-from cli_util import print_version, call_and_exit_flag
 from checks import check
+from cli_util import call_and_exit_flag, print_version
 
 
 @click.group()
@@ -19,7 +15,8 @@ def cli(ctx):
     # fmt = "%(asctime)s %(levelname)s %(name)s - %(message)s"
     # logging.basicConfig(filename=os.path.join(ROOT_VIGIL_DIRECTORY, "logs", "cli.log"), filemode='a', format=fmt, force=True)
 
+
 cli.add_command(check)
 
-if __name__ == '__main__':
-    cli()  
+if __name__ == "__main__":
+    cli()

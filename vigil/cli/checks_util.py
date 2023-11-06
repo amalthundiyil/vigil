@@ -1,12 +1,11 @@
 import logging
-import sys
 import string
+import sys
 
 import click
-import pandas as pd
-
-from base.processor import BaseProcessor, ValidationError
 import config
+import pandas as pd
+from base.processor import BaseProcessor, ValidationError
 
 LOG = logging.getLogger("vigil.cli.checks")
 
