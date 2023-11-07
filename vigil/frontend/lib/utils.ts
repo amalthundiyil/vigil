@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000",
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
 });
 
 export function formatDateToYYYYMMDD(date: any) {

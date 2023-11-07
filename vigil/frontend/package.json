@@ -22,6 +22,7 @@
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.291.0",
     "next": "14.0.1",
+    "next-auth": "^4.24.4",
     "react": "^18",
     "react-dom": "^18",
     "recharts": "^2.9.2",

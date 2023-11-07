@@ -9,6 +9,7 @@ import Link from "next/link";
 import TextAnimation from "@/components/text-animation";
 import Footer from "./Footer";
 import Search from "./Search";
+import { signIn } from "next-auth/react";
 
 export default function HomePage() {
   const TextArray = ["Python", "JavaScript", "GitHub", "PyPI", "JavaScript"];
@@ -24,7 +25,7 @@ export default function HomePage() {
                 <Icons.gitHub className="h-5 w-5" />
               </Link>
             </Button>
-            <Button>Sign In</Button>
+            <Button onClick={() => signIn()}>Sign In</Button>
           </div>
         </div>
       </div>
