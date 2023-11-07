@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-    vigil-frontend:
-        build: ./vigil/frontend
-        container_name: vigil-frontend
-        command: ["pnpm", "dev"]
-        environment:
-            NEXT_PUBLIC_GITHUB_TOKEN: ${NEXT_PUBLIC_GITHUB_TOKEN}
-            NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-        ports:
-            - 3000:3000
-        depends_on:
-            - vigil-backend
+    # vigil-frontend:
+    #     build: ./vigil/frontend
+    #     container_name: vigil-frontend
+    #     command: ["pnpm", "dev"]
+    #     environment:
+    #         NEXT_PUBLIC_GITHUB_TOKEN: ${NEXT_PUBLIC_GITHUB_TOKEN}
+    #         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+    #     ports:
+    #         - 3000:3000
+    #     depends_on:
+    #         - vigil-backend
 
     vigil-backend:
         build: ./vigil/backend
@@ -24,9 +24,9 @@ services:
         depends_on:
             - vigil-redis  
 
-    vigil-cli:
-        build: ./vigil/cli
-        container_name: vigil-cli
+    # vigil-cli:
+    #     build: ./vigil/cli
+    #     container_name: vigil-cli
 
     vigil-redis: 
         image: redis:7.2.2-alpine
