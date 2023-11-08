@@ -17,30 +17,32 @@ app = FastAPI()
 
 Instrumentator().instrument(app).expose(app)
 
+redis_url = os.getenv("VIGIL_REDIS_URL", "redis://localhost:6379/0")
+redis_client = redis.from_url(redis_url, decode_responses=True)
+
+origins = [
+    os.getenv("NEXT_PUBLIC_FRONTEND_URL")
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class SearchQuery(BaseModel):
     type: str
     name: str
     github_token: str
 
-
-redis_url = os.getenv("VIGIL_REDIS_URL", "redis://localhost:6379/0")
-redis_client = redis.from_url(redis_url, decode_responses=True)
-
-
 @app.get("/")
 async def main():
     return {"message": "Hello World"}
 
 
-# https://stackoverflow.com/a/65788650/17297103
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.post("/api/dashboard")
