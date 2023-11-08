@@ -2,52 +2,24 @@
 [![CD](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amal-thundiyil/vigil/blob/main/LICENSE) 
 
-# Vigil 🧐
+# Vigil 🔥
 
 Vigil is an easy way for consumers of open-source projects to judge whether their dependencies are really safe.
 
 It is an automated tool that assesses a number of important heuristics associated with software security and assigns each check a score. You can use these scores to understand specific areas to improve in order to strengthen the security posture of your project. You can also assess the risks that dependencies introduce, and make informed decisions about accepting these risks, evaluating alternative solutions, or working with the maintainers to make improvements.
 
+## Website
+
+![vigil-gui](./docs/images/vigil-gui-demo.gif)
+
+## CLI
+
 ```sh
-$ vigil check --url "https://github.com/amal-thundiyil/moni-moni"
-
-██╗   ██╗██╗ ██████╗ ██╗██╗     
-██║   ██║██║██╔════╝ ██║██║     
-██║   ██║██║██║  ███╗██║██║     
-╚██╗ ██╔╝██║██║   ██║██║██║     
- ╚████╔╝ ██║╚██████╔╝██║███████╗
-  ╚═══╝  ╚═╝ ╚═════╝ ╚═╝╚══════╝
-
-🧐 Running all checks
-🌏  Analyzing community
-✔️  Completed community analysis
-📈️  Analyzing popularity
-✔️  Completed popularity analysis
-🛠️  Analyzing maintainence
-✔️  Completed maintainence analysis
-🛡️  Analyzing security
-✔️  Completed security analysis
-
-
-╒══════════════╤═════════╤══════════════════════════════════╕
-│ Metrics      │   Score │ Description                      │
-╞══════════════╪═════════╪══════════════════════════════════╡
-│ Community    │    2.37 │ Inactive community               │
-├──────────────┼─────────┼──────────────────────────────────┤
-│ Popularity   │    0.57 │ Repo is not very popular         │
-├──────────────┼─────────┼──────────────────────────────────┤
-│ Maintainence │    3.4  │ Repo is dormant                  │
-├──────────────┼─────────┼──────────────────────────────────┤
-│ Security     │    5.3  │ Repo is secure with few problems │
-╘══════════════╧═════════╧══════════════════════════════════╛
-
-
-🚩 Aggregate score: 2.91
-📜 Aggregate summary: Community is dormant. Repo is dormant. Some downloads and interaction. Security can be improved upon
+vigil check --url "https://github.com/amal-thundiyil/moni-moni
 ```
-
 You can run `--help` to see the different CLI commands and options.
 
+![vigil-cli](./docs/images/vigil-cli-demo.gif)
 
 ## Description
 
@@ -57,21 +29,7 @@ You can run `--help` to see the different CLI commands and options.
 - Assesses a number of important heuristics associated with software security and assigns each check a score.
 - Vigil tracks four major metrics as shown in the diagram to produce a final score out of 10.
 
-<p align='center'>
- <b>Architecture Diagram</b>
-</p>
-
-<p align='center'>
-<img width="80%" src='./docs/images/arch.jpeg'>
-</p>
-
-<p align='center'>
- <b>Workflow</b>
-</p>
-
-<p align='center'>
-<img width="80%" src='./docs/images/workflow.png'>
-</p>
+![vigil-sysarch](./docs/images/vigil-sysarch.jpg)
 
 Data processing is done by giving weights and thresholds to different parameters, tuned according to popular repositories and publicly defined metrics. More info [here](docs/metrics.md).
 

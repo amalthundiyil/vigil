@@ -16,7 +16,7 @@ services:
     vigil-backend:
         build: ./vigil/backend
         container_name: vigil-backend
-        command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
+        command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--ssl-keyfile", "/code/key.pem", "--ssl-certfile", "/code/cert.pem"]
         environment:
             VIGIL_REDIS_URL: ${VIGIL_REDIS_URL}
         ports:
