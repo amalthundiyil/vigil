@@ -15,11 +15,12 @@ It is an automated tool that assesses a number of important heuristics associate
 ## CLI
 
 ```sh
-vigil check --url "https://github.com/amal-thundiyil/moni-moni
+vigil check --url "https://github.com/amal-thundiyil/moni-moni"
 ```
-You can run `--help` to see the different CLI commands and options.
 
 ![vigil-cli](./docs/images/vigil-cli-demo.gif)
+
+You can run `--help` to see the different CLI commands and options.
 
 ## Description
 
