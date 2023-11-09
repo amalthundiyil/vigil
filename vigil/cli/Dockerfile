@@ -13,7 +13,7 @@ COPY . /code
 
 RUN apt update && apt install git -y
 
-RUN pip install -e "git+https://github.com/amal-thundiyil/vigil.git@main#egg=vigil-core&subdirectory=vigil/core" --no-cache-dir && pip install . --no-cache-dir
+RUN pip install -e "git+https://github.com/amalthundiyil/vigil.git@main#egg=vigil-core&subdirectory=vigil/core" --no-cache-dir && pip install . --no-cache-dir
 
 COPY --from=scorecard-builder /usr/local/bin/scorecard /usr/local/bin/scorecard
 

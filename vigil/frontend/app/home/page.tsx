@@ -23,7 +23,7 @@ export default function HomePage() {
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
           {/* <Button variant="outline" asChild>
-            <Link href="https://github.com/amal-thundiyil/vigil">
+            <Link href="https://github.com/amalthundiyil/vigil">
               <Icons.gitHub className="h-5 w-5" />
             </Link>
           </Button> */}

@@ -22,4 +22,4 @@ jobs:
         run: okteto context use https://cloud.okteto.com --token ${{ secrets.OKTETO_TOKEN }}
 
       - name: Deploy
-        run: okteto deploy -n amal-thundiyil
+        run: okteto deploy -n amalthundiyil

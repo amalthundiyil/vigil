@@ -1,6 +1,6 @@
-[![CI](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/ci.yml) 
-[![CD](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml/badge.svg)](https://github.com/amal-thundiyil/vigil/actions/workflows/cd.yml) 
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amal-thundiyil/vigil/blob/main/LICENSE) 
+[![CI](https://github.com/amalthundiyil/vigil/actions/workflows/ci.yml/badge.svg)](https://github.com/amalthundiyil/vigil/actions/workflows/ci.yml) 
+[![CD](https://github.com/amalthundiyil/vigil/actions/workflows/cd.yml/badge.svg)](https://github.com/amalthundiyil/vigil/actions/workflows/cd.yml) 
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amalthundiyil/vigil/blob/main/LICENSE) 
 
 # Vigil 🔥
 
@@ -15,7 +15,7 @@ It is an automated tool that assesses a number of important heuristics associate
 ## CLI
 
 ```sh
-vigil check --url "https://github.com/amal-thundiyil/moni-moni"
+vigil check --url "https://github.com/amalthundiyil/moni-moni"
 ```
 
 ![vigil-cli](./docs/images/vigil-cli-demo.gif)

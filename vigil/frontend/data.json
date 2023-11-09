@@ -114,7 +114,7 @@
         ]
       }
     },
-    "name": "amal-thundiyil/moni-moni",
+    "name": "amalthundiyil/moni-moni",
     "popularity": {
       "score_data": {
         "description": [
@@ -194,7 +194,7 @@
       "ts_data": null
     },
     "type": "github",
-    "url": "https://github.com/amal-thundiyil/moni-moni"
+    "url": "https://github.com/amalthundiyil/moni-moni"
   },
   "message": "Request processed successfully",
   "status_code": 201
