@@ -19,6 +19,7 @@ services:
         command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--ssl-keyfile", "/code/key.pem", "--ssl-certfile", "/code/cert.pem"]
         environment:
             VIGIL_REDIS_URL: ${VIGIL_REDIS_URL}
+            LIBRARIES_API_KEY: ${LIBRARIES_API_KEY}
         ports:
             - 5000:5000
         depends_on:

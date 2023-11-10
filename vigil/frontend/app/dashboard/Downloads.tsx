@@ -16,6 +16,7 @@ export default function Downloads(data: any) {
 
   if (!downloads || downloads.length === 0) {
     const currentDate = new Date();
+    downloads = [];
 
     // Push data for the past 5 days
     for (let i = 0; i < 5; i++) {

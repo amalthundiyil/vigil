@@ -33,7 +33,7 @@ class Pypi(BaseBackend):
         return cls(name, token)
 
     def get_repo(self):
-        if not os.getenv("VIGIL_LIBRARIES_API_KEY"):
+        if not os.getenv("LIBRARIES_API_KEY"):
             setenv_from_config("libraries_api_key")
 
         from pybraries.search import Search
